@@ -1,0 +1,14 @@
+.userdata {
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+}
+.userdata__inputgroup {
+    display: flex;
+    margin-bottom: 10px;
+}
+.userdata__inputgroup label {
+    width: 300px;
+    display: flex;
+    align-items: center;
+}

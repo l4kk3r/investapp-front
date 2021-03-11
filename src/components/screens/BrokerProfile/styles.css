@@ -1,0 +1,70 @@
+.profile {
+    display: flex;
+}
+.content {
+    width: 100%;
+    margin-left: 300px;
+}
+.userposts {
+    padding: 20px;
+}
+.userposts__post {
+    cursor: pointer;
+}
+.openedpost__edit {
+    display: flex;
+}
+.table-first {
+    margin-right: 10px;
+}
+.sidemenu {
+    width: 300px;
+    background-color: #222A35;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    position: fixed;
+}
+.sidemenu__routing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.sidemenu__routing__logo {
+    width: 100px;
+}
+.sidemenu__routing__link {
+    width: 100%;
+    color: white;
+    padding: 10px 20px;
+    font-size: 18px;
+}
+.sidemenu__routing__link:hover {
+    color: white;
+    text-decoration: none;
+}
+.link-selected {
+    background-color: #4472C4;
+}
+.sidemenu__social {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.sidemenu__social__header {
+    color: white;
+}
+.sidemenu__social__icons {
+    display: flex;
+    width: 200px;
+    justify-content: space-between;
+}
+.sidemenu__social__icons-item {
+    width: 50px;
+}
+.openedpost__edit__savebutton {
+    margin-bottom: 20px;
+}

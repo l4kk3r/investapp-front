@@ -1,0 +1,64 @@
+.Header {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    background-color: white;
+}
+.inheader {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.inheader2 {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.authbuttons {
+    display:flex;
+    width: 250px;
+    justify-content: space-between;
+}
+.login, 
+.register {
+    border: 1px solid black;
+    padding: 5px;
+}
+.login {
+    border: 1.5px solid #028858;
+    border-radius: 18px;
+    padding: 6px 25px;
+    text-decoration: none;
+    line-height: 17px;
+}
+.register{
+    border-radius: 18px;
+    text-decoration: none;
+    padding: 6px 25px;
+    background-color: #028858;
+    color: white;
+    border: none;
+}
+.login:any-link,
+.login:active {
+    color: black;
+}
+.register:any-link,
+.register:active {
+    color: white;
+}
+.Admin {
+    height: 100px;
+    background-color: #afd9c3;
+}
+.hrk1 {
+    margin-top: 35px;
+    text-align: center;
+}
+.toadmin {
+    font-size: 20px;
+}

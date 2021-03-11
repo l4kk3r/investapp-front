@@ -1,0 +1,67 @@
+.create__form {
+    margin-left: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.create__form__inputgroup {
+    display: flex;
+    justify-content: space-around;
+}
+.create__form__inputgroup__button {
+    width: 100px;
+    margin: 0 auto;
+}
+.create__form__group {
+    text-align: center;
+    margin-top: 20px;
+}
+.create__form__group-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.create__form__uploadedimage img {
+    width: 300px;
+}
+.create__form__uploadedphotos {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.create__form__uploadedphoto {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.create__form__uploadbutton__field {
+    width: 150px;
+    height: 150px;
+    border: 2px dotted lightgray;
+    border-radius: 8px;
+    color: lightgray;
+    font-size: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.create__form__uploadbutton input {
+    display: none;
+}
+.create__form__inputfile__archive,
+.create__form__inputfile__photos {
+    text-align: center;
+}
+.create__form__errormessage {
+    text-align: center;
+    color: rgb(218, 74, 74);
+}
+.create__form__movebuttons {
+    display: flex;
+    width: 300px;
+    margin: 0px auto;
+    justify-content: space-between;
+}

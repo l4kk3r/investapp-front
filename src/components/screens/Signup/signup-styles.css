@@ -1,0 +1,177 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial';
+}
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100vh;
+}
+.info {
+    background-image: url('./img/bg.jpg');
+    width: 60%;
+    height: 100%;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.info__logo {
+    max-width: 100%;
+}
+.info__logo img {
+    max-width: 100%;
+}
+.info__title {
+    font-size: 28px;
+    font-weight: 900;
+    color: #fff;
+}
+.info__subtitle {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 400;
+    font-family: 'Century Gothic';
+    color: #fff;
+}
+.info__text {
+    font-size: 18px;
+    font-weight: 400;
+    font-family: 'Century Gothic';
+    color: #fff;
+}
+.info__list {}
+.info__list-item {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: 400;
+    font-family: 'Century Gothic';
+    color: #fff;
+}
+.form {
+    height: 100%;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0  0 0 ;
+}
+.form__form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.form__inputs {
+    margin-bottom: 15px;
+}
+.form__form-label {
+    font-size: 13px;
+    font-family: 'Century Gothic';
+
+}
+.form__form-input {
+    display: block;
+    border: 1px solid #000;
+    padding: 5px;
+    border-radius: 5px;
+    width: 300px;
+    font-family: 'Century Gothic';
+}
+.form__form-checkbox__label {
+    font-size: 12px;
+    font-family: 'Calibri';
+    font-weight: 600;
+    margin-left: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    max-width: 250px;
+    margin-bottom: 10px;
+}
+.form__form-checkbox {
+    -webkit-appearance: none;
+    padding: 5px;
+    border: 2px solid #0070C0;
+    border-color: rgb(0, 112, 192);
+    position: relative;
+}
+.form__form-checkbox:checked:after {
+	content: '\2714';
+	font-size: 14px;
+    font-weight: 700;
+	position: absolute;
+	top: -5px;
+	left: 0;
+	color: #0070C0;
+}
+.form__form-question {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.form__form-question span {
+    font-size: 15px;
+    font-family: 'Century Gothic';
+}
+.form__form-question a {
+    margin-left: 10px;
+    color: #000;
+    font-size: 15px;
+    font-family: 'Century Gothic';
+}
+.form__form-button {
+    margin-top: 20px;
+    width: 100%;
+    height: 50px;
+    background-color: rgb(77, 189, 116);
+    border: 0;
+    border-radius: 5px;
+    font-family: 'Century Gothic';
+    font-size: 18px;
+    color: #fff;
+}
+
+.form__title {
+    font-size: 18px;
+    font-weight: 900;
+    font-family: 'Century Gothic';
+}
+.form__filter {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 20px;
+    width: 50%;
+    padding-bottom: 10px;
+}
+
+.form__filter-item {
+    font-size: 18px;
+    font-weight: 400;
+    cursor: pointer;
+    font-family: 'Century Gothic';
+}
+
+@media (max-width: 768px) {
+    .wrapper {
+        height: 120vh;
+    }
+    .info {
+        width: 100%;
+    }
+    .form {
+        width: 100%;
+    }
+}

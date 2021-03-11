@@ -1,0 +1,19 @@
+.moderations {
+    margin-left: 300px;
+    padding: 20px;
+}
+.moderations__infobox,
+.moderations__changecards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.card {
+    padding: 10px !important;
+}
+tr {
+    cursor: pointer !important;
+}
+.changecards__card {
+    margin-bottom: 10px;
+}
