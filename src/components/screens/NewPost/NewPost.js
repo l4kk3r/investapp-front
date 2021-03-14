@@ -69,7 +69,7 @@ const NewPost = () => {
     const uploadToServer = (photo) => {
         const data = new FormData();
         data.append("file", photo)
-        axios.post("https://investapp-back.herokuapp.com/upload-image", data).then(answer => {
+        axios.post("https://investapp-back.herokuapp.com/aws/upload-image", data).then(answer => {
             if (!answer.data.error) {
                 newpost.photos.push(answer.data.url)
                 setPhotoUrls(old=>[...old, answer.data.url])
@@ -79,11 +79,11 @@ const NewPost = () => {
     const uploadArchive = (archive) => {
         const data = new FormData();
         data.append("file", archive)
-        axios.post("https://investapp-back.herokuapp.com/upload-archive", data).then(answer => {
+        axios.post("https://investapp-back.herokuapp.com/aws/upload-archive", data).then(answer => {
             if (!answer.data.error) {
                 if (newpost.archive) {
                     const file_key = newpost.archive.replace('https://comeinvest.s3.amazonaws.com/', '').replace('https://comeinvest.s3.us-east-2.amazonaws.com/', '')
-                    axios.post("https://investapp-back.herokuapp.com/delete-file", {file_key}).then(answer => console.log(answer))
+                    axios.post("https://investapp-back.herokuapp.com/aws/delete-file", {file_key}).then(answer => console.log(answer))
                 }
                 newpost.archive = answer.data.url
                 setArchive(answer.data.url)
@@ -111,7 +111,7 @@ const NewPost = () => {
     }
     const deletePhoto = (i) => {
         const file_key = photosurls[i - 1].replace('https://comeinvest.s3.amazonaws.com/', '').replace('https://comeinvest.s3.us-east-2.amazonaws.com/', '')
-        axios.post("https://investapp-back.herokuapp.com/delete-file", {file_key}).then(answer => console.log(answer))
+        axios.post("https://investapp-back.herokuapp.com/aws/delete-file", {file_key}).then(answer => console.log(answer))
         const new_photos = photos.slice(0, i - 1).concat(photos.slice(i, photos.length))
         const new_photosurls = photosurls.slice(0, i - 1).concat(photosurls.slice(i, photosurls.length))
         newpost.photos.pop(photosurls[i])
