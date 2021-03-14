@@ -12,8 +12,9 @@ const Admin = () => {
     const history = useHistory()
     const [posts, setPosts] = useState([])
     const [postsinfo, setPostsInfo] = useState([])
-    const [displaying, setDisplaying] = useState([])
-    const [opened, setOpened] = useState(null)
+    const [fiz, setFiz] = useState(['ppp'])
+    const [displaying, setDisplaying] = useState(['sdsd'])
+    const [opened, setOpened] = useState('notstated')
     const [searchfield, setSearchFilter] = useState("")
     const [answers, setAnswers] = useState("")
     const options = [
@@ -35,7 +36,7 @@ const Admin = () => {
         }, [])
     const openfunc = (i) => {
         if (opened === i) {
-            setOpened(null)
+            setOpened('notstated')
             return;
         }
         setOpened(i)
@@ -67,7 +68,7 @@ const Admin = () => {
                         <input placeholder='Поиск...' className='searcher' type='text' onChange={(e) => setSearchFilter(e.target.value)} />
                     </div>
                 </div>
-                {opened && postsinfo ? <div style={{display: opened ? 'block' : 'none'}} key={opened} className='postinfo'>
+                {(opened != 'notstated') && postsinfo ? <div style={{display: opened != 'notstated' ? 'block' : 'none'}} key={opened} className='postinfo'>
                         <h3>Параметры сделки</h3>
                         <div className='moderations__changecards'>
                             <div className='card changecards__card' style={{width: '18rem'}}>
@@ -112,7 +113,7 @@ const Admin = () => {
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Фотографии:</h4>
-                                {postsinfo[opened].photos.map((photo, index)=>(<a href={photo}>Фото {index + 1}</a>))}
+                                {postsinfo[opened].photos.map((photo, index)=>(<a key={index} href={photo}>Фото {index + 1}</a>))}
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Архив с документами:</h4>
@@ -165,15 +166,19 @@ const Admin = () => {
                         <h3>Ответы</h3>
                         <div className='answersbox'>
                             <table className='table table-bordered table-hover'><thead><tr><th >ID</th><th >Ставка</th><th >Сумма</th><th>Период</th><th >Статус</th></tr></thead>
-                            <tbody>{answers ? (answers.filter(answer => answer.post_id === postsinfo[opened].id).map((ans, i) => <tr key={i}><td >Вариант {i + 1}</td><td >{ans.rate}</td><td >{ans.amount}</td><td>{ans.period}</td><td >{ans.confirmed}</td></tr>)) : null}</tbody></table>
+                            <tbody>{answers ? (answers.filter(answer => answer.post_id === postsinfo[opened].id).map((ans, i) => <tr key={i}><td >Вариант {i + 1}</td><td >{ans.rate}</td><td >{ans.amount}</td><td>{ans.period}</td><td>{ans.status}</td></tr>)) : null}</tbody></table>
                         </div>
                         <h3>Информация по физлицам</h3>
-                        {/* <div className='fizbox'>
-                            {post.fiz.map((person, index) => (<Fiz person={person} index={index} i={i} postsinfo={postsinfo}/>))}
-                            <button onClick={(e) => {postsinfo[i].fiz = ([...postsinfo[i].fiz, {status: "", fullname: "", birth: "", age: "", pnumber: "", pdate: "", inn: "", snils: "", dcoument: "", regyear: "", rosreestr: "", percents: ""}]); setPersonTrigger(!ptrigger)}}>Добавить человека</button>
-                        </div> */}
+                        <div className='fizbox'>
+                            {postsinfo[opened] ? postsinfo[opened].fiz.map((person, index) => {
+                                return (
+                                    <Fiz person={person} key={index} index={index} i={opened} postsinfo={postsinfo}/>
+                                )
+                            }) : null}
+                            {postsinfo[opened].fiz.length < 4 ? <button className='btn btn-secondary' onClick={() => { postsinfo[opened].fiz.push({status: "", fullname: "", birth: "", age: "", pnumber: "", pdate: "", inn: "", snils: "", dcoument: "", regyear: "", rosreestr: "", percents: ""}); console.log(postsinfo[opened].fiz); setFiz(old=>[...old, "new"]) } }>Добавить физ.лицо</button> : null }
+                        </div>
                         <div  className='moderation__userinfo__savebutton__wrapper'>
-                            <button className='btn btn-secondary moderation__userinfo__savebutton' style={{marginBottom: '20px'}} onClick={() => changepost(opened)}>Сохранить</button>
+                            <button className='btn btn-primary moderation__userinfo__savebutton' style={{marginBottom: '20px'}} onClick={() => changepost(opened)}>Сохранить</button>
                         </div>
                     </div> : null}
                 <table className='table table-bordered table-hover'>

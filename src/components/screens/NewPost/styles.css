@@ -36,6 +36,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+}
+.create__form__uploadedphoto span {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: 0 !important;
+    opacity: 0.5;
+    border-radius: 350;
 }
 .create__form__uploadbutton__field {
     width: 150px;

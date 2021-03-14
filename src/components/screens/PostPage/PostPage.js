@@ -9,6 +9,7 @@ import ReactLoading from 'react-loading';
 import 'reactjs-popup/dist/index.css';
 import { YMaps, Map, Placemark } from 'react-yandex-maps';
 import axios from 'axios';
+import FizUser from './FizUser'
 
 const PostPage = (props) => {
     const history = useHistory()
@@ -20,10 +21,11 @@ const PostPage = (props) => {
     const [show, setShow] = useState(false)
     const [monthly, setMonthly] = useState("")
     const [sended, setSended] = useState(false)
+    const [fake_loading, setFakeLoading] = useState(false)
     const {state, dispatch} = useContext(UserContext)
-
+    
     const sendRequest = (e) => {
-        axios.post("https://investapp-back.herokuapp.com/newanswer", {creator_id: post.creator_id, investor_id: state.id, post_id: post.id, amount: investamount, period: investperiod, rate: investrate, comment: investcomment }).then(response => response.data.message == 'Ответ успешно отправлен' ? setSended(true) : null)
+        axios.post("https://investapp-back.herokuapp.com/newanswer", {creator_id: post.creator_id, investor_id: state.id, post_id: post.id, object: post.object, city: post.city, fio: post.borrower_lname, amount: investamount, period: investperiod, rate: investrate, comment: investcomment }).then(response => response.data.message == 'Ответ успешно отправлен' ? setSended(true) : null)
     }
 
     useEffect(()=>{
@@ -51,7 +53,7 @@ const PostPage = (props) => {
                     </div>
                 </div>
             </div>
-            {!post ? <div className='loading-wrapper'><ReactLoading className='loading' type={"spinningBubbles"} color={"#afd9c3"} height={'100px'} width={'100px'}/></div> : (
+            {!post ? <div className='loading-wrapper'><ReactLoading className='loading' type={"spinningBubbles"} color={"#4472C4"} height={'100px'} width={'100px'}/></div> : (
             <div className='postpage'>
             <Link className='postpage__homelink' to='/allposts'>Главная</Link>
             <div className='objectitle'>
@@ -78,20 +80,22 @@ const PostPage = (props) => {
                 </div>
         <div className='middleinfo' style={{marginBottom: '20px'}}>
             <div className='left'>
-                <AwesomeSlider bullets={show ? false : true} loader-bar-color="#fff" style={{marginBottom: show ? '10px' : null ,height: show ? 'calc(50% - 10px)' : '80%'}}>
+                
+                <AwesomeSlider bullets={show ? false : true} style={{marginBottom: show ? '10px' : null ,height: show ? 'calc(50% - 10px)' : '80%'}} loader-bar-color='transparent'>
                     {post ? post.photos.map(photo => (
                         <div data-src={photo}></div>
                     )) : null}
                 </AwesomeSlider>
-                <YMaps>
+
+                {post.coordinates_x && post.coordinates_y ? <YMaps>
                 <div style={{width:'100%', marginTop: show ? '10px' : null, height: show ? 'calc(50% - 10px)' : '20%'}} className='down'>
                     {show ? <Map style={{width: '100%', height: '100%'}} defaultState={{ center: [post.coordinates_x, post.coordinates_y], zoom: 15 }}>
                         <p className='closemap' onClick={() => setShow(!show)}>&#x25BC; Скрыть карту</p>
                         <Placemark options ={{preset: 'islands#dotIcon', iconColor: '#FF6163'}} defaultGeometry={[post.coordinates_x, post.coordinates_y]} geоmetry={[post.coordinates_x, post.coordinates_y]}/>
                     </Map> : null}
-                    {!show ? <p className='open-cart' onClick={() => setShow(!show)}><img src='/yandex-map.png' />Показать на карте</p> : null}
+                    {!show ? <p className='open-cart' onClick={() => setShow(!show)}><img src='/img/yandex-map.png' />Показать на карте</p> : null}
                     </div>
-                </YMaps>
+                </YMaps> : null}
             </div>
             <div className='right'>
                 <div className='info-container2'>
@@ -124,7 +128,7 @@ const PostPage = (props) => {
                 </div> 
                 { state ? state.acctype === 'investor' ? (<div className='lowerinfo'>
                 <Popup style={{borderRadius:'5px'}}  modal closeOnDocumentClick trigger={<button className='answer-button'>Сделать предложение</button>} position="center center">
-                {!sended ? (<div class='ans-popup'>
+                {!sended ? (<div className='ans-popup'>
                     <div className='popupinfo'>
                     <div>
                         <h2><span style={{color:'#028858'}}>Сумма</span> инвестирования</h2>
@@ -146,7 +150,50 @@ const PostPage = (props) => {
                     <h2>Ваше <span style={{color:'#028858'}}>предложение</span> успешно <span style={{color:'#028858'}}>отправлено!</span></h2>
                 </div>)}
             </Popup>
-                <button className='answer-button2'>Проверить объект</button>
+            <Popup style={{borderRadius:'5px'}}  modal closeOnDocumentClick trigger={<button className='answer-button2'>Проверить объект</button>} position="center center">
+                <div className='objectinfo'>
+                    <div className='objectinfo__popupinfo'>
+                            <div className='card changecards__card' style={{width: '18rem'}}>
+                                <h4>Кадастровый номер 1:</h4>
+                                <p>{post.kadastr_tag1}</p>
+                            </div>
+                            <div className='card changecards__card' style={{width: '18rem'}}>
+                                <h4>Кадастровый номер 2:</h4>
+                                <p>{post.kadastr_tag2}</p>
+                            </div>
+                            <div className='card changecards__card' style={{width: '18rem'}}>
+                                <h4>Адрес объекта:</h4>
+                                <p>{post.adress}</p>
+                            </div>
+                            <div className='card changecards__card' style={{width: '18rem'}}>
+                                <h4>Дата перехода прав:</h4>
+                                <p>{post.access_year}</p>
+                            </div>
+                            <div className='card changecards__card' style={{width: '18rem'}}>
+                                <h4>Стоимость (ссылка):</h4>
+                                <p>{post.price_link}</p>
+                            </div>
+                            <div className='card changecards__card' style={{width: '18rem'}}>
+                                <h4>Стоимость залога:</h4>
+                                <p>{post.zalog}</p>
+                            </div>
+                            <div className='card changecards__card' style={{width: '18rem'}}>
+                                <h4>Количество собственников:</h4>
+                                <p>{post.owners_number}</p>
+                            </div>
+                    </div>
+                    { post.fiz.length > 0 ? <div className='objectinfo__popupinfo__fiz'>
+                        <h3>Данные по физ.лицам</h3>
+                        <div className='objectinfo__popupinfo__fiz__wrapper'>
+                            {post.fiz.map((fiz, index) => { return (
+                                <div className='objectinfo__popupinfo__fiz-item'>
+                                    <FizUser key={index} fiz={fiz} />
+                                </div>)
+                            })}
+                        </div>
+                    </div> : null }
+                </div>
+            </Popup>
         </div>): null : null}
             </div>
         </div>

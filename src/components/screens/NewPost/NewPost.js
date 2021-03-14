@@ -34,11 +34,6 @@ const NewPost = () => {
         'Да', 'Нет', 'Откроется'
     ];
     useEffect(() => {
-        if (photos.length > 0) {
-            uploadPhoto(photos[photos.length - 1])
-        }
-    },[photos])
-    useEffect(() => {
         if (state) {
             newpost.creator_id = state.id
         }
@@ -74,31 +69,24 @@ const NewPost = () => {
     const uploadToServer = (photo) => {
         const data = new FormData();
         data.append("file", photo)
-        fetch("https://investapp-back.herokuapp.com/api/file/upload",{
-            method:"post",
-            body:data
-        }).then(ans=>ans.json()).then(realans=>{
-            if (realans) {
-                console.log(realans)
-                newpost.photos.push(realans.url)
-                setPhotoUrls(old=>[...old, realans.url])
-            } else {
-                console.log(realans.err)
+        axios.post("https://investapp-back.herokuapp.com/upload-image", data).then(answer => {
+            if (!answer.data.error) {
+                newpost.photos.push(answer.data.url)
+                setPhotoUrls(old=>[...old, answer.data.url])
             }
         })
     }
     const uploadArchive = (archive) => {
         const data = new FormData();
         data.append("file", archive)
-        fetch("https://investapp-back.herokuapp.com/api/file/upload",{
-            method:"post",
-            body:data
-        }).then(ans=>ans.json()).then(realans=>{
-            if (realans) {
-                newpost.archive = realans.url
-                setArchive(realans.url)
-            } else {
-                console.log(realans.err)
+        axios.post("https://investapp-back.herokuapp.com/upload-archive", data).then(answer => {
+            if (!answer.data.error) {
+                if (newpost.archive) {
+                    const file_key = newpost.archive.replace('https://comeinvest.s3.amazonaws.com/', '').replace('https://comeinvest.s3.us-east-2.amazonaws.com/', '')
+                    axios.post("https://investapp-back.herokuapp.com/delete-file", {file_key}).then(answer => console.log(answer))
+                }
+                newpost.archive = answer.data.url
+                setArchive(answer.data.url)
             }
         })
     }
@@ -112,6 +100,24 @@ const NewPost = () => {
             return;
         }
         setSended(true)
+    }
+    const inputPhotos = (e) => {
+        const files = e.target.files
+        const max_photos = Math.min(10 - photos.length, files.length)
+        for (let i = 0; i < max_photos; i++ ) {
+            uploadToServer(files[i])
+            setPhotos(old => [...old, files[i]])
+        }
+    }
+    const deletePhoto = (i) => {
+        const file_key = photosurls[i - 1].replace('https://comeinvest.s3.amazonaws.com/', '').replace('https://comeinvest.s3.us-east-2.amazonaws.com/', '')
+        axios.post("https://investapp-back.herokuapp.com/delete-file", {file_key}).then(answer => console.log(answer))
+        const new_photos = photos.slice(0, i - 1).concat(photos.slice(i, photos.length))
+        const new_photosurls = photosurls.slice(0, i - 1).concat(photosurls.slice(i, photosurls.length))
+        newpost.photos.pop(photosurls[i])
+        console.log(newpost.photos)
+        setPhotos(new_photos)
+        setPhotoUrls(new_photosurls)
     }
     return (
         <div className='create'>
@@ -231,11 +237,11 @@ const NewPost = () => {
                         <h3>Фотографии</h3>
                         <h5 id='photo'>Загрузите до 10 фотографий объекта</h5>
                         <div className='create__form__uploadedphotos'>
-                            {photos.map((photo, i) => {return (<div key={i} className='create__form__uploadedphoto'> {photosurls[i] ? <div style={{backgroundImage: `url(${photosurls[i]})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} /> : <ReactLoading className='loading' type={"spinningBubbles"} color={"#4472C4"} height={'50%'} width={'50%'}/>} </div>) })}
-                            <div className="create__form__uploadbutton">
+                            {photos.map((photo, i) => {return (<div key={i} className='create__form__uploadedphoto'> {photosurls[i] ? <div style={{backgroundImage: `url(${photosurls[i]})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} > <span onClick={() => deletePhoto(i + 1)} className='btn btn-danger'>X</span> </div> : <ReactLoading className='loading' type={"spinningBubbles"} color={"#4472C4"} height={'50%'} width={'50%'}/>} </div>) })}
+                            {photos.length < 10 ? <div className="create__form__uploadbutton">
                                 <label className='create__form__uploadbutton__field' htmlFor='upload-photo'>+</label>
-                                <input id='upload-photo' type='file' onChange={(e) => setPhotos(old=>[...old, e.target.files[0]])} accept=".jpg, .jpeg, .png" />
-                            </div>
+                                <input id='upload-photo' multiple type='file' onChange={(e) => inputPhotos(e)} accept=".jpg, .jpeg, .png" />
+                            </div> : null}
                         </div>
                     </div>
                     <div className='create__form__inputfile__archive'>

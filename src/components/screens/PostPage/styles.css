@@ -139,8 +139,8 @@ textarea {
     height: 100px;
     font-size: 17px;
   }
-.aws-btn {
-    --loader-bar-color: #fff;
+.awssld {
+    --loader-bar-color: transparent !important;
     --loader-bar-height: 6px;
 }
 .open-cart {
@@ -212,4 +212,16 @@ textarea {
     font-size: 18px;
     margin: 0;
     margin-top: 7px;
+}
+.objectinfo__popupinfo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.popup-overlay {
+    overflow: auto;
+}
+.objectinfo__popupinfo__fiz__wrapper {
+    display: flex;
+    flex-wrap: wrap;
 }

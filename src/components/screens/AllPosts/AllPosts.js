@@ -37,7 +37,7 @@ const AllPosts = () => {
                         <p  type='text'>{post.adress} </p>
                     </div>
                     <div className='revenue'>
-                        <h4>≈ {post.amount / 100 * post.rate}₽</h4>
+                        <h4>≈ {Math.round(post.amount / 100 * post.rate)}₽</h4>
                         <p>Ежемесячная прибыль</p>
                     </div>
                     </div>

@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 const Fiz = (props) => {
     return(
-    <div className='fizuserb'><>
+    <div className='fizuserb card' ><>
                                 <label for="1">Статус</label>
                                 <select id="1" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].status = e.target.value}}>
                                     <option value="" selected disabled hidden>{props.person.status}</option>

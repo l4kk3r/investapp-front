@@ -17,3 +17,15 @@ tr {
 .changecards__card {
     margin-bottom: 10px;
 }
+.fizbox {
+    display: flex;
+    flex-wrap: wrap;
+}
+.fizuserb {
+    width: 200px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+.fizbox button {
+    margin-bottom: 20px;
+}

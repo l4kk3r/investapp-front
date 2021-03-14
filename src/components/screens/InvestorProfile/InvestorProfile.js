@@ -2,10 +2,11 @@ import React, {useContext, useEffect, useState} from 'react'
 import './styles.css'
 import axios from 'axios';
 import {UserContext} from '../../../App'
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
  
 
 const InvestorProfile = () => {
+    const history = useHistory()
     const {state, dispatch} = useContext(UserContext)
     const [filters, setFilters] = useState("")
     const [openedpost, setOpenedPost] = useState("")
@@ -54,18 +55,26 @@ const InvestorProfile = () => {
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Дата</th>
+                            <th scope="col">Объект</th>
+                            <th scope="col">Фамилия осн.заемщика</th>
+                            <th scope="col">Город</th>
                             <th scope="col">Сумма</th>
                             <th scope="col">Ставка</th>
                             <th scope="col">Срок</th>
+                            <th scope="col">Статус</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {answers ? answers.map((answer, i)=>{return (<tr key={i} className='userposts__post'>
+                        {answers ? answers.map((answer, i)=>{return (<tr key={i} onClick={() => {history.push(`/post/${answer.post_id}`)}} className='userposts__post'>
                             <th>{answer.id}</th>
                             <td>{answer.createdAt}</td>
+                            <td>{answer.object}</td>
+                            <td>{answer.fio}</td>
+                            <td>{answer.city}</td>
                             <td>{answer.amount}</td>
                             <td>{answer.rate}</td>
                             <td>{answer.period}</td>
+                            <td>{answer.status}</td>
                             </tr>)}) : null}
                     </tbody>
                 </table>

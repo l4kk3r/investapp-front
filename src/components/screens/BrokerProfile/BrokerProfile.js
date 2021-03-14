@@ -3,6 +3,9 @@ import './styles.css'
 import axios from 'axios';
 import {UserContext} from '../../../App'
 import {Link} from 'react-router-dom'
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
+import { post } from 'jquery';
  
 
 const BrokerProfile = () => {
@@ -16,12 +19,19 @@ const BrokerProfile = () => {
     const isIP_options = [
         'Да', 'Нет', 'Откроется'
     ];
+    const answer_options = [
+        'Ожидание', 'Согласен', 'Отказ'
+    ]
 
     const updateFilters = () => {
         axios.post("https://investapp-back.herokuapp.com/updateuser", {id: state.id, fmin_amount, fmax_amount: fmax_amount * -1,}).then(response=>console.log(response.data))
     }
     const saveOpenedPost = () => {
-        axios.post("https://investapp-back.herokuapp.com/user/updatepost", openedpost).then(response => console.log(response.data))
+        axios.post("https://investapp-back.herokuapp.comuser/updatepost", openedpost).then(response => console.log(response.data))
+    }
+    const changeAnswerStatus = (answer, status) => {
+        console.log('sending!')
+        axios.post("https://investapp-back.herokuapp.com/user/answer-changestatus", {id: answer.id, status}).then(response => console.log(response))
     }
 
     useEffect(() => {
@@ -162,6 +172,7 @@ const BrokerProfile = () => {
                                     <th>Сумма</th>
                                     <th>Период</th>
                                     <th>Комментарий</th>
+                                    <th>Статус</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -171,6 +182,10 @@ const BrokerProfile = () => {
                                     <td>{answer.amount}</td>
                                     <td>{answer.period}</td>
                                     <td>{answer.comment}</td>
+                                    <td>
+                                        <Dropdown options={answer_options} onChange={(e) => changeAnswerStatus(answer, e.value)} value={answer.status} />
+                                        {answer.comment}
+                                    </td>
                                     </tr>)}
                             </tbody>
                         </table>

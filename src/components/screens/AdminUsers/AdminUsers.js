@@ -24,7 +24,7 @@ const AdminUsers = () => {
     ];
     const changepost = (i) => {
         const token = localStorage.getItem("token")
-        fetch('http://localhost:5000/updateuser',{
+        fetch('https://investapp-back.herokuapp.com/updateuser',{
             method:'post',
             headers:{
                 "Content-Type":"application/json" ,
