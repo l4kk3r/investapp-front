@@ -37,7 +37,7 @@ const Admin = () => {
         } else {
             console.log('hasnt')
             postsinfo[opened].todelete = deletedphotos
-            axios.post("http://localhost:5500/user/updatepost", postsinfo[opened]).then(response => console.log(response.data))
+            axios.post("https://investapp-back.herokuapp.com/user/updatepost", postsinfo[opened]).then(response => console.log(response.data))
         }
     }
     useEffect(() => {
@@ -45,11 +45,11 @@ const Admin = () => {
             console.log('SENDING!')
             postsinfo[opened].photos = postsinfo[opened].photos.concat(photosurls)
             postsinfo[opened].todelete = deletedphotos
-            axios.post("http://localhost:5500/user/updatepost", postsinfo[opened]).then(response => {console.log(response.data); setSaving(false)})
+            axios.post("https://investapp-back.herokuapp.com/user/updatepost", postsinfo[opened]).then(response => {console.log(response.data); setSaving(false)})
         }
     }, [photosurls])
     useEffect(() => {
-        axios.get("http://localhost:5500/admin/allposts").then(result => {setPosts(result.data.posts); console.log(result.data.posts); setPostsInfo(result.data.posts); console.log(result.data.answers); setAnswers(result.data.answers)})
+        axios.get("https://investapp-back.herokuapp.com/admin/allposts").then(result => {setPosts(result.data.posts); console.log(result.data.posts); setPostsInfo(result.data.posts); console.log(result.data.answers); setAnswers(result.data.answers)})
         }, [])
     const openfunc = (i) => {
         if (opened === i) {
@@ -68,7 +68,7 @@ const Admin = () => {
         console.log(photo)
         const data = new FormData();
         data.append("file", photo)
-        axios.post("http://localhost:5500/aws/upload-image", data).then(answer => {
+        axios.post("https://investapp-back.herokuapp.com/aws/upload-image", data).then(answer => {
             if (!answer.data.error) {
                 setPhotosUrls(old=>[...old, answer.data.url])
             }

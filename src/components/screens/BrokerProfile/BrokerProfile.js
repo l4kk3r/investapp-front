@@ -31,12 +31,12 @@ const BrokerProfile = () => {
     ]
 
     const updateFilters = () => {
-        axios.post("http://localhost:5500/user/updateuser", {id: state.id, fmin_amount, fmax_amount: fmax_amount * -1,}).then(response=>console.log(response.data))
+        axios.post("https://investapp-back.herokuapp.com/user/updateuser", {id: state.id, fmin_amount, fmax_amount: fmax_amount * -1,}).then(response=>console.log(response.data))
     }
     const uploadToServer = (photo) => {
         const data = new FormData();
         data.append("file", photo)
-        axios.post("http://localhost:5500/aws/upload-image", data).then(answer => {
+        axios.post("https://investapp-back.herokuapp.com/aws/upload-image", data).then(answer => {
             if (!answer.data.error) {
                 setPhotosUrls(old=>[...old, answer.data.url])
             }
@@ -52,7 +52,7 @@ const BrokerProfile = () => {
         } else {
             console.log('hasnt')
             openedpost.todelete = deletedphotos
-            axios.post("http://localhost:5500/user/updatepost", openedpost).then(response => console.log(response.data))
+            axios.post("https://investapp-back.herokuapp.com/user/updatepost", openedpost).then(response => console.log(response.data))
         }
     }
     useEffect(() => {
@@ -60,13 +60,13 @@ const BrokerProfile = () => {
             console.log('SENDING!')
             openedpost.photos = openedpost.photos.concat(photosurls)
             openedpost.todelete = deletedphotos
-            axios.post("http://localhost:5500/user/updatepost", openedpost).then(response => { console.log(response.data); setSaving(false) })
+            axios.post("https://investapp-back.herokuapp.com/user/updatepost", openedpost).then(response => { console.log(response.data); setSaving(false) })
         }
     }, [photosurls])
 
     const changeAnswerStatus = (answer, status) => {
         console.log('sending!')
-        axios.post("http://localhost:5500/user/answer-changestatus", {id: answer.id, status}).then(response => console.log(response))
+        axios.post("https://investapp-back.herokuapp.com/user/answer-changestatus", {id: answer.id, status}).then(response => console.log(response))
     }
     const openPost = (post) => {
         setOpenedPost(post)
@@ -97,7 +97,7 @@ const BrokerProfile = () => {
 
     useEffect(() => {
         if (state) {
-            axios.post("http://localhost:5500/user/getposts", {creator_id: state.id}).then(res=>{setPosts(res.data.posts); setAnswers(res.data.answers); console.log(res.data)}) }
+            axios.post("https://investapp-back.herokuapp.com/user/getposts", {creator_id: state.id}).then(res=>{setPosts(res.data.posts); setAnswers(res.data.answers); console.log(res.data)}) }
     }, [state])
 
     return (
