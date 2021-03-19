@@ -115,11 +115,11 @@ const Fiz = (props) => {
                                     <option value='Нет'>Нет</option>
                                 </select>
                             </>
-                            <div id={`convictions_links_${props.i}_${props.index}`} style={{ display: props.person.convictions == 'Да' ? 'block' : 'none' }}>
+                            {props.person.convictions === "Да" ?<div id={`convictions_links_${props.i}_${props.index}`} style={{ display: props.person.convictions == 'Да' ? 'block' : 'none' }}>
                                 <input placeholder='Дело №1' id={`cls_input_${props.i}_${props.index}_1`} defaultValue={props.postsinfo[props.i].fiz[props.index].convictions_links[0]} onChange={(e) => {props.postsinfo[props.i].fiz[props.index].convictions_links = [document.getElementById(`cls_input_${props.i}_${props.index}_1`).value, document.getElementById(`cls_input_${props.i}_${props.index}_2`).value, document.getElementById(`cls_input_${props.i}_${props.index}_3`).value]}} />
                                 <input placeholder='Дело №2' id={`cls_input_${props.i}_${props.index}_2`} defaultValue={props.postsinfo[props.i].fiz[props.index].convictions_links[1]}   onChange={(e) => {props.postsinfo[props.i].fiz[props.index].convictions_links = [document.getElementById(`cls_input_${props.i}_${props.index}_1`).value, document.getElementById(`cls_input_${props.i}_${props.index}_2`).value, document.getElementById(`cls_input_${props.i}_${props.index}_3`).value]}} />
                                 <input placeholder='Дело №3' id={`cls_input_${props.i}_${props.index}_3`} defaultValue={props.postsinfo[props.i].fiz[props.index].convictions_links[2]}   onChange={(e) => {props.postsinfo[props.i].fiz[props.index].convictions_links = [document.getElementById(`cls_input_${props.i}_${props.index}_1`).value, document.getElementById(`cls_input_${props.i}_${props.index}_2`).value, document.getElementById(`cls_input_${props.i}_${props.index}_3`).value]}} />
-                            </div>
+                            </div> : null }
                                 <button onClick={() => {props.deleteFiz(props.i, props.index)}} className='btn btn-danger'>Удалить</button>
                             </div>)
 }
