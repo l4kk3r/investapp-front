@@ -6,8 +6,16 @@ const FizUser = (props) => {
                             <p>{props.fiz.status}</p>
                             </>
                             <>
-                                <label for="2">Фио:</label>
-                                <p>{props.fiz.fullname}</p>
+                                <label for="2_1">Имя</label>
+                                <p>{props.fiz.firstname}</p>
+                            </>
+                            <>
+                                <label for="2_2">Фамилия</label>
+                                <p>{props.fiz.lastname}</p>
+                            </>
+                            <>
+                                <label for="2_3">Отчество</label>
+                                <p>{props.fiz.middlename}</p>
                             </>
                             <>
                                 <label for="3">Дата рождения:</label>
@@ -40,6 +48,14 @@ const FizUser = (props) => {
                             <p>{props.fiz.mothercapital}</p></>
                             <><label for="16">Несовершеннолетние дети:</label>
                             <p>{props.fiz.kids}</p></>
+                            <><label for="17">ФССП:</label>
+                            <p>{props.fiz.fssp}</p></>
+                            <><label for="18">Банкротство:</label>
+                            <p>{props.fiz.bankrupt}</p></>
+                            <><label for="19">Суды:</label>
+                            <p>{props.fiz.convictions}</p></>
+                            <><label for="19">Суды-ссылки:</label>
+                            {props.fiz.convictions_links.map(link => {return (<p>{link}</p>)})}</>
                             </div>)
 }
 export default FizUser;

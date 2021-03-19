@@ -68,3 +68,14 @@
 .openedpost__edit__savebutton {
     margin-bottom: 20px;
 }
+.openedpost__photos {
+    display: flex;
+    flex-wrap: wrap;
+}
+.openedpost__photos .create__form__uploadedphoto {
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+input[type='file'] {
+    display: none;
+}

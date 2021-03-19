@@ -14,6 +14,13 @@ const BrokerProfile = () => {
     const [openedpost, setOpenedPost] = useState("")
     const [posts, setPosts] = useState("")
     const [answers, setAnswers] = useState("")
+    const [photos, setPhotos] = useState([])
+    const [photosurls, setPhotosUrls] = useState([])
+    const [newphotos, setNewPhotos] = useState([])
+    const [saving, setSaving] = useState(false)
+    const [deletedphotos, setDeletedPhotos] = useState([])
+    const [deletedcount, setDeletedCount] = useState(0)
+    const [newphotosurls, setNewPhotosUrls] = useState([])
     const [fmin_amount, setMinAmount] = useState("")
     const [fmax_amount, setMaxAmount] = useState("")
     const isIP_options = [
@@ -24,20 +31,73 @@ const BrokerProfile = () => {
     ]
 
     const updateFilters = () => {
-        axios.post("https://investapp-back.herokuapp.com/updateuser", {id: state.id, fmin_amount, fmax_amount: fmax_amount * -1,}).then(response=>console.log(response.data))
+        axios.post("http://localhost:5500/user/updateuser", {id: state.id, fmin_amount, fmax_amount: fmax_amount * -1,}).then(response=>console.log(response.data))
+    }
+    const uploadToServer = (photo) => {
+        const data = new FormData();
+        data.append("file", photo)
+        axios.post("http://localhost:5500/aws/upload-image", data).then(answer => {
+            if (!answer.data.error) {
+                setPhotosUrls(old=>[...old, answer.data.url])
+            }
+        })
     }
     const saveOpenedPost = () => {
-        axios.post("https://investapp-back.herokuapp.comuser/updatepost", openedpost).then(response => console.log(response.data))
+        setSaving(true)
+        if (newphotos.length > 0) {
+            console.log('has')
+            newphotos.forEach(photo => {
+                uploadToServer(photo)
+            })
+        } else {
+            console.log('hasnt')
+            openedpost.todelete = deletedphotos
+            axios.post("http://localhost:5500/user/updatepost", openedpost).then(response => console.log(response.data))
+        }
     }
+    useEffect(() => {
+        if (openedpost && newphotosurls.length == photosurls.length) {
+            console.log('SENDING!')
+            openedpost.photos = openedpost.photos.concat(photosurls)
+            openedpost.todelete = deletedphotos
+            axios.post("http://localhost:5500/user/updatepost", openedpost).then(response => { console.log(response.data); setSaving(false) })
+        }
+    }, [photosurls])
+
     const changeAnswerStatus = (answer, status) => {
         console.log('sending!')
-        axios.post("https://investapp-back.herokuapp.com/user/answer-changestatus", {id: answer.id, status}).then(response => console.log(response))
+        axios.post("http://localhost:5500/user/answer-changestatus", {id: answer.id, status}).then(response => console.log(response))
+    }
+    const openPost = (post) => {
+        setOpenedPost(post)
+        setPhotos(post.photos)
+        setNewPhotos([])
+        setNewPhotosUrls([])
+        setDeletedPhotos([])
+        setDeletedCount(0)
+    }
+    const photosInput = (e) => {
+        const inputed_photos = e.target.files
+        for (var i = 0; i < inputed_photos.length; i++) {
+            const imgurl = URL.createObjectURL(inputed_photos[i])
+            const imgg = inputed_photos[i]
+            setNewPhotos(old => [...old, imgg])
+            setNewPhotosUrls(old => [...old, imgurl])
+        }
+    }
+    const deleteNewPhoto = (todelete) => {
+        setNewPhotosUrls(newphotosurls.filter(photo => photo !== todelete))
+        setNewPhotos(newphotos.filter(photo => photo !== todelete))
+    }
+    const deleteOldPhoto = (todelete) => {
+        openedpost.photos = openedpost.photos.filter(ph => ph !== todelete)
+        setPhotos(photos.filter(photo => photo !== todelete))
+        setDeletedPhotos(old => [...old, todelete.replace('https://comeinvest.s3.amazonaws.com/', '').replace('https://comeinvest.s3.us-east-2.amazonaws.com/', '')])
     }
 
     useEffect(() => {
         if (state) {
-            axios.post("https://investapp-back.herokuapp.com/getfilters", {id: state.id}).then(response=>{setFilters(response.data.data); setMaxAmount(response.data.data.fmax_amount * -1)})
-            axios.post("https://investapp-back.herokuapp.com/getposts", {creator_id: state.id}).then(res=>{setPosts(res.data.posts); setAnswers(res.data.answers); console.log(res.data)}) }
+            axios.post("http://localhost:5500/user/getposts", {creator_id: state.id}).then(res=>{setPosts(res.data.posts); setAnswers(res.data.answers); console.log(res.data)}) }
     }, [state])
 
     return (
@@ -77,7 +137,7 @@ const BrokerProfile = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {posts ? posts.map((post, i)=>{return (<tr key={i} onClick={() => setOpenedPost(post)} className='userposts__post'>
+                        {posts ? posts.map((post, i)=>{return (<tr key={i} onClick={() => openPost(post)} className='userposts__post'>
                             <th>{post.id}</th>
                             <td>{post.createdAt}</td>
                             <td>{post.amount}</td>
@@ -89,8 +149,8 @@ const BrokerProfile = () => {
                             </tr>)}) : null}
                     </tbody>
                 </table>
-                {openedpost ? <div key={openedpost.id} className='openedpost'>
-                    <h3><mark>Редактирование заявки №{openedpost.id}</mark></h3>
+                {openedpost ? !saving ? <div key={openedpost.id} className='openedpost'>
+                    <h3 className='alert alert-warning'>Редактирование заявки №{openedpost.id}</h3>
                     <div className='openedpost__edit'>
                         <table className='table table-striped table-first'>
                             <thead>
@@ -136,7 +196,7 @@ const BrokerProfile = () => {
                             <tbody>
                                 <tr>
                                     <td>ФИО заемщика-основного</td>
-                                    <td><input className="form-control" onChange={(e) => {openedpost.creator_fname = e.target.value}} defaultValue={openedpost.creator_fname} /></td>
+                                    <td><input className="form-control" onChange={(e) => {openedpost.borrower_lname = e.target.value}} defaultValue={openedpost.borrower_lname} /></td>
                                 </tr>
                                 <tr>
                                     <td>Цель займа</td>
@@ -161,9 +221,24 @@ const BrokerProfile = () => {
                             </tbody>
                         </table>
                     </div>
+                    <h3 className='alert alert-warning'>Фотографии</h3>
+                    <div className='openedpost__photos'>
+                        {photos.map((photo, i) => {
+                            return (
+                                <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger'>X</span></div>  </div>
+                            )
+                        })}
+                        {newphotosurls.map((photo, i) => {
+                            return (
+                                <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteNewPhoto(newphotosurls[i])} className='btn btn-danger'>X</span></div>  </div>
+                            )
+                        })}
+                        <label className='create__form__uploadbutton__field' htmlFor='upload-photo'>+</label>
+                        <input id='upload-photo' multiple type='file' onInput={(e) => photosInput(e)} accept=".jpg, .jpeg, .png" />
+                    </div>
                     <button onClick={() => saveOpenedPost()} className='btn btn-primary openedpost__edit__savebutton'>Сохранить</button>
                     <div className='openedpost__answers'>
-                        <h3><mark>Предложения инвесторов</mark></h3>
+                        <h3 className='alert alert-warning'>Предложения инвесторов</h3>
                         <table className='table'>
                             <thead>
                                 <tr>
@@ -190,7 +265,7 @@ const BrokerProfile = () => {
                             </tbody>
                         </table>
                     </div>
-                </div> : null }
+                </div> : <h1>Сохранение...</h1> : null }
                 </div>
                 {state ? state.acctype == 'investor' ? <div className='filters'>
                     <p>Минимальная сумма займа</p>

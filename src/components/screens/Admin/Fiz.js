@@ -7,12 +7,21 @@ const Fiz = (props) => {
                                     <option value="" selected disabled hidden>{props.person.status}</option>
                                     <option value='Заёмщик'>Заёмщик</option>
                                     <option value='Собственник'>Собственник</option>
+                                    <option value='Заёмщик и собственник'>Заёмщик и собственник</option>
                                     <option value='Предыдущий владелец'>Предыдущий владелец</option>
                                 </select>
                             </>
                             <>
-                                <label for="2">Фио</label>
-                                <input id="2" type="text" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].fullname = e.target.value}} defaultValue = {props.person.fullname} />
+                                <label for="2_1">Имя</label>
+                                <input id="2_1" type="text" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].firstname = e.target.value}} defaultValue = {props.person.firstname} />
+                            </>
+                            <>
+                                <label for="2_2">Фамилия</label>
+                                <input id="2_2" type="text" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].lastname = e.target.value}} defaultValue = {props.person.lastname} />
+                            </>
+                            <>
+                                <label for="2_3">Отчество</label>
+                                <input id="2_3" type="text" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].middlename = e.target.value}} defaultValue = {props.person.middlename} />
                             </>
                             <>
                                 <label for="3">Дата рождения</label>
@@ -85,6 +94,33 @@ const Fiz = (props) => {
                                     <option value='Нет'>Нет</option>
                                     <option value='Не имеет значения'>Не имеет значения</option>
                                 </select></>
+                                <>
+                                <label for="17">ФССП</label>
+                                <input id="17" type="number" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].fssp = e.target.value}} defaultValue = {props.person.fssp} />
+                            </>
+                            <>
+                                <label for="18">Банкротство</label>
+                                <select id="18" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].bankrupt = e.target.value}}>
+                                    <option value="" selected disabled hidden>{props.person.bankrupt}</option>
+                                    <option value='Да'>Да</option>
+                                    <option value='Нет'>Нет</option>
+                                    <option value='Было ранее'>Было ранее</option>
+                                </select>
+                            </>
+                            <>
+                                <label for="19">Суды</label>
+                                <select id="19" onChange={(e) => {if (e.target.value == 'Да') { document.getElementById(`convictions_links_${props.i}_${props.index}`).style.display = 'block' } else {document.getElementById(`convictions_links_${props.i}_${props.index}`).style.display = 'none'}; props.postsinfo[props.i].fiz[props.index].convictions = e.target.value}}>
+                                    <option value="" selected disabled hidden>{props.person.convictions}</option>
+                                    <option value='Да'>Да</option>
+                                    <option value='Нет'>Нет</option>
+                                </select>
+                            </>
+                            <div id={`convictions_links_${props.i}_${props.index}`} style={{ display: props.person.convictions == 'Да' ? 'block' : 'none' }}>
+                                <input placeholder='Дело №1' id={`cls_input_${props.i}_${props.index}_1`} defaultValue={props.postsinfo[props.i].fiz[props.index].convictions_links[0]} onChange={(e) => {props.postsinfo[props.i].fiz[props.index].convictions_links = [document.getElementById(`cls_input_${props.i}_${props.index}_1`).value, document.getElementById(`cls_input_${props.i}_${props.index}_2`).value, document.getElementById(`cls_input_${props.i}_${props.index}_3`).value]}} />
+                                <input placeholder='Дело №2' id={`cls_input_${props.i}_${props.index}_2`} defaultValue={props.postsinfo[props.i].fiz[props.index].convictions_links[1]}   onChange={(e) => {props.postsinfo[props.i].fiz[props.index].convictions_links = [document.getElementById(`cls_input_${props.i}_${props.index}_1`).value, document.getElementById(`cls_input_${props.i}_${props.index}_2`).value, document.getElementById(`cls_input_${props.i}_${props.index}_3`).value]}} />
+                                <input placeholder='Дело №3' id={`cls_input_${props.i}_${props.index}_3`} defaultValue={props.postsinfo[props.i].fiz[props.index].convictions_links[2]}   onChange={(e) => {props.postsinfo[props.i].fiz[props.index].convictions_links = [document.getElementById(`cls_input_${props.i}_${props.index}_1`).value, document.getElementById(`cls_input_${props.i}_${props.index}_2`).value, document.getElementById(`cls_input_${props.i}_${props.index}_3`).value]}} />
+                            </div>
+                                <button onClick={() => {props.deleteFiz(props.i, props.index)}} className='btn btn-danger'>Удалить</button>
                             </div>)
 }
 export default Fiz;

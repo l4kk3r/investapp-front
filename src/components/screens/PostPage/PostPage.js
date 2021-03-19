@@ -25,7 +25,7 @@ const PostPage = (props) => {
     const {state, dispatch} = useContext(UserContext)
     
     const sendRequest = (e) => {
-        axios.post("https://investapp-back.herokuapp.com/newanswer", {creator_id: post.creator_id, investor_id: state.id, post_id: post.id, object: post.object, city: post.city, fio: post.borrower_lname, amount: investamount, period: investperiod, rate: investrate, comment: investcomment }).then(response => response.data.message == 'Ответ успешно отправлен' ? setSended(true) : null)
+        axios.post("https://investapp-back.herokuapp.com/user/newanswer", {creator_id: post.creator_id, investor_id: state.id, post_id: post.id, object: post.object, city: post.city, fio: post.borrower_lname, amount: investamount, period: investperiod, rate: investrate, comment: investcomment }).then(response => response.data.message == 'Ответ успешно отправлен' ? setSended(true) : null)
     }
 
     useEffect(()=>{
@@ -155,7 +155,7 @@ const PostPage = (props) => {
                     <div className='objectinfo__popupinfo'>
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Кадастровый номер 1:</h4>
-                                <p>{post.kadastr_tag1}</p>
+                                <p>{post.kadastr_tag}</p>
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Кадастровый номер 2:</h4>
@@ -167,7 +167,7 @@ const PostPage = (props) => {
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Дата перехода прав:</h4>
-                                <p>{post.access_year}</p>
+                                <p>{post.access_year.split("-").reverse().join("-")}</p>
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Стоимость (ссылка):</h4>
