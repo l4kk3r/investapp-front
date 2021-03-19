@@ -52,7 +52,7 @@ const BrokerProfile = () => {
         } else {
             console.log('hasnt')
             openedpost.todelete = deletedphotos
-            axios.post("https://investapp-back.herokuapp.com/user/updatepost", openedpost).then(response => console.log(response.data))
+            axios.post("https://investapp-back.herokuapp.com/user/updatepost", openedpost).then(response => { console.log(response.data); setSaving(false) })
         }
     }
     useEffect(() => {

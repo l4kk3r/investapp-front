@@ -37,7 +37,7 @@ const Admin = () => {
         } else {
             console.log('hasnt')
             postsinfo[opened].todelete = deletedphotos
-            axios.post("https://investapp-back.herokuapp.com/user/updatepost", postsinfo[opened]).then(response => console.log(response.data))
+            axios.post("https://investapp-back.herokuapp.com/user/updatepost", postsinfo[opened]).then(response => { console.log(response.data); setSaving(false) })
         }
     }
     useEffect(() => {
