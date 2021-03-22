@@ -55,6 +55,7 @@ const AllPosts = () => {
                 <div className='sidemenu__routing'>
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>
                     <Link className='sidemenu__routing__link' to='/'>Мои ответы</Link>
+                    <Link className='sidemenu__routing__link' to='/'>Архив</Link>
                     <Link className='sidemenu__routing__link link-selected' to='/allposts'>Общий список</Link>
                     <Link className='sidemenu__routing__link' to='/userdata'>Мои данные</Link>
                     <a href='/logout' className='btn btn-danger' >Выйти</a>

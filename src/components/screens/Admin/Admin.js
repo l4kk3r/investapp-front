@@ -17,7 +17,9 @@ const Admin = () => {
     const [deletedphotos, setDeletedPhotos] = useState([])
     const [deletedcount, setDeletedCount] = useState(0)
     const [newphotosurls, setNewPhotosUrls] = useState([])
+    const [newfile, setNewFile] = useState(false)
     const [postsinfo, setPostsInfo] = useState([])
+    const [archiveurl, setArchiveUrl] = useState(false)
     const [saving, setSaving] = useState(false)
     const [fiz, setFiz] = useState(['ppp'])
     const [displaying, setDisplaying] = useState(['sdsd'])
@@ -29,25 +31,37 @@ const Admin = () => {
     ];
     const changepost = (i) => {
         setSaving(true)
-        if (newphotos.length > 0) {
-            console.log('has')
-            newphotos.forEach(photo => {
-                uploadToServer(photo)
-            })
-        } else {
-            console.log('hasnt')
-            postsinfo[opened].todelete = deletedphotos
-            axios.post("https://investapp-back.herokuapp.com/user/updatepost", postsinfo[opened]).then(response => { console.log(response.data); setSaving(false) })
+        newphotos.forEach(photo => {
+            uploadToServer(photo)
+        })
+        if (newfile) {
+            uploadToServerArchive(newfile)
         }
+        if (newphotos.length == 0 && !newfile) {
+            setPhotosUrls([])
+        }
+        // if (newphotos.length > 0) {
+        //     console.log('has')
+        //     newphotos.forEach(photo => {
+        //         uploadToServer(photo)
+        //     })
+        // } else {
+        //     console.log('hasnt')
+        //     postsinfo[opened].todelete = deletedphotos
+        //     axios.post("https://investapp-back.herokuapp.com/user/updatepost", postsinfo[opened]).then(response => { console.log(response.data); setSaving(false) })
+        // }
     }
     useEffect(() => {
-        if (postsinfo[opened] && newphotosurls.length == photosurls.length) {
+        if (postsinfo[opened] && newphotosurls.length == photosurls.length && (!newfile || archiveurl)) {
             console.log('SENDING!')
+            if (archiveurl) {
+                postsinfo[opened].archive = archiveurl
+            }
             postsinfo[opened].photos = postsinfo[opened].photos.concat(photosurls)
             postsinfo[opened].todelete = deletedphotos
             axios.post("https://investapp-back.herokuapp.com/user/updatepost", postsinfo[opened]).then(response => {console.log(response.data); setSaving(false)})
         }
-    }, [photosurls])
+    }, [photosurls, archiveurl])
     useEffect(() => {
         axios.get("https://investapp-back.herokuapp.com/admin/allposts").then(result => {setPosts(result.data.posts); console.log(result.data.posts); setPostsInfo(result.data.posts); console.log(result.data.answers); setAnswers(result.data.answers)})
         }, [])
@@ -57,9 +71,11 @@ const Admin = () => {
             return;
         }
         setOpened(i)
+        setNewFile(null)
         setPhotos(posts[i].photos)
         setNewPhotos([])
         setNewPhotosUrls([])
+        setArchiveUrl(null)
         setDeletedPhotos([])
         setDeletedCount(0)
         return;
@@ -71,6 +87,16 @@ const Admin = () => {
         axios.post("https://investapp-back.herokuapp.com/aws/upload-image", data).then(answer => {
             if (!answer.data.error) {
                 setPhotosUrls(old=>[...old, answer.data.url])
+            }
+        })
+    }
+    const uploadToServerArchive = (archive) => {
+        console.log(archive)
+        const data = new FormData();
+        data.append("file", archive)
+        axios.post("https://investapp-back.herokuapp.com/aws/upload-archive", data).then(answer => {
+            if (!answer.data.error) {
+                setArchiveUrl(answer.data.url)
             }
         })
     }
@@ -191,6 +217,8 @@ const Admin = () => {
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Архив с документами:</h4>
                                 <a href={postsinfo[opened].archive}>Скачать</a>
+                                <label htmlFor={`newfile_${postsinfo[opened].id}`} className='btn btn-secondary'>{newfile ? newfile.name : 'Загрузить новый'}</label>
+                                <input onInput={(e) => {setNewFile(e.target.files[0])} } id={`newfile_${postsinfo[opened].id}`} type='file' />
                             </div>
                         </div>
                         <h3>Информация по объекту</h3>
@@ -226,6 +254,10 @@ const Admin = () => {
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Стоимость залога:</h4>
                                 <input type='number' onChange={(e) => {postsinfo[opened].zalog = e.target.value}} defaultValue={postsinfo[opened].zalog}/>
+                            </div>
+                            <div className='card changecards__card' style={{width: '18rem'}}>
+                                <h4>Документ основание:</h4>
+                                <input type='text' onChange={(e) => {postsinfo[opened].document = e.target.value}} defaultValue={postsinfo[opened].document}/>
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Количество собственников:</h4>

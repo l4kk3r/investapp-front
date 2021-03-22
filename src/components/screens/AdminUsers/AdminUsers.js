@@ -24,7 +24,7 @@ const AdminUsers = () => {
     ];
     const changepost = (i) => {
         const token = localStorage.getItem("token")
-        fetch('https://investapp-back.herokuapp.com/updateuser',{
+        fetch('https://investapp-back.herokuapp.com/admin/updateuser',{
             method:'post',
             headers:{
                 "Content-Type":"application/json" ,
@@ -35,7 +35,7 @@ const AdminUsers = () => {
     }
     useEffect(() => {
         const token = localStorage.getItem("token")
-        fetch('https://investapp-back.herokuapp.com/allusers',{method:"get", headers: {"Content-Type":"application/json"}}).then(ans=>ans.json()).then(realans=>{setUsersInfo(realans.users); console.log(realans); setUsers(realans.users); })
+        fetch('https://investapp-back.herokuapp.com/admin/allusers',{method:"get", headers: {"Content-Type":"application/json"}}).then(ans=>ans.json()).then(realans=>{setUsersInfo(realans.users); console.log(realans); setUsers(realans.users); })
     }, [])
     const openfunc = (i) => {
         setOpened(i)

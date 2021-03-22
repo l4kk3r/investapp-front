@@ -103,6 +103,7 @@ const NewPost = () => {
                 <div className='sidemenu__routing'>
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>
                     <Link className='sidemenu__routing__link' to='/'>Мои заявки</Link>
+                    <Link className='sidemenu__routing__link' to='/archive'>Архив</Link>
                     <Link className='sidemenu__routing__link link-selected' to='/newpost'>Новая заявка</Link>
                     <Link className='sidemenu__routing__link' to='/userdata'>Мои данные</Link>
                     <a href='/logout' className='btn btn-danger' >Выйти</a>
@@ -152,11 +153,11 @@ const NewPost = () => {
                         <div className="create__form__group card">
                             <h4>Ставка и срок</h4>
                             <div className="create__form__group-item">
-                                <label htmlFor="input-rate" className="form-label">Ставка</label>
+                                <label htmlFor="input-rate" className="form-label">Ставка (в месяц)</label>
                                 <input min="0" type='number' placeholder='Укажите ставку' onInput={(e) => newpost.rate = e.target.value} className="form-control" id="input-rate" />
                             </div>
                             <div className="create__form__group-item">
-                                <label htmlFor="input-period" className="form-label">Срок</label>
+                                <label htmlFor="input-period" className="form-label">Срок (в месяц)</label>
                                 <input min="0" placeholder='Укажите срок' type='number' onInput={(e) => newpost.period = e.target.value} className="form-control" id="input-period" />
                             </div>
                         </div>
@@ -200,7 +201,7 @@ const NewPost = () => {
                     <div className='create__form__right'>
                         <div className="create__form__group card">
                             <div className="create__form__group-item">
-                                <label htmlFor="input-region" className="form-label">Населенный пункт</label>
+                                <label htmlFor="input-region" className="form-label">Республика, Область, Край</label>
                                 <input onInput={(e) => newpost.region = e.target.value} className="form-control" id="input-region" />
                             </div>
                             <div className="create__form__group-item">

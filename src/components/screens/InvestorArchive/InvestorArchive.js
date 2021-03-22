@@ -5,7 +5,7 @@ import {UserContext} from '../../../App'
 import {Link, useHistory} from 'react-router-dom'
  
 
-const InvestorProfile = () => {
+const InvestorArchive = () => {
     const history = useHistory()
     const {state, dispatch} = useContext(UserContext)
     const [filters, setFilters] = useState("")
@@ -24,12 +24,12 @@ const InvestorProfile = () => {
     
     const toArchive = (id) => {
         setAnswers(answers.filter(ans => ans.id !== id))
-        axios.post("https://investapp-back.herokuapp.com/user/answer-archive", {id, archived: true}).then(response=>console.log(response.data))
+        axios.post("https://investapp-back.herokuapp.com/user/answer-archive", {id, archived: false}).then(response=>console.log(response.data))
     }
 
     useEffect(() => {
         if (state) {
-            axios.post("https://investapp-back.herokuapp.com/user/answers", {investor_id: state.id, archived: false}).then(res=>{console.log(res); setAnswers(res.data.answers)}) }
+            axios.post("https://investapp-back.herokuapp.com/user/answers", {investor_id: state.id, archived: true}).then(res=>{console.log(res); setAnswers(res.data.answers)}) }
     }, [state])
 
     return (
@@ -37,8 +37,8 @@ const InvestorProfile = () => {
             <div className='sidemenu'>
                 <div className='sidemenu__routing'>
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>
-                    <Link className='sidemenu__routing__link link-selected' to='/'>Мои ответы</Link>
-                    <Link className='sidemenu__routing__link' to='/archive'>Архив</Link>
+                    <Link className='sidemenu__routing__link' to='/'>Мои ответы</Link>
+                    <Link className='sidemenu__routing__link link-selected' to='/archive'>Архив</Link>
                     <Link className='sidemenu__routing__link' to='/allposts'>Общий список</Link>
                     <Link className='sidemenu__routing__link' to='/userdata'>Мои данные</Link>
                     <a href='/logout' className='btn btn-danger' >Выйти</a>
@@ -81,7 +81,7 @@ const InvestorProfile = () => {
                             <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.rate}</td>
                             <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.period}</td>
                             <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.status}</td>
-                            <td><button className='btn btn-warning' onClick={() => toArchive(answer.id)}>В архив</button></td>
+                            <td><button className='btn btn-success' onClick={() => toArchive(answer.id)}>Вернуть</button></td>
                             </tr>)}) : null}
                     </tbody>
                 </table>
@@ -91,4 +91,4 @@ const InvestorProfile = () => {
 
     )
 }
-export default InvestorProfile;
+export default InvestorArchive;

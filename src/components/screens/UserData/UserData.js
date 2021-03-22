@@ -27,6 +27,7 @@ const UserData = () => {
                 <div className='sidemenu__routing'>
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>
                     { state ? state.acctype === 'broker' ? <Link className='sidemenu__routing__link' to='/'>Мои заявки</Link> : <Link className='sidemenu__routing__link' to='/'>Мои ответы</Link> : <Link className='sidemenu__routing__link' to='/'>Мои заявки</Link> }
+                    <Link className='sidemenu__routing__link' to='/archive'>Архив</Link>
                     { state ? state.acctype === 'broker' ? <Link className='sidemenu__routing__link' to='/newpost'>Новая заявка</Link> : <Link className='sidemenu__routing__link' to='/allposts'>Общий список</Link> : <Link className='sidemenu__routing__link' to='/newpost'>Новая заявка</Link> }
                     <Link className='sidemenu__routing__link link-selected' to='/userdata'>Мои данные</Link>
                     <a href='/logout' className='btn btn-danger' >Выйти</a>

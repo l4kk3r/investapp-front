@@ -38,6 +38,7 @@ const PostPage = (props) => {
                 <div className='sidemenu__routing'>
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>
                     <Link className='sidemenu__routing__link' to='/'>Мои ответы</Link>
+                    <Link className='sidemenu__routing__link' to='/archive'>Архив</Link>
                     <Link className='sidemenu__routing__link link-selected' to='/allposts'>Общий список</Link>
                     <Link className='sidemenu__routing__link' to='/userdata'>Мои данные</Link>
                     <a href='/logout' className='btn btn-danger' >Выйти</a>
@@ -122,6 +123,14 @@ const PostPage = (props) => {
                     <h3>Кадастровый номер</h3>
                     <p>{post.kadastr_tag}</p>
                 </div>}
+                <div className='info-container2'>
+                    <h3>Тип займа</h3>
+                    <p>{post.loan_type}</p>
+                </div> 
+                <div className='info-container2'>
+                    <h3>Тип сделки</h3>
+                    <p>{post.deal_type}</p>
+                </div> 
                 <div className='info-container2'>
                     <h3>Документ основание</h3>
                     <p>{post.document}</p>

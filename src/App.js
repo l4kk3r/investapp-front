@@ -16,6 +16,8 @@ import AdminUsers from './components/screens/AdminUsers/AdminUsers'
 import UserData from './components/screens/UserData/UserData'
 import AllPosts from './components/screens/AllPosts/AllPosts'
 import LogoutPage from './components/screens/LogoutPage/LogoutPage'
+import InvestorArchive from './components/screens/InvestorArchive/InvestorArchive';
+import BrokerArchive from './components/screens/BrokerArchive/BrokerArchive';
 
 export const UserContext = createContext()
 const Routing = () => {
@@ -31,6 +33,7 @@ const Routing = () => {
   return(
     <Switch>
       <Route path='/'render = { () => user ? user.acctype === "admin" ? <Admin /> : user.acctype == "broker" ? <BrokerProfile /> : <InvestorProfile /> : <Redirect to="/signin"/>}  exact />
+      <Route path='/archive'render = { () => user ? user.acctype === "admin" ? <Admin /> : user.acctype == "broker" ? <BrokerArchive /> : <InvestorArchive /> : <Redirect to="/signin"/>}  exact />
       <Route path='/userdata' component = { UserData } exact />
       <Route path='/newpost' component = { () => user ? user.acctype == "broker" ? <NewPost /> : <Redirect to="/"/> : <Redirect to="/signin"/> } exact />
       <Route path='/signup' exact render={() => (user ? ( <Redirect to="/"/>) : (<Signup/>))} />

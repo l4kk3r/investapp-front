@@ -8,7 +8,7 @@ import 'react-dropdown/style.css';
 import { post } from 'jquery';
  
 
-const BrokerProfile = () => {
+const BrokerArchive = () => {
     const {state, dispatch} = useContext(UserContext)
     const [filters, setFilters] = useState("")
     const [openedpost, setOpenedPost] = useState("")
@@ -17,11 +17,9 @@ const BrokerProfile = () => {
     const [photos, setPhotos] = useState([])
     const [photosurls, setPhotosUrls] = useState([])
     const [newphotos, setNewPhotos] = useState([])
-    const [newfile, setNewFile] = useState(false)
     const [saving, setSaving] = useState(false)
     const [deletedphotos, setDeletedPhotos] = useState([])
     const [deletedcount, setDeletedCount] = useState(0)
-    const [archiveurl, setArchiveUrl] = useState(false)
     const [newphotosurls, setNewPhotosUrls] = useState([])
     const [fmin_amount, setMinAmount] = useState("")
     const [fmax_amount, setMaxAmount] = useState("")
@@ -46,27 +44,25 @@ const BrokerProfile = () => {
     }
     const saveOpenedPost = () => {
         setSaving(true)
-        newphotos.forEach(photo => {
-            uploadToServer(photo)
-        })
-        if (newfile) {
-            uploadToServerArchive(newfile)
-        }
-        if (newphotos.length == 0 && !newfile) {
-            setPhotosUrls([])
+        if (newphotos.length > 0) {
+            console.log('has')
+            newphotos.forEach(photo => {
+                uploadToServer(photo)
+            })
+        } else {
+            console.log('hasnt')
+            openedpost.todelete = deletedphotos
+            axios.post("https://investapp-back.herokuapp.com/user/updatepost", openedpost).then(response => { console.log(response.data); setSaving(false) })
         }
     }
     useEffect(() => {
-        if (openedpost && newphotosurls.length == photosurls.length && (!newfile || archiveurl)) {
+        if (openedpost && newphotosurls.length == photosurls.length) {
             console.log('SENDING!')
-            if (archiveurl) {
-                openedpost.archive = archiveurl
-            }
             openedpost.photos = openedpost.photos.concat(photosurls)
             openedpost.todelete = deletedphotos
-            axios.post("https://investapp-back.herokuapp.com/user/updatepost", openedpost).then(response => {console.log(response.data); setSaving(false)})
+            axios.post("https://investapp-back.herokuapp.com/user/updatepost", openedpost).then(response => { console.log(response.data); setSaving(false) })
         }
-    }, [photosurls, archiveurl])
+    }, [photosurls])
 
     const changeAnswerStatus = (answer, status) => {
         console.log('sending!')
@@ -76,8 +72,6 @@ const BrokerProfile = () => {
         setOpenedPost(post)
         setPhotos(post.photos)
         setNewPhotos([])
-        setNewFile(null)
-        setArchiveUrl(null)
         setNewPhotosUrls([])
         setDeletedPhotos([])
         setDeletedCount(0)
@@ -102,22 +96,12 @@ const BrokerProfile = () => {
     }
     const toArchive = (id) => {
         setPosts(posts.filter(pst => pst.id !== id))
-        axios.post("https://investapp-back.herokuapp.com/user/post-archive", {id, archived: true}).then(response=>console.log(response.data))
-    }
-    const uploadToServerArchive = (archive) => {
-        console.log(archive)
-        const data = new FormData();
-        data.append("file", archive)
-        axios.post("https://investapp-back.herokuapp.com/aws/upload-archive", data).then(answer => {
-            if (!answer.data.error) {
-                setArchiveUrl(answer.data.url)
-            }
-        })
+        axios.post("https://investapp-back.herokuapp.com/user/post-archive", {id, archived: false}).then(response=>console.log(response.data))
     }
 
     useEffect(() => {
         if (state) {
-            axios.post("https://investapp-back.herokuapp.com/user/getposts", {creator_id: state.id, archived: false}).then(res=>{setPosts(res.data.posts); setAnswers(res.data.answers); console.log(res.data)}) }
+            axios.post("https://investapp-back.herokuapp.com/user/getposts", {creator_id: state.id, archived: true}).then(res=>{setPosts(res.data.posts); setAnswers(res.data.answers); console.log(res.data)}) }
     }, [state])
 
     return (
@@ -125,8 +109,8 @@ const BrokerProfile = () => {
             <div className='sidemenu'>
                 <div className='sidemenu__routing'>
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>
-                    <Link className='sidemenu__routing__link link-selected' to='/'>Мои заявки</Link>
-                    <Link className='sidemenu__routing__link' to='/archive'>Архив</Link>
+                    <Link className='sidemenu__routing__link' to='/'>Мои заявки</Link>
+                    <Link className='sidemenu__routing__link link-selected' to='/archive'>Архив</Link>
                     <Link className='sidemenu__routing__link' to='/newpost'>Новая заявка</Link>
                     <Link className='sidemenu__routing__link' to='/userdata'>Мои данные</Link>
                     <a href='/logout' className='btn btn-danger' >Выйти</a>
@@ -159,15 +143,15 @@ const BrokerProfile = () => {
                     </thead>
                     <tbody>
                         {posts ? posts.map((post, i)=>{return (<tr key={i} className='userposts__post'>
-                            <th onClick={() => openPost(post)} >{post.id}</th>
-                            <td onClick={() => openPost(post)} >{post.createdAt}</td>
-                            <td onClick={() => openPost(post)} >{post.amount}</td>
-                            <td onClick={() => openPost(post)} >{post.rate}</td>
-                            <td onClick={() => openPost(post)} >{post.period}</td>
-                            <td onClick={() => openPost(post)} >{post.object}</td>
-                            <td onClick={() => openPost(post)} >{post.city}</td>
-                            <td onClick={() => openPost(post)} >{post.status}</td>
-                            <td><button className='btn btn-warning' onClick={() => toArchive(post.id)}>В архив</button></td>
+                            <th onClick={() => openPost(post)}>{post.id}</th>
+                            <td onClick={() => openPost(post)}>{post.createdAt}</td>
+                            <td onClick={() => openPost(post)}>{post.amount}</td>
+                            <td onClick={() => openPost(post)}>{post.rate}</td>
+                            <td onClick={() => openPost(post)}>{post.period}</td>
+                            <td onClick={() => openPost(post)}>{post.object}</td>
+                            <td onClick={() => openPost(post)}>{post.city}</td>
+                            <td onClick={() => openPost(post)}>{post.status}</td>
+                            <td><button className='btn btn-success' onClick={() => toArchive(post.id)}>Вернуть</button></td>
                             </tr>)}) : null}
                     </tbody>
                 </table>
@@ -237,9 +221,8 @@ const BrokerProfile = () => {
                                     <td>{openedpost.photos ? 'Загружено' : 'Не загружено'}</td>
                                 </tr>
                                 <tr>
-                                    <td>Документы</td>
-                                    <td><label htmlFor={`newfile_${openedpost.id}`} className='btn btn-secondary'>{newfile ? newfile.name : 'Загрузить новый'}</label>
-                                <input onInput={(e) => {setNewFile(e.target.files[0])} } id={`newfile_${openedpost.id}`} type='file' /></td>
+                                    <td>Республика</td>
+                                    <td>{openedpost.archive ? 'Загружено' : 'Не загружено'}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -302,4 +285,4 @@ const BrokerProfile = () => {
 
     )
 }
-export default BrokerProfile;
+export default BrokerArchive;
