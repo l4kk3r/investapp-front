@@ -25,7 +25,7 @@ const PostPage = (props) => {
     const {state, dispatch} = useContext(UserContext)
     
     const sendRequest = (e) => {
-        axios.post("https://investapp-back.herokuapp.com/user/newanswer", {creator_id: post.creator_id, investor_id: state.id, post_id: post.id, object: post.object, city: post.city, fio: post.borrower_lname, amount: investamount, period: investperiod, rate: investrate, comment: investcomment }).then(response => response.data.message == 'Ответ успешно отправлен' ? setSended(true) : null)
+        axios.post("https://investapp-back.herokuapp.com/user/newanswer", {creator_id: post.creator_id, investor_info: `${state.firstname} ${state.lastname}, ${state.phone}, ${state.email}`, investor_id: state.id, post_id: post.id, object: post.object, city: post.city, fio: post.borrower_lname, amount: investamount, period: investperiod, rate: investrate, comment: investcomment }).then(response => response.data.message == 'Ответ успешно отправлен' ? setSended(true) : null)
     }
 
     useEffect(()=>{
@@ -176,7 +176,7 @@ const PostPage = (props) => {
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Дата перехода прав:</h4>
-                                <p>{post.access_year.split("-").reverse().join("-")}</p>
+                                <p>{post.access_year ? post.access_year.split("-").reverse().join("-") : null}</p>
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Стоимость (ссылка):</h4>
@@ -185,6 +185,10 @@ const PostPage = (props) => {
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Стоимость залога:</h4>
                                 <p>{post.zalog}</p>
+                            </div>
+                            <div className='card changecards__card' style={{width: '18rem'}}>
+                                <h4>Докменты:</h4>
+                                <a href={post.archive}>Скачать</a>
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Количество собственников:</h4>
@@ -203,6 +207,7 @@ const PostPage = (props) => {
                     </div> : null }
                 </div>
             </Popup>
+            <a href={post.archive}><button className='answer-button2'>Скачать документы</button></a>
         </div>): null : null}
             </div>
         </div>

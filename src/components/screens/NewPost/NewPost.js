@@ -193,6 +193,10 @@ const NewPost = () => {
                                 <input onInput={(e) => newpost.borrower_lname = e.target.value} className="form-control" id="input-borrower_lname" />
                             </div>
                             <div className="create__form__group-item">
+                                <label htmlFor="input-borrower_lname" className="form-label">Телефон основного заемщика</label>
+                                <input onInput={(e) => newpost.borrower_phone = e.target.value} className="form-control" id="input-borrower_lname" />
+                            </div>
+                            <div className="create__form__group-item">
                                 <label htmlFor="input-city" className="form-label">Город объекта</label>
                                 <input onInput={(e) => newpost.city = e.target.value} className="form-control" id="input-city" />
                             </div>

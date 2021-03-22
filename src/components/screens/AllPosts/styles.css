@@ -81,3 +81,26 @@
     color: rgb(32, 32, 32);
     margin-top: 7px;
 }
+.posts__filter {
+    padding-left: 40px;
+    margin-left: 300px;
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.posts__filter__button {
+    margin-left: 300px;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.posts__filter__card {
+    margin-top: 10px;
+}
+.posts__filter__card__checkboxes label {
+    margin-right: 10px;
+}
+.posts__filter__card__checkboxes input {
+    margin-right: 3px;
+}

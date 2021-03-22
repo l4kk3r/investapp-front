@@ -221,6 +221,10 @@ const BrokerProfile = () => {
                                     <td><input className="form-control" onChange={(e) => {openedpost.borrower_lname = e.target.value}} defaultValue={openedpost.borrower_lname} /></td>
                                 </tr>
                                 <tr>
+                                    <td>Телефон заемщика-основного</td>
+                                    <td><input className="form-control" onChange={(e) => {openedpost.borrower_phone = e.target.value}} defaultValue={openedpost.borrower_phone} /></td>
+                                </tr>
+                                <tr>
                                     <td>Цель займа</td>
                                     <td><input className="form-control" onChange={(e) => {openedpost.reason = e.target.value}} defaultValue={openedpost.reason} /></td>
                                 </tr>

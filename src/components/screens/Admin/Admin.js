@@ -203,6 +203,10 @@ const Admin = () => {
                                 <input type='text' onChange={(e) => {postsinfo[opened].borrower_lname = e.target.value}} defaultValue={postsinfo[opened].borrower_lname}/>
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
+                                <h4>Телефон основного заемщика:</h4>
+                                <input type='text' onChange={(e) => {postsinfo[opened].borrower_phone = e.target.value}} defaultValue={postsinfo[opened].borrower_phone}/>
+                            </div>
+                            <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Есть ИП или ООО:</h4>
                                 <input type='text' onChange={(e) => {postsinfo[opened].isIP = e.target.value}} defaultValue={postsinfo[opened].isIP}/>
                             </div>
@@ -285,8 +289,8 @@ const Admin = () => {
                         </div>
                         <h3>Ответы</h3>
                         <div className='answersbox'>
-                            <table className='table table-bordered table-hover'><thead><tr><th >ID</th><th >Ставка</th><th >Сумма</th><th>Период</th><th >Статус</th></tr></thead>
-                            <tbody>{answers ? (answers.filter(answer => answer.post_id === postsinfo[opened].id).map((ans, i) => <tr key={i}><td >Вариант {i + 1}</td><td >{ans.rate}</td><td >{ans.amount}</td><td>{ans.period}</td><td>{ans.status}</td></tr>)) : null}</tbody></table>
+                            <table className='table table-bordered table-hover'><thead><tr><th >ID</th><th >Ставка</th><th >Сумма</th><th>Период</th><th >Статус</th><th >Инвестор</th></tr></thead>
+                            <tbody>{answers ? (answers.filter(answer => answer.post_id === postsinfo[opened].id).map((ans, i) => <tr key={i}><td >Вариант {i + 1}</td><td >{ans.rate}</td><td >{ans.amount}</td><td>{ans.period}</td><td>{ans.status}</td><td>{ans.investor_info}</td></tr>)) : null}</tbody></table>
                         </div>
                         <h3>Информация по физлицам</h3>
                         <div className='fizbox'>
