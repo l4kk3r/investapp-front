@@ -39,7 +39,7 @@ const PostPage = (props) => {
         <MetaTags>
             <title>Super Post</title>
             <meta id="meta-description" name="description" content="Some description." />
-            <meta property="og:url" content={`https://investapp.vercel.app/post/${props.match.params.id}`} />
+            <meta property="og:url" content={`https://pinvestapp.vercel.app/post/${props.match.params.id}`} />
         </MetaTags>
         <div className='postpage__wapper'>
 
