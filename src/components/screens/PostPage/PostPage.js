@@ -32,6 +32,7 @@ const PostPage = (props) => {
     }
 
     useEffect(()=>{    
+        document.title = "HEROSUMO!"
         axios.post("https://investapp-back.herokuapp.com/user/post", {id: props.match.params.id}).then(response => {console.log(response); const post = response.data.post[0]; setInvestAmount(post.amount); setInvestRate(post.rate); setInvestPeriod(post.period); setPost(response.data.post[0])})
     },[])
     return (
