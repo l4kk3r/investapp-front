@@ -8,14 +8,15 @@ import 'react-awesome-slider/dist/styles.css';
 
 const AllPosts = () => {
     const history = useHistory()
+    const {state, dispatch} = useContext(UserContext)
     const [posts, setPosts] = useState([])
     const [allposts, setAllPosts] = useState([])
-    const [filter, setFilter] = useState({min_amount: 0, max_amount: 100000000, min_period: 0, max_period: 10000000, min_rate: 0, max_rate: 10000000, objects: ['Квартира', 'Дом', 'Земельный участок', 'Коммерция'], search: ''})
+    const [filter, setFilter] = useState(null)
     const [display_posts, setDisplayPosts] = useState([])
-    const {dispatch} = useContext(UserContext)
     useEffect(() => {
-        fetch('https://investapp-back.herokuapp.com/user/allpublished').then(ans=> ans.json()).then(realans=> {setAllPosts(realans.posts); setPosts(realans.posts)})
-    }, [])
+        if (state) {
+            axios.post('http://localhost:5500/user/allpublished', {id: state.id}).then(realans => {setAllPosts(realans.data.posts); setFilter(realans.data.filter); setPosts(realans.data.posts)})
+        }}, [state])
     const checkSearch = (adress) => {
         const keywords = filter.search.split(' ')
         for (let keyword in keywords) {
@@ -29,6 +30,9 @@ const AllPosts = () => {
     const saveFilters = () => {
         console.log(filter)
         setPosts(allposts.filter(post => post.amount > filter.min_amount && post.amount < filter.max_amount && post.period > filter.min_period && post.period < filter.max_period && post.rate > filter.min_rate && post.rate < filter.max_rate && filter.objects.includes(post.object) && checkSearch(post.adress + post.region + post.city)))
+    }
+    const saveFiltersToDb = () => {
+        axios.post('http://localhost:5500/user/update-filters', {id: state.id, filter}).then(ans => console.log(ans))
     }
     return (
         <div className='profile'>
@@ -53,7 +57,7 @@ const AllPosts = () => {
                 </div>
             </div>
             <div className='posts__data'>
-                <div className='posts__filter__wrapper'>
+                {filter ? <div className='posts__filter__wrapper'>
                     <div className='posts__filter'>
                         <div className='posts__filter__card card text-white bg-secondary'>
                             <div className='posts__filter__row'>
@@ -107,8 +111,9 @@ const AllPosts = () => {
                     </div>
                     <div className='posts__filter__button'>
                         <button onClick={() => saveFilters()} className='btn btn-primary'>Применить</button>
+                        <button onClick={() => saveFiltersToDb()} className='btn btn-secondary'>Сохранить</button>
                     </div>
-                </div>
+                </div> : null }
                 <div className='posts'>
                     {posts.map((post, i) => (
                         <div onClick={() => history.push(`/post/${post.id}`)} className='item-container'> 

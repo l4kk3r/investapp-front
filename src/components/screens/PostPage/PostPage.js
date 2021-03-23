@@ -5,6 +5,7 @@ import {useHistory, Link} from 'react-router-dom'
 import AwesomeSlider from 'react-awesome-slider';
 import 'react-awesome-slider/dist/styles.css';
 import Popup from 'reactjs-popup';
+import { seo } from '../../../seo'
 import ReactLoading from 'react-loading';
 import 'reactjs-popup/dist/index.css';
 import { YMaps, Map, Placemark } from 'react-yandex-maps';
@@ -29,6 +30,10 @@ const PostPage = (props) => {
     }
 
     useEffect(()=>{
+        seo({
+            title: 'This is my title only shown on this page',
+            metaDescription: 'With some meta description'
+          });      
         axios.post("https://investapp-back.herokuapp.com/user/post", {id: props.match.params.id}).then(response => {console.log(response); const post = response.data.post[0]; setInvestAmount(post.amount); setInvestRate(post.rate); setInvestPeriod(post.period); setPost(response.data.post[0])})
     },[])
     return (
