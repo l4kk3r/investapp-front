@@ -11,6 +11,7 @@ import 'reactjs-popup/dist/index.css';
 import { YMaps, Map, Placemark } from 'react-yandex-maps';
 import axios from 'axios';
 import FizUser from './FizUser'
+import MetaTags from 'react-meta-tags';
 const TITLE = 'TOP APP'
 
 const PostPage = (props) => {
@@ -35,9 +36,11 @@ const PostPage = (props) => {
     },[])
     return (
         <>
-            <Helmet>
-            <title>{ TITLE }</title>
-            </Helmet>
+        <MetaTags>
+            <title>Super Post</title>
+            <meta id="meta-description" name="description" content="Some description." />
+            <meta property="og:url" content={`https://investapp.vercel.app/post/${props.match.params.id}`} />
+        </MetaTags>
         <div className='postpage__wapper'>
 
             <div className='sidemenu'>
