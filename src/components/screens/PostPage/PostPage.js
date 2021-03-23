@@ -5,12 +5,13 @@ import {useHistory, Link} from 'react-router-dom'
 import AwesomeSlider from 'react-awesome-slider';
 import 'react-awesome-slider/dist/styles.css';
 import Popup from 'reactjs-popup';
-import { seo } from '../../../seo'
+import { Helmet } from 'react-helmet'
 import ReactLoading from 'react-loading';
 import 'reactjs-popup/dist/index.css';
 import { YMaps, Map, Placemark } from 'react-yandex-maps';
 import axios from 'axios';
 import FizUser from './FizUser'
+const TITLE = 'TOP APP'
 
 const PostPage = (props) => {
     const history = useHistory()
@@ -29,16 +30,16 @@ const PostPage = (props) => {
         axios.post("https://investapp-back.herokuapp.com/user/newanswer", {creator_id: post.creator_id, investor_info: `${state.firstname} ${state.lastname}, ${state.phone}, ${state.email}`, investor_id: state.id, post_id: post.id, object: post.object, city: post.city, fio: post.borrower_lname, amount: investamount, period: investperiod, rate: investrate, comment: investcomment }).then(response => response.data.message == 'Ответ успешно отправлен' ? setSended(true) : null)
     }
 
-    useEffect(()=>{
-        seo({
-            title: 'This is my title only shown on this page',
-            metaDescription: 'With some meta description'
-          });      
+    useEffect(()=>{    
         axios.post("https://investapp-back.herokuapp.com/user/post", {id: props.match.params.id}).then(response => {console.log(response); const post = response.data.post[0]; setInvestAmount(post.amount); setInvestRate(post.rate); setInvestPeriod(post.period); setPost(response.data.post[0])})
     },[])
     return (
-        
+        <>
+            <Helmet>
+            <title>{ TITLE }</title>
+            </Helmet>
         <div className='postpage__wapper'>
+
             <div className='sidemenu'>
                 <div className='sidemenu__routing'>
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>
@@ -218,7 +219,7 @@ const PostPage = (props) => {
         </div>
             </div>)}
     </div>
-
+    </>
     )
 }
 export default PostPage;
