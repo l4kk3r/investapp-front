@@ -38,7 +38,7 @@ const Routing = () => {
       <Route path='/newpost' component = { () => user ? user.acctype == "broker" ? <NewPost /> : <Redirect to="/"/> : <Redirect to="/signin"/> } exact />
       <Route path='/signup' exact render={() => (user ? ( <Redirect to="/"/>) : (<Signup/>))} />
       <Route path='/signin' exact render={() => (user ? ( <Redirect to="/"/>) : (<Signin/>))} />
-      <Route path='/post/:id' render = { props => user ? user.acctype == "investor" ? <PostPage {...props} /> : <Redirect to="/"/> : <Redirect to="/signin"/> } exact />
+      <Route path='/post/:id' render = { props => <PostPage {...props} /> } exact />
       <Route path='/allposts' render = { () => user ? user.acctype == "investor" ? <AllPosts /> : <Redirect to="/"/> : <Redirect to="/signin"/> } exact />
       <Route path='/admin/users' exact render={() => (user ? user.acctype === "admin" ? (<AdminUsers/>) : ( <Redirect to="/"/>) : ( <Redirect to="/signin"/>))}/>
       <Route path='/admin' exact render={() => (user ? user.acctype === "admin" ? (<Admin/>) : ( <Redirect to="/"/>) : ( <Redirect to="/signin"/>))} exact/>
