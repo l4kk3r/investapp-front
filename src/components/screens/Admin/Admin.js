@@ -7,6 +7,7 @@ import 'react-dropdown/style.css';
 import Fiz from './Fiz'
 import AdminPost from './AdminPost'
 import axios from 'axios';
+import { Helmet } from 'react-helmet';
 
 const Admin = () => {
     const history = useHistory()
@@ -52,14 +53,14 @@ const Admin = () => {
         // }
     }
     useEffect(() => {
-        if (postsinfo[opened] && newphotosurls.length == photosurls.length && (!newfile || archiveurl)) {
+        if (saving && postsinfo[opened] && newphotosurls.length == photosurls.length && (!newfile || archiveurl)) {
             console.log('SENDING!')
             if (archiveurl) {
                 postsinfo[opened].archive = archiveurl
             }
             postsinfo[opened].photos = postsinfo[opened].photos.concat(photosurls)
             postsinfo[opened].todelete = deletedphotos
-            axios.post("https://investapp-back.herokuapp.com/user/updatepost", postsinfo[opened]).then(response => {console.log(response.data); setSaving(false)})
+            axios.post("http://localhost:5500/admin/updatepost", postsinfo[opened]).then(response => {console.log(response.data); setSaving(false)})
         }
     }, [photosurls, archiveurl])
     useEffect(() => {
@@ -117,7 +118,7 @@ const Admin = () => {
     const deleteOldPhoto = (todelete) => {
         postsinfo[opened].photos = postsinfo[opened].photos.filter(ph => ph !== todelete)
         setPhotos(photos.filter(photo => photo !== todelete))
-        setDeletedPhotos(old => [...old, todelete.replace('https://comeinvest.s3.amazonaws.com/', '').replace('https://comeinvest.s3.us-east-2.amazonaws.com/', '')])
+        setDeletedPhotos(old => [...old, todelete.replace('https://sharinvest.s3.amazonaws.com/', '').replace('https://sharinvest.s3.eu-central-1.amazonaws.com/', '')])
     }
     const deleteFiz = (i, index) => {
         console.log(postsinfo[opened].fiz.splice(index, 1))
@@ -125,6 +126,9 @@ const Admin = () => {
     }
     return (
         <div className='maincontainer'>
+            <Helmet>
+                <title>SHAR | Админ.Заявки</title>
+            </Helmet>
             <div className='sidemenu'>
                 <div className='sidemenu__routing'>
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>

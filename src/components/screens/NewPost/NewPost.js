@@ -7,6 +7,7 @@ import imageCompression from 'browser-image-compression';
 import {Link, useHistory} from 'react-router-dom'
 import ReactLoading from 'react-loading';
 import axios from 'axios';
+import { Helmet } from 'react-helmet';
 
 const NewPost = () => {
     const history = useHistory()
@@ -99,6 +100,9 @@ const NewPost = () => {
     }
     return (
         <div className='create'>
+            <Helmet>
+                <title>SHAR | Новая заявка</title>
+            </Helmet>
             <div className='sidemenu'>
                 <div className='sidemenu__routing'>
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>

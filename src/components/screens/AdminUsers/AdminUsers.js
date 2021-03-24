@@ -6,6 +6,7 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import AwesomeSlider from 'react-awesome-slider';
 import 'react-awesome-slider/dist/styles.css';
+import { Helmet } from 'react-helmet';
 
 const AdminUsers = () => {
     const history = useHistory()
@@ -97,6 +98,9 @@ const AdminUsers = () => {
     },[users, opened, moderation_filter, published_filter, ptrigger, blocked_filter, searchfield])
     return (
         <div className='maincontainer'>
+            <Helmet>
+                <title>SHAR | Админ.Пользователи</title>
+            </Helmet>
             <div className='sidemenu'>
                 <div className='sidemenu__routing'>
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>

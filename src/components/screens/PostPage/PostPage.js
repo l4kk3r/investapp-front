@@ -11,8 +11,6 @@ import 'reactjs-popup/dist/index.css';
 import { YMaps, Map, Placemark } from 'react-yandex-maps';
 import axios from 'axios';
 import FizUser from './FizUser'
-import MetaTags from 'react-meta-tags';
-const TITLE = 'TOP APP'
 
 const PostPage = (props) => {
     const history = useHistory()
@@ -32,26 +30,23 @@ const PostPage = (props) => {
     }
 
     useEffect(()=>{    
-        document.title = "HEROSUMO!"
-        axios.post("https://investapp-back.herokuapp.com/user/post", {id: props.match.params.id}).then(response => {console.log(response); const post = response.data.post[0]; setInvestAmount(post.amount); setInvestRate(post.rate); setInvestPeriod(post.period); setPost(response.data.post[0])})
+        axios.post("https://investapp-back.herokuapp.com/user/post", {id: props.match.params.id}).then(response => {console.log(response); const serverpost = response.data.post[0]; setInvestAmount(serverpost.amount); setInvestRate(serverpost.rate); setInvestPeriod(serverpost.period); setPost(response.data.post[0])})
     },[])
     return (
         <>
-        <MetaTags>
-            <title>Super Post</title>
-            <meta id="meta-description" name="description" content="Some description." />
-            <meta property="og:url" content={`https://pinvestapp.vercel.app/post/${props.match.params.id}`} />
-        </MetaTags>
+        <Helmet>
+            <title>SHAR | Объявление</title>
+        </Helmet>
         <div className='postpage__wapper'>
 
             <div className='sidemenu'>
                 <div className='sidemenu__routing'>
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>
-                    <Link className='sidemenu__routing__link' to='/'>Мои ответы</Link>
+                    {state ? state.acctype === "investor" ? <><Link className='sidemenu__routing__link' to='/'>Мои ответы</Link>
                     <Link className='sidemenu__routing__link' to='/archive'>Архив</Link>
                     <Link className='sidemenu__routing__link link-selected' to='/allposts'>Общий список</Link>
                     <Link className='sidemenu__routing__link' to='/userdata'>Мои данные</Link>
-                    <a href='/logout' className='btn btn-danger' >Выйти</a>
+                    <a href='/logout' className='btn btn-danger' >Выйти</a></> : history.push('/') : <Link className='sidemenu__routing__link' to='/signin'>Войти</Link>}
                 </div>
                 <div className='sidemenu__social'>
                     <div className='sidemenu__social__header'>
@@ -144,7 +139,12 @@ const PostPage = (props) => {
                 <div className='info-container2'>
                     <h3>Документ основание</h3>
                     <p>{post.document}</p>
-                </div> 
+                </div>
+                {!state ? <div className='lowerinfo'>
+                    <button onClick={() => history.push('/signin')} className='answer-button'>Сделать предложение</button>
+                    <button onClick={() => history.push('/signin')} className='answer-button2'>Проверить объект</button>
+                    <button onClick={() => history.push('/signin')} className='answer-button2'>Скачать документы</button>
+                    </div> : null} 
                 { state ? state.acctype === 'investor' ? (<div className='lowerinfo'>
                 <Popup style={{borderRadius:'5px'}}  modal closeOnDocumentClick trigger={<button className='answer-button'>Сделать предложение</button>} position="center center">
                 {!sended ? (<div className='ans-popup'>

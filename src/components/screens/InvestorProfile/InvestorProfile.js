@@ -3,6 +3,7 @@ import './styles.css'
 import axios from 'axios';
 import {UserContext} from '../../../App'
 import {Link, useHistory} from 'react-router-dom'
+import { Helmet } from 'react-helmet';
  
 
 const InvestorProfile = () => {
@@ -34,6 +35,9 @@ const InvestorProfile = () => {
 
     return (
         <div className='profile'>
+            <Helmet>
+                <title>SHAR | Профиль</title>
+            </Helmet>
             <div className='sidemenu'>
                 <div className='sidemenu__routing'>
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>

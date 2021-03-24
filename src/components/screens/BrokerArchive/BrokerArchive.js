@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom'
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { post } from 'jquery';
+import { Helmet } from 'react-helmet';
  
 
 const BrokerArchive = () => {
@@ -106,6 +107,9 @@ const BrokerArchive = () => {
 
     return (
         <div className='profile'>
+            <Helmet>
+                <title>SHAR | Архив</title>
+            </Helmet>
             <div className='sidemenu'>
                 <div className='sidemenu__routing'>
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>

@@ -2,7 +2,6 @@ import React, { createContext ,useReducer, useEffect, useContext } from 'react';
 import {reducer,initialState} from './reducers/userReducer'
 import {BrowserRouter, Switch, Route, useHistory, Redirect} from 'react-router-dom'
 import './App.css';
-import Home from './components/screens/Home/Home'
 import Signin from './components/screens/Signin/Signin'
 import Header from './components/screens/Header/Header'
 import Signup from './components/screens/Signup/Signup'

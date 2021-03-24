@@ -3,6 +3,7 @@ import './styles.css'
 import axios from 'axios';
 import {UserContext} from '../../../App'
 import {Link} from 'react-router-dom'
+import { Helmet } from 'react-helmet';
  
 
 const UserData = () => {
@@ -23,6 +24,9 @@ const UserData = () => {
 
     return (
         <div className='profile'>
+            <Helmet>
+                <title>SHAR | Данные</title>
+            </Helmet>
             <div className='sidemenu'>
                 <div className='sidemenu__routing'>
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>
@@ -45,6 +49,10 @@ const UserData = () => {
             </div>
             <div className='content'>
                 <div className='userdata'>
+                    <div className='userdata__inputgroup'>
+                        <label>ТЕЛЕГРАМ ID</label>
+                        <input className="form-control" onInput={ (e) => userdata.telegram_login = e.target.value } defaultValue={userdata.telegram_login} />
+                    </div>
                     <div className='userdata__inputgroup'>
                         <label>Фамилия</label>
                         <input className="form-control" onInput={ (e) => userdata.lastname = e.target.value } defaultValue={userdata.lastname} />

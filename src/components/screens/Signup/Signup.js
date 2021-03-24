@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import './signup-styles.css'
 import {useHistory} from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 
 const Home = () => {
     const history = useHistory()
@@ -57,6 +58,9 @@ const Home = () => {
     }
     return (
         <div className='signup'>
+            <Helmet>
+                <title>SHAR | Регистрация</title>
+            </Helmet>
             <div className="wrapper">
                 <div className="info">
                     <div className="info__logo">

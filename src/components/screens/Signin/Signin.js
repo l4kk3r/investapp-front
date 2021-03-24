@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react'
 import './signin-styles.css'
 import {UserContext} from '../../../App'
 import {useHistory} from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 
 const Home = () => {
     const history = useHistory()
@@ -39,6 +40,9 @@ const Home = () => {
     }
     return (
         <div className='signin'>
+            <Helmet>
+                <title>SHAR | Вход</title>
+            </Helmet>
             
             <div className="wrapper">
                 <div className="info">

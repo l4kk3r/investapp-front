@@ -5,6 +5,7 @@ import {UserContext} from '../../../App'
 import {Link, useHistory} from 'react-router-dom'
 import AwesomeSlider from 'react-awesome-slider';
 import 'react-awesome-slider/dist/styles.css';
+import { Helmet } from 'react-helmet'
 
 const AllPosts = () => {
     const history = useHistory()
@@ -36,6 +37,9 @@ const AllPosts = () => {
     }
     return (
         <div className='profile'>
+            <Helmet>
+                <title>SHAR | Общий список</title>
+            </Helmet>
             <div className='sidemenu'>
                 <div className='sidemenu__routing'>
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>

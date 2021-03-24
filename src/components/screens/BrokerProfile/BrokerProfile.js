@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom'
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { post } from 'jquery';
+import { Helmet } from 'react-helmet';
  
 
 const BrokerProfile = () => {
@@ -57,7 +58,7 @@ const BrokerProfile = () => {
         }
     }
     useEffect(() => {
-        if (openedpost && newphotosurls.length == photosurls.length && (!newfile || archiveurl)) {
+        if (saving && openedpost && newphotosurls.length == photosurls.length && (!newfile || archiveurl)) {
             console.log('SENDING!')
             if (archiveurl) {
                 openedpost.archive = archiveurl
@@ -98,7 +99,7 @@ const BrokerProfile = () => {
     const deleteOldPhoto = (todelete) => {
         openedpost.photos = openedpost.photos.filter(ph => ph !== todelete)
         setPhotos(photos.filter(photo => photo !== todelete))
-        setDeletedPhotos(old => [...old, todelete.replace('https://comeinvest.s3.amazonaws.com/', '').replace('https://comeinvest.s3.us-east-2.amazonaws.com/', '')])
+        setDeletedPhotos(old => [...old, todelete.replace('https://sharinvest.s3.amazonaws.com/', '').replace('https://sharinvest.s3.eu-central-1.amazonaws.com/', '')])
     }
     const toArchive = (id) => {
         setPosts(posts.filter(pst => pst.id !== id))
@@ -122,6 +123,9 @@ const BrokerProfile = () => {
 
     return (
         <div className='profile'>
+            <Helmet>
+                <title>SHAR | Профиль</title>
+            </Helmet>
             <div className='sidemenu'>
                 <div className='sidemenu__routing'>
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>
