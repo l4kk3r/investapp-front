@@ -16,7 +16,7 @@ const AllPosts = () => {
     const [display_posts, setDisplayPosts] = useState([])
     useEffect(() => {
         if (state) {
-            axios.post('http://localhost:5500/user/allpublished', {id: state.id}).then(realans => {setAllPosts(realans.data.posts); setFilter(realans.data.filter); setPosts(realans.data.posts)})
+            axios.post('https://investapp-back.herokuapp.com/user/allpublished', {id: state.id}).then(realans => {setAllPosts(realans.data.posts); setFilter(realans.data.filter); setPosts(realans.data.posts)})
         }}, [state])
     const checkSearch = (adress) => {
         const keywords = filter.search.split(' ')
@@ -33,7 +33,7 @@ const AllPosts = () => {
         setPosts(allposts.filter(post => post.amount > filter.min_amount && post.amount < filter.max_amount && post.period > filter.min_period && post.period < filter.max_period && post.rate > filter.min_rate && post.rate < filter.max_rate && filter.objects.includes(post.object) && checkSearch(post.adress + post.region + post.city)))
     }
     const saveFiltersToDb = () => {
-        axios.post('http://localhost:5500/user/update-filters', {id: state.id, filter}).then(ans => console.log(ans))
+        axios.post('https://investapp-back.herokuapp.com/user/update-filters', {id: state.id, filter}).then(ans => console.log(ans))
     }
     return (
         <div className='profile'>
