@@ -1,9 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react'
 import './styles.css'
 import {UserContext} from '../../../App'
+import Select from 'react-select'
 import {useHistory, Link} from 'react-router-dom'
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
+import InputMask from 'react-input-mask'
 import Fiz from './Fiz'
 import AdminPost from './AdminPost'
 import axios from 'axios';
@@ -219,10 +221,6 @@ const Admin = () => {
                                 <input type='number' onChange={(e) => {postsinfo[opened].period = e.target.value}} defaultValue={postsinfo[opened].period}/>
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
-                                <h4>Фотографии:</h4>
-                                {postsinfo[opened].photos.map((photo, index)=>(<a key={index} href={photo}>Фото {index + 1}</a>))}
-                            </div>
-                            <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Архив с документами:</h4>
                                 <a href={postsinfo[opened].archive}>Скачать</a>
                                 <label htmlFor={`newfile_${postsinfo[opened].id}`} className='btn btn-secondary'>{newfile ? newfile.name : 'Загрузить новый'}</label>
@@ -265,11 +263,15 @@ const Admin = () => {
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Документ основание:</h4>
-                                <input type='text' onChange={(e) => {postsinfo[opened].document = e.target.value}} defaultValue={postsinfo[opened].document}/>
+                                <Dropdown placeholder='Выберите...' options={['ДКП', 'Дарственная', 'Цессиия', 'Приватизация', 'ДДУ', 'По суду', 'Наследство', 'Свидетельство на право собственности']}  onChange={(e) => {postsinfo[opened].document = e.value}} defaultValue={postsinfo[opened].document}/>
+                            </div>
+                            <div className='card changecards__card' style={{width: '18rem'}}>
+                                <h4>Дата регистрации документ-основание:</h4>
+                                <input type='text' onChange={(e) => {postsinfo[opened].document_date = e.target.value}} defaultValue={postsinfo[opened].document_date}/>
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Количество собственников:</h4>
-                                <input type='number' onChange={(e) => {postsinfo[opened].owners_number = e.target.value}} defaultValue={postsinfo[opened].owners_number}/>
+                                <Dropdown placeholder='Выберите...' onChange={(e) => {postsinfo[opened].owners_number = e.value}} options = {['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']} defaultValue={postsinfo[opened].owners_number} />
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Местонахождение (Яндекс):</h4>
@@ -306,7 +308,9 @@ const Admin = () => {
                             {postsinfo[opened].fiz.length < 6 ? <button className='btn btn-secondary' onClick={() => { postsinfo[opened].fiz.push({status: "", fullname: "", birth: "", age: "", pnumber: "", pdate: "", inn: "", snils: "", dcoument: "", regyear: "", rosreestr: "", percents: ""}); console.log(postsinfo[opened].fiz); setFiz(old=>[...old, "new"]) } }>Добавить физ.лицо</button> : null }
                         </div>
                         <div  className='moderation__userinfo__savebutton__wrapper'>
-                            <button className='btn btn-primary moderation__userinfo__savebutton' style={{marginBottom: '20px'}} onClick={() => changepost(opened)}>Сохранить</button>
+                            <button className='btn btn-primary moderation__userinfo__savebutton' style={{marginBottom: '20px'}} onClick={() => {postsinfo[opened].status = 'Ожидание ответов'; changepost(opened)}}>Отправить в работу</button>
+                            <button className='btn btn-secondary moderation__userinfo__savebutton' style={{marginBottom: '20px'}} onClick={() => changepost(opened)}>Сохранить</button>
+                            <button className='btn btn-danger moderation__userinfo__savebutton' style={{marginBottom: '20px'}} onClick={() => {postsinfo[opened].status = 'Отклонено'; changepost(opened)}}>Отклонить</button>
                         </div>
                     </div> : <h1>Сохранение...</h1> : null}
             </div>

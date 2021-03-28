@@ -69,7 +69,7 @@ const PostPage = (props) => {
                 <div className='topinfo'>
                     <div className='info-container'>
                         <h3>Ежемесячный доход</h3>
-                        <p>{post.amount / 100 * post.rate} ₽</p>
+                        <p>{(post.amount / 100 * post.rate).toLocaleString().replace(',', ' ')} ₽</p>
                     </div>
                     <div className='info-container'>
                         <h3>Ставка</h3>
@@ -77,7 +77,7 @@ const PostPage = (props) => {
                     </div>
                     <div className='info-container'>
                         <h3>Сумма инвестиций</h3>
-                        <p>{post.amount} ₽</p>
+                        <p>{post.amount.toLocaleString().replace(',', ' ')} ₽</p>
                     </div>
                     <div className='info-container'>
                         <h3>Срок финансирования</h3>
@@ -114,7 +114,7 @@ const PostPage = (props) => {
                 </div>
                 <div className='info-container2'>
                     <h3>Стоимость залога</h3>
-                    <p>{post.zalog} ₽</p>
+                    <p>{post.zalog ? post.zalog.toLocaleString().replace(',', ' ') : post.zalog} ₽</p>
                 </div>
                 <div className='info-container2'>
                     <h3>Количество собственников</h3>
@@ -194,7 +194,7 @@ const PostPage = (props) => {
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Стоимость залога:</h4>
-                                <p>{post.zalog}</p>
+                                <p>{post.zalog ? post.zalog.toLocaleString().replace(',', ' ') : post.zalog}</p>
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Докменты:</h4>

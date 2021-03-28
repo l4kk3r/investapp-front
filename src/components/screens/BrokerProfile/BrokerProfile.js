@@ -4,6 +4,8 @@ import axios from 'axios';
 import {UserContext} from '../../../App'
 import {Link} from 'react-router-dom'
 import Dropdown from 'react-dropdown';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import 'react-dropdown/style.css';
 import { post } from 'jquery';
 import { Helmet } from 'react-helmet';
@@ -65,7 +67,7 @@ const BrokerProfile = () => {
             }
             openedpost.photos = openedpost.photos.concat(photosurls)
             openedpost.todelete = deletedphotos
-            axios.post("https://investapp-back.herokuapp.com/user/updatepost", openedpost).then(response => {console.log(response.data); setSaving(false)})
+            axios.post("https://investapp-back.herokuapp.com/user/updatepost", openedpost).then(response => {console.log(response.data); toast.info('Заявка сохранена'); setSaving(false)})
         }
     }, [photosurls, archiveurl])
 
@@ -123,6 +125,7 @@ const BrokerProfile = () => {
 
     return (
         <div className='profile'>
+            <ToastContainer />
             <Helmet>
                 <title>SHAR | Профиль</title>
             </Helmet>

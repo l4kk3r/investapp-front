@@ -1,8 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import './styles.css'
 import {UserContext} from '../../../App'
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
+import Select from 'react-select'
 import imageCompression from 'browser-image-compression';
 import {Link, useHistory} from 'react-router-dom'
 import ReactLoading from 'react-loading';
@@ -13,18 +12,9 @@ const NewPost = () => {
     const history = useHistory()
     const {state, dispatch} = useContext(UserContext)
     const [newpost, setNewPost] = useState({photos: []})
-    const [object, setObject] = useState("")
-    const [region, setRegion] = useState("")
-    const [city, setCity] = useState("")
-    const [rate, setRate] = useState("")
-    const [amount, setAmount] = useState("")
-    const [reason, setReason] = useState("")
-    const [rooms, setRooms] = useState("")
-    const [currentq, setCurrentQ] = useState(1)
-    const [period, setPeriod] = useState("")
+    const [archiveloading, setArchiveLoading] = useState(false)
     const [archive, setArchive] = useState("")
     const [photos, setPhotos] = useState([])
-    const [isIP, setisIP] = useState(null)
     const [photosurls, setPhotoUrls] = useState([])
     const [sended, setSended] = useState(false)
     const [server_response, setServerResponse] = useState(false)
@@ -34,6 +24,109 @@ const NewPost = () => {
     const options2 = [
         'Да', 'Нет', 'Откроется'
     ];
+    const regions = [
+        { value: 'Республика Адыгея', label: 'Республика Адыгея' },      
+        { value: 'Республика Алтай ', label: 'Республика Алтай ' },      
+        {
+          value: 'Республика Башкортостан ',
+          label: 'Республика Башкортостан '
+        },
+        { value: 'Республика Бурятия ', label: 'Республика Бурятия ' },  
+        { value: 'Республика Дагестан ', label: 'Республика Дагестан ' },
+        { value: 'Республика Ингушетия ', label: 'Республика Ингушетия ' },
+        {
+          value: 'Кабардино-Балкарская Республика',
+          label: 'Кабардино-Балкарская Республика'
+        },
+        { value: 'Республика Калмыкия ', label: 'Республика Калмыкия ' },
+        {
+          value: 'Карачаево-Черкесская Республика',
+          label: 'Карачаево-Черкесская Республика'
+        },
+        { value: 'Республика Карелия ', label: 'Республика Карелия ' },
+        { value: 'Республика Коми ', label: 'Республика Коми ' },
+        { value: 'Республика Марий Эл ', label: 'Республика Марий Эл ' },
+        { value: 'Республика Мордовия', label: 'Республика Мордовия' },
+        {
+          value: 'Республика Саха (Якутия) ',
+          label: 'Республика Саха (Якутия) '
+        },
+        {
+          value: 'Республика Северная Осетия - Алания ',
+          label: 'Республика Северная Осетия - Алания '
+        },
+        { value: 'Республика Татарстан', label: 'Республика Татарстан' },
+        { value: 'Республика Тыва ', label: 'Республика Тыва ' },
+        { value: 'Удмуртская Республика ', label: 'Удмуртская Республика ' },
+        { value: 'Республика Хакасия ', label: 'Республика Хакасия ' },
+        { value: 'Чеченская Республика', label: 'Чеченская Республика' },
+        { value: 'Чувашская Республика', label: 'Чувашская Республика' },
+        { value: 'Алтайский край', label: 'Алтайский край' },
+        { value: 'Забайкальский край', label: 'Забайкальский край' },
+        { value: 'Камчатский край', label: 'Камчатский край' },
+        { value: 'Краснодарский край', label: 'Краснодарский край' },
+        { value: 'Красноярский край', label: 'Красноярский край' },
+        { value: 'Пермский край', label: 'Пермский край' },
+        { value: 'Приморский край', label: 'Приморский край' },
+        { value: 'Ставропольский край', label: 'Ставропольский край' },
+        { value: 'Хабаровский край', label: 'Хабаровский край' },
+        { value: 'Амурская область', label: 'Амурская область' },
+        { value: 'Архангельская область', label: 'Архангельская область' },
+        { value: 'Астраханская область', label: 'Астраханская область' },
+        { value: 'Белгородская область', label: 'Белгородская область' },
+        { value: 'Брянская область ', label: 'Брянская область ' },
+        { value: 'Владимирская область ', label: 'Владимирская область ' },
+        { value: 'Волгоградская область ', label: 'Волгоградская область ' },
+        { value: 'Вологодская область ', label: 'Вологодская область ' },
+        { value: 'Воронежская область ', label: 'Воронежская область ' },
+        { value: 'Ивановская область ', label: 'Ивановская область ' },
+        { value: 'Иркутская область ', label: 'Иркутская область ' },
+        {
+          value: 'Калининградская область',
+          label: 'Калининградская область'
+        },
+        { value: 'Калужская область ', label: 'Калужская область ' },
+        { value: 'Кемеровская область ', label: 'Кемеровская область ' },
+        { value: 'Кировская область ', label: 'Кировская область ' },
+        { value: 'Костромская область ', label: 'Костромская область ' },
+        { value: 'Курганская область ', label: 'Курганская область ' },
+        { value: 'Курская область ', label: 'Курская область ' },
+        { value: 'Ленинградская область ', label: 'Ленинградская область ' },
+        { value: 'Липецкая область ', label: 'Липецкая область ' },
+        { value: 'Магаданская область', label: 'Магаданская область' },
+        { value: 'Московская область ', label: 'Московская область ' },
+        { value: 'Мурманская область ', label: 'Мурманская область ' },
+        { value: 'Нижегородская область ', label: 'Нижегородская область ' },
+        { value: 'Новгородская область ', label: 'Новгородская область ' },
+        { value: 'Новосибирская область ', label: 'Новосибирская область ' },
+        { value: 'Омская область', label: 'Омская область' },
+        { value: 'Оренбургская область ', label: 'Оренбургская область ' },
+        { value: 'Орловская область ', label: 'Орловская область ' },
+        { value: 'Пензенская область ', label: 'Пензенская область ' },
+        { value: 'Псковская область ', label: 'Псковская область ' },
+        { value: 'Ростовская область ', label: 'Ростовская область ' },
+        { value: 'Рязанская область ', label: 'Рязанская область ' },
+        { value: 'Самарская область ', label: 'Самарская область ' },
+        { value: 'Саратовская область ', label: 'Саратовская область ' },
+        { value: 'Сахалинская область ', label: 'Сахалинская область ' },
+        { value: 'Свердловская область ', label: 'Свердловская область ' },
+        { value: 'Смоленская область ', label: 'Смоленская область ' },
+        { value: 'Тамбовская область ', label: 'Тамбовская область ' },
+        { value: 'Тверская область ', label: 'Тверская область ' },
+        { value: 'Томская область ', label: 'Томская область ' },
+        { value: 'Тульская область', label: 'Тульская область' },
+        { value: 'Тюменская область ', label: 'Тюменская область ' },
+        { value: 'Ульяновская область ', label: 'Ульяновская область ' },
+        { value: 'Челябинская область ', label: 'Челябинская область ' },
+        { value: 'Ярославская область', label: 'Ярославская область' },
+        { value: 'Москва', label: 'Москва' },
+        { value: 'Санкт-Петербург', label: 'Санкт-Петербург' },
+        { value: 'Еврейская АО', label: 'Еврейская АО' },
+        { value: 'Ненецкий АО', label: 'Ненецкий АО' },
+        { value: 'Ханты-Мансийский АО', label: 'Ханты-Мансийский АО' },
+        { value: 'Чукотский АО', label: 'Чукотский АО' },
+        { value: 'Ямало-Ненецкий АО', label: 'Ямало-Ненецкий АО' },
+      ]
     useEffect(() => {
         if (state) {
             newpost.creator_id = state.id
@@ -56,6 +149,7 @@ const NewPost = () => {
         })
     }
     const uploadArchive = (archive) => {
+        setArchiveLoading(true)
         const data = new FormData();
         data.append("file", archive)
         axios.post("https://investapp-back.herokuapp.com/aws/upload-archive", data).then(answer => {
@@ -131,7 +225,7 @@ const NewPost = () => {
                             <h4>Объект и сумма</h4>
                             <div className="create__form__group-item">
                                 <label htmlFor='select-object'>Выберите тип недвижимости</label>
-                                <Dropdown placeholder='Выберите объект' options={['Квартира', 'Дом', 'Земельный участок', 'Коммерция']} onChange={(e) => newpost.object = e.value}  id="select-object" />
+                                <Select placeholder='Выберите...' options={[{value: 'Квартира', label: 'Квартира'}, {value: 'Дом', label: 'Дом'}, {value: 'Земельный участок', label: 'Земельный участок'}, {value: 'Коммерция', label: 'Коммерция'}]} onChange={(e) => newpost.object = e.value}  id="select-object" />
                             </div>
                             <div className="create__form__group-item">
                                 <label htmlFor="input-amount" className="form-label">Сумма в рублях</label>
@@ -149,7 +243,7 @@ const NewPost = () => {
                             <h4>Тип займа</h4>
                             <div className="create__form__group-item">
                                 <label htmlFor="select-loan_type" className="form-label">Выберите тип займа</label>
-                                <Dropdown placeholder='Выберите тип' options={['Аннуитет', 'Только проценты']} onChange={(e) => newpost.loan_type = e.value}  id="select-loan_type" />
+                                <Select placeholder='Выберите...' options={[{value: 'Аннуитет', label: 'Аннуитет'}, {value: 'Только проценты', label: 'Только проценты'}]} onChange={(e) => newpost.loan_type = e.value}  id="select-loan_type" />
                             </div>
                         </div>
                     </div>
@@ -158,29 +252,56 @@ const NewPost = () => {
                             <h4>Ставка и срок</h4>
                             <div className="create__form__group-item">
                                 <label htmlFor="input-rate" className="form-label">Ставка (в месяц)</label>
-                                <input min="0" type='number' placeholder='Укажите ставку' onInput={(e) => newpost.rate = e.target.value} className="form-control" id="input-rate" />
+                                <Select placeholder='Выберите...' onChange={ (e) => newpost.rate = e.value }  options={[
+                                    { value: '1', label: '1' },
+                                    { value: '2', label: '2' },
+                                    { value: '3', label: '3' },
+                                    { value: '4', label: '4' },
+                                    { value: '5', label: '5' },
+                                    { value: '6', label: '6' },
+                                    { value: '7', label: '7' },
+                                    { value: '8', label: '8' },
+                                    { value: '9', label: '9' },
+                                    { value: '10', label: '10' }
+                                ]} />
                             </div>
                             <div className="create__form__group-item">
                                 <label htmlFor="input-period" className="form-label">Срок (в месяц)</label>
-                                <input min="0" placeholder='Укажите срок' type='number' onInput={(e) => newpost.period = e.target.value} className="form-control" id="input-period" />
+                                <Select placeholder='Выберите...' onChange={ (e) => newpost.period = e.value }  options={[
+                                    { value: 'от 12', label: 'от 12' },
+                                    { value: ' от 24', label: ' от 24' },
+                                    { value: 'от 36', label: 'от 36' },
+                                    { value: ' от 48', label: ' от 48' },
+                                    { value: 'от 60', label: 'от 60' }
+                                    ]} />
                             </div>
                         </div>
                         <div className="create__form__group card">
                             <h4>Место работы</h4>
                             <div className="create__form__group-item">
                                 <label htmlFor="input-borrower_work" className="form-label">Место работы</label>
-                                <input placeholder='Укажите место работы' onInput={(e) => newpost.borrower_work = e.target.value} className="form-control" id="input-borrower_work" />
+                                <Select placeholder='Выберите...' onChange={ (e) => newpost.borrower_work = e.value }  options={[{value: 'Работа по найму', label: 'Работа по найму'}, {value: 'ИП или ООО', label: 'ИП или ООО'}]} />
+                                <input style={{ marginTop: '10px' }} className="form-control" onChange={ (e) => newpost.borrower_work_position = e.value }  placeholder = 'Должность' />
+                                <input style={{ marginTop: '10px' }} className="form-control" onChange={ (e) => newpost.borrower_work_salary = e.value }  placeholder = 'Зарплата' />
                             </div>
                             <div className="create__form__group-item">
                                 <label htmlFor='select-isIP'>Есть ИП или ООО?</label>
-                                <Dropdown placeholder='Есть ИП или ООО?' options={['Да', 'Нет', 'Скоро откроется']} onChange={(e) => newpost.isIP = e.value}  id="select-isIP" />
+                                <Select placeholder='Есть ИП или ООО?' options={[
+                                    { value: 'Да', label: 'Да' },
+                                    { value: 'Нет', label: 'Нет' },
+                                    { value: 'Скоро откроется', label: 'Скоро откроется' }
+                                    ]} onChange={(e) => newpost.isIP = e.value}  id="select-isIP" />
                             </div>
                         </div>
                         <div className="create__form__group card">
                             <h4>Тип сделки</h4>
                             <div className="create__form__group-item">
                                 <label htmlFor="select-deal_type" className="form-label">Выберите тип сделки</label>
-                                <Dropdown placeholder='Выберите тип' options={['Займ под залог', 'Обратный выкуп (ДКП)', 'Срочная продажа']} onChange={(e) => newpost.deal_type = e.value} id="select-deal_type" />
+                                <Select placeholder='Выберите...' options={[
+                                    { value: 'Займ под залог', label: 'Займ под залог' },
+                                    { value: 'Обратный выкуп (ДКП)', label: 'Обратный выкуп (ДКП)' },
+                                    { value: 'Срочная продажа', label: 'Срочная продажа' }
+                                    ]} onChange={(e) => newpost.deal_type = e.value} id="select-deal_type" />
                             </div>
                         </div>
                     </div>
@@ -210,7 +331,7 @@ const NewPost = () => {
                         <div className="create__form__group card">
                             <div className="create__form__group-item">
                                 <label htmlFor="input-region" className="form-label">Республика, Область, Край</label>
-                                <input onInput={(e) => newpost.region = e.target.value} className="form-control" id="input-region" />
+                                <Select onInput={(e) => newpost.region = e.value} placeholder='Выберите...' options = {regions} />
                             </div>
                             <div className="create__form__group-item">
                                 <label htmlFor="input-adress" className="form-label">Точный адрес</label>
@@ -240,7 +361,7 @@ const NewPost = () => {
                             <li>СНИЛС</li>
                         </ul>
                         <div className="create__form__uploadbutton">
-                            <label htmlFor='upload-archive' className="btn btn-secondary">{archive ? archive.slice(60,) : 'Загрузить'}</label>
+                            <label htmlFor='upload-archive' className="btn btn-secondary">{archive ? archive.slice(60,) : archiveloading ? 'Идёт загрузка...' : 'Загрузить'}</label>
                             <input id='upload-archive' type='file'  onChange={(e) => uploadArchive(e.target.files[0])} accept=".zip, .rar, .7z, .zipx, .lha, .war"/>
                         </div>
                     </div>

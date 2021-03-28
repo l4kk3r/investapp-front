@@ -17,6 +17,7 @@
     text-align: center;
 }
 .item-container {
+    margin-bottom: 30px;
     width: 275px;
     background-color: #FBFBFB;
     margin-right: 20px;

@@ -1,10 +1,21 @@
 import React, {useContext, useEffect, useState} from 'react'
+import InputMask from 'react-input-mask'
+
 const Fiz = (props) => {
     return(
-    <div className='fizuserb card' ><>
-                                <label htmlFor="1">Статус</label>
-                                <select id="1" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].status = e.target.value}}>
-                                    <option value="" selected disabled hidden>{props.person.status}</option>
+    <div className='fizuserb card' >
+        <>
+        <label htmlFor="0">Статус участника</label>
+        <select id="0" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].status = e.target.value; if (e.target.value == 'Юридическое лицо') { document.getElementById(`${props.i}_${props.index}_family`).style.display = 'none'; document.getElementById(`${props.i}_${props.index}_ur`).style.display = 'block'; } else { document.getElementById(`${props.i}_${props.index}_family`).style.display = 'block'; document.getElementById(`${props.i}_${props.index}_ur`).style.display = 'none'  } }}>
+            <option value="" selected disabled hidden>{props.person.status}</option>
+            <option value='Юридическое лицо'>Юридическое лицо</option>
+            <option value='Физическое лицо'>Физическое лицо</option>
+        </select>
+        </>
+        <>
+                                <label htmlFor="1">Роль в сделке</label>
+                                <select id="1" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].role = e.target.value}}>
+                                    <option value="" selected disabled hidden>{props.person.role}</option>
                                     <option value='Заёмщик'>Заёмщик</option>
                                     <option value='Собственник'>Собственник</option>
                                     <option value='Заёмщик и собственник'>Заёмщик и собственник</option>
@@ -12,12 +23,12 @@ const Fiz = (props) => {
                                 </select>
                             </>
                             <>
-                                <label htmlFor="2_1">Имя</label>
-                                <input id="2_1" type="text" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].firstname = e.target.value}} defaultValue = {props.person.firstname} />
+                                <label htmlFor="2_1">Фамилия</label>
+                                <input id="2_1" type="text" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].lastname = e.target.value}} defaultValue = {props.person.lastname} />
                             </>
                             <>
-                                <label htmlFor="2_2">Фамилия</label>
-                                <input id="2_2" type="text" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].lastname = e.target.value}} defaultValue = {props.person.lastname} />
+                                <label htmlFor="2_2">Имя</label>
+                                <input id="2_2" type="text" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].firstname = e.target.value}} defaultValue = {props.person.firstname} />
                             </>
                             <>
                                 <label htmlFor="2_3">Отчество</label>
@@ -33,14 +44,26 @@ const Fiz = (props) => {
                             </>
                             <>
                                 <label htmlFor="5">Паспорт серия и номер</label>
-                                <input id="5" type="text" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].pnumber = e.target.value}} defaultValue = {props.person.pnumber} />
+                                <InputMask mask="99 99 999999" maskChar=" " onChange={(e) => {props.postsinfo[props.i].fiz[props.index].pnumber = e.target.value}} defaultValue = {props.person.pnumber} />
                             </>                            <>
                                 <label htmlFor="6">Паспорт дата выдачи</label>
                                 <input id="6" type="date" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].pdate = e.target.value}} defaultValue = {props.person.pdate} />
-                            </>                            <>
-                                <label htmlFor="7">ИНН</label>
-                                <input id="7" type="number" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].inn = e.target.value}} defaultValue = {props.person.inn} />
-                            </>                            <>
+                            </>
+                            <div style={{display: props.postsinfo[props.i].fiz[props.index].status == 'Физическое лицо' ? 'none' : 'block'}} id={`${props.i}_${props.index}_ur`}>
+                                <>
+                                    <label >ОГРН</label>
+                                    <input type="text" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].ogrn = e.target.value}} defaultValue = {props.person.ogrn} />
+                                </>
+                                <>
+                                    <label >Наименование</label>
+                                    <input type="text" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].urname = e.target.value}} defaultValue = {props.person.urname} />
+                                </>
+                                <>
+                                    <label >Дата регистрации</label>
+                                    <input type="text" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].urdate = e.target.value}} defaultValue = {props.person.urdate} />
+                                </>
+
+                            </div>                        <>
                                 <label htmlFor="7">СНИЛС</label>
                                 <input id="7" type="number" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].snils = e.target.value}} defaultValue = {props.person.snils} />
                             </>
@@ -56,7 +79,7 @@ const Fiz = (props) => {
                                 </select></>
                             <>
                                 <label htmlFor="9">Год регистрации объекта</label>
-                                <input id="9" type="number" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].regyear = e.target.value}} defaultValue = {props.person.regyear} />
+                                <InputMask mask="9999" maskChar=" " onChange={(e) => {props.postsinfo[props.i].fiz[props.index].regyear = e.target.value}} defaultValue = {props.person.regyear} />
                             </>
                             <>
                                 <label htmlFor="10">Запись в Росреестре</label>
@@ -64,37 +87,39 @@ const Fiz = (props) => {
                             </>
                             <>
                                 <label htmlFor="11">Доля в объекте</label>
-                                <input id="11" type="text" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].percents = e.target.value}} defaultValue = {props.person.percents} />
+                                <InputMask mask="9/9" maskChar=" " onChange={(e) => {props.postsinfo[props.i].fiz[props.index].percents = e.target.value}} defaultValue = {props.person.percents} />
                             </>
-                            <><label htmlFor="12">СЕМ.ПОЛОЖЕНИЕ</label>
-                                <select id="12" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].family = e.target.value}}>
-                                    <option value="" selected disabled hidden>{props.person.family}</option>
-                                    <option value='В браке'>В браке</option>
-                                    <option value='Не в браке'>Не в браке</option>
-                                    <option value='Не имеет значения'>Не имеет значения</option>
-                                </select></>
-                            <><label htmlFor="14">СОГЛАСИЕ СУПРУГИ(А)</label>
-                                <select id="14" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].agreement = e.target.value}}>
-                                    <option value="" selected disabled hidden>{props.person.agreement}</option>
-                                    <option value='Требуется'>Требуется</option>
-                                    <option value='Не требуется'>Не требуется</option>
-                                    <option value='Не имеет значения'>Не имеет значения</option>
-                                </select></>
-                            <><label htmlFor="15">Мат.Капитал</label>
-                                <select id="15" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].mothercapital = e.target.value}}>
-                                    <option value="" selected disabled hidden>{props.person.mothercapital}</option>
-                                    <option value='Да'>Да</option>
-                                    <option value='Нет'>Нет</option>
-                                    <option value='Не имеет значения'>Не имеет значения</option>
-                                </select></>
-                            <><label htmlFor="16">Несовершеннолетние дети</label>
-                                <select id="16" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].kids = e.target.value}}>
-                                    <option value="" selected disabled hidden>{props.person.kids}</option>
-                                    <option value='Да'>Да</option>
-                                    <option value='Нет'>Нет</option>
-                                    <option value='Не имеет значения'>Не имеет значения</option>
-                                </select></>
-                                <>
+                            <div style={{display: props.postsinfo[props.i].fiz[props.index].status == 'Физическое лицо' ? 'block' : 'none'}} id={`${props.i}_${props.index}_family`}>
+                                <><label htmlFor="12">СЕМ.ПОЛОЖЕНИЕ</label>
+                                    <select id="12" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].family = e.target.value}}>
+                                        <option value="" selected disabled hidden>{props.person.family}</option>
+                                        <option value='В браке'>В браке</option>
+                                        <option value='Не в браке'>Не в браке</option>
+                                        <option value='Не имеет значения'>Не имеет значения</option>
+                                    </select></>
+                                <><label htmlFor="14">СОГЛАСИЕ СУПРУГИ(А)</label>
+                                    <select id="14" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].agreement = e.target.value}}>
+                                        <option value="" selected disabled hidden>{props.person.agreement}</option>
+                                        <option value='Требуется'>Требуется</option>
+                                        <option value='Не требуется'>Не требуется</option>
+                                        <option value='Не имеет значения'>Не имеет значения</option>
+                                    </select></>
+                                <><label htmlFor="15">Мат.Капитал</label>
+                                    <select id="15" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].mothercapital = e.target.value}}>
+                                        <option value="" selected disabled hidden>{props.person.mothercapital}</option>
+                                        <option value='Да'>Да</option>
+                                        <option value='Нет'>Нет</option>
+                                        <option value='Не имеет значения'>Не имеет значения</option>
+                                    </select></>
+                                <><label htmlFor="16">Несовершеннолетние дети</label>
+                                    <select id="16" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].kids = e.target.value}}>
+                                        <option value="" selected disabled hidden>{props.person.kids}</option>
+                                        <option value='Да'>Да</option>
+                                        <option value='Нет'>Нет</option>
+                                        <option value='Не имеет значения'>Не имеет значения</option>
+                                    </select></>
+                            </div>
+                            <>
                                 <label htmlFor="17">ФССП</label>
                                 <input id="17" type="number" onChange={(e) => {props.postsinfo[props.i].fiz[props.index].fssp = e.target.value}} defaultValue = {props.person.fssp} />
                             </>

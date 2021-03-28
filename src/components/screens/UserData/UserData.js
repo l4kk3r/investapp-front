@@ -4,6 +4,7 @@ import axios from 'axios';
 import {UserContext} from '../../../App'
 import {Link} from 'react-router-dom'
 import { Helmet } from 'react-helmet';
+import Dropdown from 'react-dropdown';
  
 
 const UserData = () => {
@@ -67,7 +68,7 @@ const UserData = () => {
                     </div>
                     <div className='userdata__inputgroup'>
                         <label>Пол</label>
-                        <input className="form-control" onInput={ (e) => userdata.sex = e.target.value } defaultValue={userdata.sex} />
+                        <Dropdown placeholder='Выберите...' onChange={ (e) => userdata.sex = e.value }  options={['Мужской', 'Женский']} value={userdata.sex} />
                     </div>
                     <div className='userdata__inputgroup'>
                         <label>День рождения</label>
@@ -75,7 +76,7 @@ const UserData = () => {
                     </div>
                     <div className='userdata__inputgroup'>
                         <label>Гражданство</label>
-                        <input className="form-control" onInput={ (e) => userdata.citizenship = e.target.value } defaultValue={userdata.citizenship} />
+                        <Dropdown placeholder='Выберите...' onChange={ (e) => userdata.citizenship = e.value }  options={['РФ', 'Иное']} value={userdata.citizenship} />
                     </div>
                     <div className='userdata__inputgroup'>
                         <label>СНИЛС</label>
@@ -121,22 +122,6 @@ const UserData = () => {
                     <div className='userdata__inputgroup'>
                         <label>Квартира</label>
                         <input className="form-control" onInput={ (e) => userdata.adress_flat = e.target.value } defaultValue={userdata.adress_flat} />
-                    </div>
-                    <div className='userdata__inputgroup'>
-                        <label>Почтовый индекс</label>
-                        <input className="form-control" onInput={ (e) => userdata.adress_zip = e.target.value } defaultValue={userdata.adress_zip} />
-                    </div>
-                    <div className='userdata__inputgroup'>
-                        <label>ОКАТО</label>
-                        <input className="form-control" onInput={ (e) => userdata.adress_okato = e.target.value } defaultValue={userdata.adress_okato} />
-                    </div>
-                    <div className='userdata__inputgroup'>
-                        <label>ОКТМО</label>
-                        <input className="form-control" onInput={ (e) => userdata.adress_oktmo = e.target.value } defaultValue={userdata.adress_oktmo} />
-                    </div>
-                    <div className='userdata__inputgroup'>
-                        <label>КЛАДР</label>
-                        <input className="form-control" onInput={ (e) => userdata.adress_kladr = e.target.value } defaultValue={userdata.adress_kladr} />
                     </div>
                     <h3>БАНКОВСКИЕ РЕКВИЗИТЫ</h3>
                     <div className='userdata__inputgroup'>

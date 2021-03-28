@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import './styles.css'
 import axios from 'axios'
+import Select from 'react-select'
 import {UserContext} from '../../../App'
 import {Link, useHistory} from 'react-router-dom'
 import AwesomeSlider from 'react-awesome-slider';
@@ -28,9 +29,111 @@ const AllPosts = () => {
         }
         return true;
     }
+    const regions = [{ value: 'Республика Адыгея', label: 'Республика Адыгея' },      
+    { value: 'Республика Алтай ', label: 'Республика Алтай ' },      
+    {
+      value: 'Республика Башкортостан ',
+      label: 'Республика Башкортостан '
+    },
+    { value: 'Республика Бурятия ', label: 'Республика Бурятия ' },  
+    { value: 'Республика Дагестан ', label: 'Республика Дагестан ' },
+    { value: 'Республика Ингушетия ', label: 'Республика Ингушетия ' },
+    {
+      value: 'Кабардино-Балкарская Республика',
+      label: 'Кабардино-Балкарская Республика'
+    },
+    { value: 'Республика Калмыкия ', label: 'Республика Калмыкия ' },
+    {
+      value: 'Карачаево-Черкесская Республика',
+      label: 'Карачаево-Черкесская Республика'
+    },
+    { value: 'Республика Карелия ', label: 'Республика Карелия ' },
+    { value: 'Республика Коми ', label: 'Республика Коми ' },
+    { value: 'Республика Марий Эл ', label: 'Республика Марий Эл ' },
+    { value: 'Республика Мордовия', label: 'Республика Мордовия' },
+    {
+      value: 'Республика Саха (Якутия) ',
+      label: 'Республика Саха (Якутия) '
+    },
+    {
+      value: 'Республика Северная Осетия - Алания ',
+      label: 'Республика Северная Осетия - Алания '
+    },
+    { value: 'Республика Татарстан', label: 'Республика Татарстан' },
+    { value: 'Республика Тыва ', label: 'Республика Тыва ' },
+    { value: 'Удмуртская Республика ', label: 'Удмуртская Республика ' },
+    { value: 'Республика Хакасия ', label: 'Республика Хакасия ' },
+    { value: 'Чеченская Республика', label: 'Чеченская Республика' },
+    { value: 'Чувашская Республика', label: 'Чувашская Республика' },
+    { value: 'Алтайский край', label: 'Алтайский край' },
+    { value: 'Забайкальский край', label: 'Забайкальский край' },
+    { value: 'Камчатский край', label: 'Камчатский край' },
+    { value: 'Краснодарский край', label: 'Краснодарский край' },
+    { value: 'Красноярский край', label: 'Красноярский край' },
+    { value: 'Пермский край', label: 'Пермский край' },
+    { value: 'Приморский край', label: 'Приморский край' },
+    { value: 'Ставропольский край', label: 'Ставропольский край' },
+    { value: 'Хабаровский край', label: 'Хабаровский край' },
+    { value: 'Амурская область', label: 'Амурская область' },
+    { value: 'Архангельская область', label: 'Архангельская область' },
+    { value: 'Астраханская область', label: 'Астраханская область' },
+    { value: 'Белгородская область', label: 'Белгородская область' },
+    { value: 'Брянская область ', label: 'Брянская область ' },
+    { value: 'Владимирская область ', label: 'Владимирская область ' },
+    { value: 'Волгоградская область ', label: 'Волгоградская область ' },
+    { value: 'Вологодская область ', label: 'Вологодская область ' },
+    { value: 'Воронежская область ', label: 'Воронежская область ' },
+    { value: 'Ивановская область ', label: 'Ивановская область ' },
+    { value: 'Иркутская область ', label: 'Иркутская область ' },
+    {
+      value: 'Калининградская область',
+      label: 'Калининградская область'
+    },
+    { value: 'Калужская область ', label: 'Калужская область ' },
+    { value: 'Кемеровская область ', label: 'Кемеровская область ' },
+    { value: 'Кировская область ', label: 'Кировская область ' },
+    { value: 'Костромская область ', label: 'Костромская область ' },
+    { value: 'Курганская область ', label: 'Курганская область ' },
+    { value: 'Курская область ', label: 'Курская область ' },
+    { value: 'Ленинградская область ', label: 'Ленинградская область ' },
+    { value: 'Липецкая область ', label: 'Липецкая область ' },
+    { value: 'Магаданская область', label: 'Магаданская область' },
+    { value: 'Московская область ', label: 'Московская область ' },
+    { value: 'Мурманская область ', label: 'Мурманская область ' },
+    { value: 'Нижегородская область ', label: 'Нижегородская область ' },
+    { value: 'Новгородская область ', label: 'Новгородская область ' },
+    { value: 'Новосибирская область ', label: 'Новосибирская область ' },
+    { value: 'Омская область', label: 'Омская область' },
+    { value: 'Оренбургская область ', label: 'Оренбургская область ' },
+    { value: 'Орловская область ', label: 'Орловская область ' },
+    { value: 'Пензенская область ', label: 'Пензенская область ' },
+    { value: 'Псковская область ', label: 'Псковская область ' },
+    { value: 'Ростовская область ', label: 'Ростовская область ' },
+    { value: 'Рязанская область ', label: 'Рязанская область ' },
+    { value: 'Самарская область ', label: 'Самарская область ' },
+    { value: 'Саратовская область ', label: 'Саратовская область ' },
+    { value: 'Сахалинская область ', label: 'Сахалинская область ' },
+    { value: 'Свердловская область ', label: 'Свердловская область ' },
+    { value: 'Смоленская область ', label: 'Смоленская область ' },
+    { value: 'Тамбовская область ', label: 'Тамбовская область ' },
+    { value: 'Тверская область ', label: 'Тверская область ' },
+    { value: 'Томская область ', label: 'Томская область ' },
+    { value: 'Тульская область', label: 'Тульская область' },
+    { value: 'Тюменская область ', label: 'Тюменская область ' },
+    { value: 'Ульяновская область ', label: 'Ульяновская область ' },
+    { value: 'Челябинская область ', label: 'Челябинская область ' },
+    { value: 'Ярославская область', label: 'Ярославская область' },
+    { value: 'Москва', label: 'Москва' },
+    { value: 'Санкт-Петербург', label: 'Санкт-Петербург' },
+    { value: 'Еврейская АО', label: 'Еврейская АО' },
+    { value: 'Ненецкий АО', label: 'Ненецкий АО' },
+    { value: 'Ханты-Мансийский АО', label: 'Ханты-Мансийский АО' },
+    { value: 'Чукотский АО', label: 'Чукотский АО' },
+    { value: 'Ямало-Ненецкий АО', label: 'Ямало-Ненецкий АО' },
+  ]
     const saveFilters = () => {
         console.log(filter)
-        setPosts(allposts.filter(post => post.amount > filter.min_amount && post.amount < filter.max_amount && post.period > filter.min_period && post.period < filter.max_period && post.rate > filter.min_rate && post.rate < filter.max_rate && filter.objects.includes(post.object) && checkSearch(post.adress + post.region + post.city)))
+        setPosts(allposts.filter(post => post.amount > filter.min_amount && post.amount < filter.max_amount && post.amount > filter.min_zalog && post.amount < filter.max_zalog && post.period > filter.min_period && post.period < filter.max_period && post.rate > filter.min_rate && post.rate < filter.max_rate && filter.objects.includes(post.object) && filter.loan_types.includes(post.loan_type) && checkSearch(post.adress + post.region + post.city)))
     }
     const saveFiltersToDb = () => {
         axios.post('https://investapp-back.herokuapp.com/user/update-filters', {id: state.id, filter}).then(ans => console.log(ans))
@@ -65,12 +168,22 @@ const AllPosts = () => {
                     <div className='posts__filter'>
                         <div className='posts__filter__card card text-white bg-secondary'>
                             <div className='posts__filter__row'>
-                                <p>Минимальная цена:</p>
+                                <p>Сумма займа от:</p>
                                 <input type='number' onInput={(e) => filter.min_amount = Number(e.target.value)} defaultValue={filter.min_amount} />
                             </div>
                             <div className='posts__filter__row'>
-                                <p>Максимальная цена:</p>
+                                <p>Сумма займа до:</p>
                                 <input type='number' onInput={(e) => filter.max_amount = Number(e.target.value)} defaultValue={filter.max_amount} />
+                            </div>
+                        </div>
+                        <div className='posts__filter__card card text-white bg-secondary'>
+                            <div className='posts__filter__row'>
+                                <p>Стоимость объекта от:</p>
+                                <input type='number' onInput={(e) => filter.min_zalog = Number(e.target.value)} defaultValue={filter.min_zalog} />
+                            </div>
+                            <div className='posts__filter__row'>
+                                <p>Стоимость объекта до:</p>
+                                <input type='number' onInput={(e) => filter.max_zalog = Number(e.target.value)} defaultValue={filter.max_zalog} />
                             </div>
                         </div>
                         <div className='posts__filter__card card text-white bg-secondary'>
@@ -96,7 +209,7 @@ const AllPosts = () => {
                         <div className='posts__filter__card card text-white bg-secondary'>
                             <div className='posts__filter__row'>
                                 <p>Местоположение:</p>
-                                <input type='text' placeholder='Поиск...' onInput={(e) => filter.search = e.target.value.toLowerCase()}  defaultValue={filter.search} />
+                                <Select onInput={(e) => filter.search = e.target.value.toLowerCase()}  defaultValue={filter.search} placeholder='Выбрать...'  options = {regions} />
                             </div>
                         </div>
                         <div className='posts__filter__card card text-white bg-secondary'>
@@ -110,6 +223,15 @@ const AllPosts = () => {
                                 <label for='cobj_3'>Земельный участок</label>
                                 <input onInput={(e) => {filter.objects.includes(e.target.value) ? filter.objects.splice(filter.objects.indexOf(e.target.value), 1) : filter.objects.push(e.target.value)}} defaultChecked={filter.objects.includes('Коммерция')}  id='cobj_4' value='Коммерция' type='checkbox' />
                                 <label for='cobj_4'>Коммерция</label>
+                            </div>
+                        </div>
+                        <div className='posts__filter__card card text-white bg-secondary'>
+                            <p>Тип займа</p>
+                            <div className='posts__filter__card__checkboxes'>
+                                <input onInput={(e) => {console.log(e.target.value); filter.loan_types.includes(e.target.value) ? filter.loan_types.splice(filter.loan_types.indexOf(e.target.value), 1) : filter.loan_types.push(e.target.value)}} defaultChecked={filter.loan_types.includes('Аннуитет')} id='cobj_1' value='Аннуитет' type='checkbox' />
+                                <label for='cloan_1'>Аннуитет</label>
+                                <input onInput={(e) => {filter.loan_types.includes(e.target.value) ? filter.loan_types.splice(filter.loan_types.indexOf(e.target.value), 1) : filter.loan_types.push(e.target.value)}} defaultChecked={filter.loan_types.includes('Только проценты')}  id='cloan_2' value='Только проценты' type='checkbox' />
+                                <label for='cloan_2'>Только проценты</label>
                             </div>
                         </div>
                     </div>
@@ -132,7 +254,7 @@ const AllPosts = () => {
                             </div>
                             <div className='item-row'>
                                 <h4>Сумма займа:</h4>
-                                <p   type='number'>{post.amount} </p>
+                                <p   type='number'>{post.amount.toLocaleString().replace(',', ' ')} руб.</p>
                             </div>
                             <div className='item-row'>
                                 <h4>Срок финансирования:</h4>
@@ -143,7 +265,7 @@ const AllPosts = () => {
                                 <p  type='text'>{post.adress} </p>
                             </div>
                             <div className='revenue'>
-                                <h4>≈ {Math.round(post.amount / 100 * post.rate)}₽</h4>
+                                <h4>≈ {Math.round(post.amount / 100 * post.rate).toLocaleString().replace(',', ' ')} руб.</h4>
                                 <p>Ежемесячная прибыль</p>
                             </div>
                             </div>
