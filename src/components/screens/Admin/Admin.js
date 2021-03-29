@@ -34,18 +34,21 @@ const Admin = () => {
     ];
     const changepost = (i) => {
         setSaving(true)
-        if (photos.includes(mainphoto)) {
-            photos.splice(photos.indexOf(mainphoto), 1)
-            photos.unshift(mainphoto)
-        } else {
-            console.log("Main Photo is", mainphoto)
-            newphotos.splice(newphotos.indexOf(mainphoto), 1)
-            console.log(newphotos)
-            uploadToServer(mainphoto, true)
-            newphotos.forEach(photo => {
-                uploadToServer(photo)
-            })
+        if (mainphoto) {
+            if (photos.includes(mainphoto)) {
+                console.log('Has mainphoto1')
+                photos.splice(photos.indexOf(mainphoto), 1)
+                photos.unshift(mainphoto)
+            } else {
+                console.log("Main Photo is", mainphoto)
+                newphotos.splice(newphotos.indexOf(mainphoto), 1)
+                console.log(newphotos)
+                uploadToServer(mainphoto, true)
+            }
         }
+        newphotos.forEach(photo => {
+            uploadToServer(photo)
+        })
         if (newfile) {
             uploadToServerArchive(newfile)
         }

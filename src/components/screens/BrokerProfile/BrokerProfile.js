@@ -62,10 +62,10 @@ const BrokerProfile = () => {
             newphotos.splice(newphotos.indexOf(mainphoto), 1)
             console.log(newphotos)
             uploadToServer(mainphoto, true)
-            newphotos.forEach(photo => {
-                uploadToServer(photo)
-            })
         }
+        newphotos.forEach(photo => {
+            uploadToServer(photo)
+        })
         if (newfile) {
             uploadToServerArchive(newfile)
         }
