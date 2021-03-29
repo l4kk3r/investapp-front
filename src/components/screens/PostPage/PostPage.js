@@ -80,8 +80,8 @@ const PostPage = (props) => {
                         <p>{post.amount.toLocaleString().replace(',', ' ')} ₽</p>
                     </div>
                     <div className='info-container'>
-                        <h3>Срок финансирования</h3>
-                        <p>{post.period} мес.</p>
+                        <h3>Стоимость объекта</h3>
+                        <p>{post.zalog} ₽</p>
                     </div>
                 </div>
         <div className='middleinfo' style={{marginBottom: '20px'}}>
@@ -131,6 +131,10 @@ const PostPage = (props) => {
                 <div className='info-container2'>
                     <h3>Тип займа</h3>
                     <p>{post.loan_type}</p>
+                </div> 
+                <div className='info-container2'>
+                    <h3>Срок займа</h3>
+                    <p>{post.period} мес.</p>
                 </div> 
                 <div className='info-container2'>
                     <h3>Тип сделки</h3>

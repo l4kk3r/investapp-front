@@ -17,52 +17,52 @@ const AllPosts = () => {
     const [display_posts, setDisplayPosts] = useState([])
     useEffect(() => {
         if (state) {
-            axios.post('https://investapp-back.herokuapp.com/user/allpublished', {id: state.id}).then(realans => {setAllPosts(realans.data.posts); setFilter(realans.data.filter); setPosts(realans.data.posts)})
+            axios.post('https://investapp-back.herokuapp.com/user/allpublished', {id: state.id}).then(realans => {setAllPosts(realans.data.posts); console.log(realans.data.filter); setFilter(realans.data.filter); setPosts(realans.data.posts)})
         }}, [state])
-    const checkSearch = (adress) => {
-        const keywords = filter.search.split(' ')
-        for (let keyword in keywords) {
-            if ( !adress.toLowerCase().includes(keywords[keyword]) ) {
-                console.log(adress, keyword)
-                return false;
-            }
-        }
-        return true;
-    }
+    // const checkSearch = (adress) => {
+    //     const keywords = filter.search.split(' ')
+    //     for (let keyword in keywords) {
+    //         if ( !adress.toLowerCase().includes(keywords[keyword]) ) {
+    //             console.log(adress, keyword)
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
     const regions = [{ value: 'Республика Адыгея', label: 'Республика Адыгея' },      
-    { value: 'Республика Алтай ', label: 'Республика Алтай ' },      
+    { value: 'Республика Алтай', label: 'Республика Алтай'},      
     {
-      value: 'Республика Башкортостан ',
+      value: 'Республика Башкортостан',
       label: 'Республика Башкортостан '
     },
-    { value: 'Республика Бурятия ', label: 'Республика Бурятия ' },  
-    { value: 'Республика Дагестан ', label: 'Республика Дагестан ' },
-    { value: 'Республика Ингушетия ', label: 'Республика Ингушетия ' },
+    { value: 'Республика Бурятия', label: 'Республика Бурятия'},  
+    { value: 'Республика Дагестан', label: 'Республика Дагестан'},
+    { value: 'Республика Ингушетия', label: 'Республика Ингушетия'},
     {
       value: 'Кабардино-Балкарская Республика',
       label: 'Кабардино-Балкарская Республика'
     },
-    { value: 'Республика Калмыкия ', label: 'Республика Калмыкия ' },
+    { value: 'Республика Калмыкия', label: 'Республика Калмыкия'},
     {
       value: 'Карачаево-Черкесская Республика',
       label: 'Карачаево-Черкесская Республика'
     },
-    { value: 'Республика Карелия ', label: 'Республика Карелия ' },
-    { value: 'Республика Коми ', label: 'Республика Коми ' },
-    { value: 'Республика Марий Эл ', label: 'Республика Марий Эл ' },
+    { value: 'Республика Карелия', label: 'Республика Карелия'},
+    { value: 'Республика Коми', label: 'Республика Коми'},
+    { value: 'Республика Марий Эл', label: 'Республика Марий Эл'},
     { value: 'Республика Мордовия', label: 'Республика Мордовия' },
     {
-      value: 'Республика Саха (Якутия) ',
+      value: 'Республика Саха (Якутия)',
       label: 'Республика Саха (Якутия) '
     },
     {
-      value: 'Республика Северная Осетия - Алания ',
+      value: 'Республика Северная Осетия - Алания',
       label: 'Республика Северная Осетия - Алания '
     },
     { value: 'Республика Татарстан', label: 'Республика Татарстан' },
-    { value: 'Республика Тыва ', label: 'Республика Тыва ' },
-    { value: 'Удмуртская Республика ', label: 'Удмуртская Республика ' },
-    { value: 'Республика Хакасия ', label: 'Республика Хакасия ' },
+    { value: 'Республика Тыва', label: 'Республика Тыва'},
+    { value: 'Удмуртская Республика', label: 'Удмуртская Республика'},
+    { value: 'Республика Хакасия', label: 'Республика Хакасия'},
     { value: 'Чеченская Республика', label: 'Чеченская Республика' },
     { value: 'Чувашская Республика', label: 'Чувашская Республика' },
     { value: 'Алтайский край', label: 'Алтайский край' },
@@ -78,50 +78,50 @@ const AllPosts = () => {
     { value: 'Архангельская область', label: 'Архангельская область' },
     { value: 'Астраханская область', label: 'Астраханская область' },
     { value: 'Белгородская область', label: 'Белгородская область' },
-    { value: 'Брянская область ', label: 'Брянская область ' },
-    { value: 'Владимирская область ', label: 'Владимирская область ' },
-    { value: 'Волгоградская область ', label: 'Волгоградская область ' },
-    { value: 'Вологодская область ', label: 'Вологодская область ' },
-    { value: 'Воронежская область ', label: 'Воронежская область ' },
-    { value: 'Ивановская область ', label: 'Ивановская область ' },
-    { value: 'Иркутская область ', label: 'Иркутская область ' },
+    { value: 'Брянская область', label: 'Брянская область'},
+    { value: 'Владимирская область', label: 'Владимирская область'},
+    { value: 'Волгоградская область', label: 'Волгоградская область'},
+    { value: 'Вологодская область', label: 'Вологодская область'},
+    { value: 'Воронежская область', label: 'Воронежская область'},
+    { value: 'Ивановская область', label: 'Ивановская область'},
+    { value: 'Иркутская область', label: 'Иркутская область'},
     {
       value: 'Калининградская область',
       label: 'Калининградская область'
     },
-    { value: 'Калужская область ', label: 'Калужская область ' },
-    { value: 'Кемеровская область ', label: 'Кемеровская область ' },
-    { value: 'Кировская область ', label: 'Кировская область ' },
-    { value: 'Костромская область ', label: 'Костромская область ' },
-    { value: 'Курганская область ', label: 'Курганская область ' },
-    { value: 'Курская область ', label: 'Курская область ' },
-    { value: 'Ленинградская область ', label: 'Ленинградская область ' },
-    { value: 'Липецкая область ', label: 'Липецкая область ' },
+    { value: 'Калужская область', label: 'Калужская область'},
+    { value: 'Кемеровская область', label: 'Кемеровская область'},
+    { value: 'Кировская область', label: 'Кировская область'},
+    { value: 'Костромская область', label: 'Костромская область'},
+    { value: 'Курганская область', label: 'Курганская область'},
+    { value: 'Курская область', label: 'Курская область'},
+    { value: 'Ленинградская область', label: 'Ленинградская область'},
+    { value: 'Липецкая область', label: 'Липецкая область'},
     { value: 'Магаданская область', label: 'Магаданская область' },
-    { value: 'Московская область ', label: 'Московская область ' },
-    { value: 'Мурманская область ', label: 'Мурманская область ' },
-    { value: 'Нижегородская область ', label: 'Нижегородская область ' },
-    { value: 'Новгородская область ', label: 'Новгородская область ' },
-    { value: 'Новосибирская область ', label: 'Новосибирская область ' },
+    { value: 'Московская область', label: 'Московская область'},
+    { value: 'Мурманская область', label: 'Мурманская область'},
+    { value: 'Нижегородская область', label: 'Нижегородская область'},
+    { value: 'Новгородская область', label: 'Новгородская область'},
+    { value: 'Новосибирская область', label: 'Новосибирская область'},
     { value: 'Омская область', label: 'Омская область' },
-    { value: 'Оренбургская область ', label: 'Оренбургская область ' },
-    { value: 'Орловская область ', label: 'Орловская область ' },
-    { value: 'Пензенская область ', label: 'Пензенская область ' },
-    { value: 'Псковская область ', label: 'Псковская область ' },
-    { value: 'Ростовская область ', label: 'Ростовская область ' },
-    { value: 'Рязанская область ', label: 'Рязанская область ' },
-    { value: 'Самарская область ', label: 'Самарская область ' },
-    { value: 'Саратовская область ', label: 'Саратовская область ' },
-    { value: 'Сахалинская область ', label: 'Сахалинская область ' },
-    { value: 'Свердловская область ', label: 'Свердловская область ' },
-    { value: 'Смоленская область ', label: 'Смоленская область ' },
-    { value: 'Тамбовская область ', label: 'Тамбовская область ' },
-    { value: 'Тверская область ', label: 'Тверская область ' },
-    { value: 'Томская область ', label: 'Томская область ' },
+    { value: 'Оренбургская область', label: 'Оренбургская область'},
+    { value: 'Орловская область', label: 'Орловская область'},
+    { value: 'Пензенская область', label: 'Пензенская область'},
+    { value: 'Псковская область', label: 'Псковская область'},
+    { value: 'Ростовская область', label: 'Ростовская область'},
+    { value: 'Рязанская область', label: 'Рязанская область'},
+    { value: 'Самарская область', label: 'Самарская область'},
+    { value: 'Саратовская область', label: 'Саратовская область'},
+    { value: 'Сахалинская область', label: 'Сахалинская область'},
+    { value: 'Свердловская область', label: 'Свердловская область'},
+    { value: 'Смоленская область', label: 'Смоленская область'},
+    { value: 'Тамбовская область', label: 'Тамбовская область'},
+    { value: 'Тверская область', label: 'Тверская область'},
+    { value: 'Томская область', label: 'Томская область'},
     { value: 'Тульская область', label: 'Тульская область' },
-    { value: 'Тюменская область ', label: 'Тюменская область ' },
-    { value: 'Ульяновская область ', label: 'Ульяновская область ' },
-    { value: 'Челябинская область ', label: 'Челябинская область ' },
+    { value: 'Тюменская область', label: 'Тюменская область'},
+    { value: 'Ульяновская область', label: 'Ульяновская область'},
+    { value: 'Челябинская область', label: 'Челябинская область'},
     { value: 'Ярославская область', label: 'Ярославская область' },
     { value: 'Москва', label: 'Москва' },
     { value: 'Санкт-Петербург', label: 'Санкт-Петербург' },
@@ -133,10 +133,14 @@ const AllPosts = () => {
   ]
     const saveFilters = () => {
         console.log(filter)
-        setPosts(allposts.filter(post => post.amount > filter.min_amount && post.amount < filter.max_amount && post.amount > filter.min_zalog && post.amount < filter.max_zalog && post.period > filter.min_period && post.period < filter.max_period && post.rate > filter.min_rate && post.rate < filter.max_rate && filter.objects.includes(post.object) && filter.loan_types.includes(post.loan_type) && checkSearch(post.adress + post.region + post.city)))
+        setPosts(allposts.filter(post => post.amount > filter.min_amount && post.amount < filter.max_amount && post.amount > filter.min_zalog && post.amount < filter.max_zalog && post.period > filter.min_period && post.period < filter.max_period && post.rate > filter.min_rate && post.rate < filter.max_rate && filter.objects.includes(post.object) && filter.loan_types.includes(post.loan_type) && post.region.toLowerCase() === filter.search.toLowerCase()))
     }
     const saveFiltersToDb = () => {
-        axios.post('https://investapp-back.herokuapp.com/user/update-filters', {id: state.id, filter}).then(ans => console.log(ans))
+        console.log(filter)
+        axios.post('http://localhost:5500/user/update-filters', {id: state.id, filter}).then(ans => console.log(ans))
+    }
+    const showAll = () => {
+        setPosts(allposts)
     }
     return (
         <div className='profile'>
@@ -209,7 +213,7 @@ const AllPosts = () => {
                         <div className='posts__filter__card card text-white bg-secondary'>
                             <div className='posts__filter__row'>
                                 <p>Местоположение:</p>
-                                <Select onInput={(e) => filter.search = e.target.value.toLowerCase()}  defaultValue={filter.search} placeholder='Выбрать...'  options = {regions} />
+                                {filter ? <Select className='region-select' onChange={(e) =>{filter.search = e.value}} placeholder={filter.search}  options = {regions} /> : null}
                             </div>
                         </div>
                         <div className='posts__filter__card card text-white bg-secondary'>
@@ -228,7 +232,7 @@ const AllPosts = () => {
                         <div className='posts__filter__card card text-white bg-secondary'>
                             <p>Тип займа</p>
                             <div className='posts__filter__card__checkboxes'>
-                                <input onInput={(e) => {console.log(e.target.value); filter.loan_types.includes(e.target.value) ? filter.loan_types.splice(filter.loan_types.indexOf(e.target.value), 1) : filter.loan_types.push(e.target.value)}} defaultChecked={filter.loan_types.includes('Аннуитет')} id='cobj_1' value='Аннуитет' type='checkbox' />
+                                <input onInput={(e) => {console.log(e.target.value); filter.loan_types.includes(e.target.value) ? filter.loan_types.splice(filter.loan_types.indexOf(e.target.value), 1) : filter.loan_types.push(e.target.value)}} defaultChecked={filter.loan_types.includes('Аннуитет')} id='cloan_1' value='Аннуитет' type='checkbox' />
                                 <label for='cloan_1'>Аннуитет</label>
                                 <input onInput={(e) => {filter.loan_types.includes(e.target.value) ? filter.loan_types.splice(filter.loan_types.indexOf(e.target.value), 1) : filter.loan_types.push(e.target.value)}} defaultChecked={filter.loan_types.includes('Только проценты')}  id='cloan_2' value='Только проценты' type='checkbox' />
                                 <label for='cloan_2'>Только проценты</label>
@@ -236,6 +240,7 @@ const AllPosts = () => {
                         </div>
                     </div>
                     <div className='posts__filter__button'>
+                        <button onClick={() => showAll()} className='btn btn-secondary'>Показать все</button>
                         <button onClick={() => saveFilters()} className='btn btn-primary'>Применить</button>
                         <button onClick={() => saveFiltersToDb()} className='btn btn-secondary'>Сохранить</button>
                     </div>

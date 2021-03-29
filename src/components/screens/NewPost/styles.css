@@ -38,7 +38,7 @@
     justify-content: center;
     position: relative;
 }
-.create__form__uploadedphoto span {
+.create__form__uploadedphoto .delete_span {
     position: absolute;
     right: 0;
     top: 0;

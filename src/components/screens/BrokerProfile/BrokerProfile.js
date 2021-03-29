@@ -22,6 +22,7 @@ const BrokerProfile = () => {
     const [newphotos, setNewPhotos] = useState([])
     const [newfile, setNewFile] = useState(false)
     const [saving, setSaving] = useState(false)
+    const [mainphoto, setMainPhoto] = useState('')
     const [deletedphotos, setDeletedPhotos] = useState([])
     const [deletedcount, setDeletedCount] = useState(0)
     const [archiveurl, setArchiveUrl] = useState(false)
@@ -38,20 +39,33 @@ const BrokerProfile = () => {
     const updateFilters = () => {
         axios.post("https://investapp-back.herokuapp.com/user/updateuser", {id: state.id, fmin_amount, fmax_amount: fmax_amount * -1,}).then(response=>console.log(response.data))
     }
-    const uploadToServer = (photo) => {
+    const uploadToServer = (photo, isMainPhoto = false) => {
         const data = new FormData();
         data.append("file", photo)
         axios.post("https://investapp-back.herokuapp.com/aws/upload-image", data).then(answer => {
             if (!answer.data.error) {
-                setPhotosUrls(old=>[...old, answer.data.url])
+                if (isMainPhoto) {
+                    setPhotosUrls(old=>[answer.data.url, ...old])
+                } else {
+                    setPhotosUrls(old=>[...old, answer.data.url])
+                }
             }
         })
     }
     const saveOpenedPost = () => {
         setSaving(true)
-        newphotos.forEach(photo => {
-            uploadToServer(photo)
-        })
+        if (photos.includes(mainphoto)) {
+            photos.splice(photos.indexOf(mainphoto), 1)
+            photos.unshift(mainphoto)
+        } else {
+            console.log("Main Photo is", mainphoto)
+            newphotos.splice(newphotos.indexOf(mainphoto), 1)
+            console.log(newphotos)
+            uploadToServer(mainphoto, true)
+            newphotos.forEach(photo => {
+                uploadToServer(photo)
+            })
+        }
         if (newfile) {
             uploadToServerArchive(newfile)
         }
@@ -66,8 +80,13 @@ const BrokerProfile = () => {
                 openedpost.archive = archiveurl
             }
             openedpost.photos = openedpost.photos.concat(photosurls)
+            if (!photos.includes(mainphoto)) {
+                const index = openedpost.photos.indexOf(photosurls[0])
+                openedpost.photos.unshift(photosurls[0])
+                openedpost.photos.splice(index, 1)
+            }
             openedpost.todelete = deletedphotos
-            axios.post("https://investapp-back.herokuapp.com/user/updatepost", openedpost).then(response => {console.log(response.data); toast.info('Заявка сохранена'); setSaving(false)})
+            axios.post("https://investapp-back.herokuapp.com/admin/updatepost", openedpost).then(response => {console.log(response.data); setSaving(false); toast.info('Заявка успешно сохранена')})
         }
     }, [photosurls, archiveurl])
 
@@ -83,6 +102,7 @@ const BrokerProfile = () => {
         setArchiveUrl(null)
         setNewPhotosUrls([])
         setDeletedPhotos([])
+        setMainPhoto(post.photos[0])
         setDeletedCount(0)
     }
     const photosInput = (e) => {
@@ -122,6 +142,11 @@ const BrokerProfile = () => {
         if (state) {
             axios.post("https://investapp-back.herokuapp.com/user/getposts", {creator_id: state.id, archived: false}).then(res=>{setPosts(res.data.posts); setAnswers(res.data.answers); console.log(res.data)}) }
     }, [state])
+
+    const makeMain = (photo) => {
+        setMainPhoto(photo)
+        setPhotos(photos)
+    }
 
     return (
         <div className='profile'>
@@ -257,16 +282,30 @@ const BrokerProfile = () => {
                     </div>
                     <h3 className='alert alert-warning'>Фотографии</h3>
                     <div className='openedpost__photos'>
-                        {photos.map((photo, i) => {
-                            return (
-                                <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger'>X</span></div>  </div>
-                            )
-                        })}
-                        {newphotosurls.map((photo, i) => {
-                            return (
-                                <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteNewPhoto(newphotosurls[i])} className='btn btn-danger'>X</span></div>  </div>
-                            )
-                        })}
+                    {photos.map((photo, i) => {
+                                if (mainphoto === photo) {
+                                    return (
+                                        <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(photo)} className='btn btn-primary main_span'>Обложка</span></div>  </div>
+                                    )
+                                }
+                                else {
+                                    return (
+                                        <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(photo)} className='btn btn-primary makemain_span'>Сделать обложкой</span></div>  </div>
+                                    )
+                                }
+                            })}
+                            {newphotosurls.map((photo, i) => {
+                                if (mainphoto === newphotos[newphotosurls.indexOf(photo)]) {
+                                    return (
+                                        <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(newphotos[newphotosurls.indexOf(photo)])} className='btn btn-primary main_span '>Обложка</span></div>  </div>
+                                    )
+                                }
+                                else {
+                                    return (
+                                        <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(newphotos[newphotosurls.indexOf(photo)])} className='btn btn-primary makemain_span'>Сделать обложкой</span></div>  </div>
+                                    )
+                                }
+                            })}
                         <label className='create__form__uploadbutton__field' htmlFor='upload-photo'>+</label>
                         <input id='upload-photo' multiple type='file' onInput={(e) => photosInput(e)} accept=".jpg, .jpeg, .png" />
                     </div>

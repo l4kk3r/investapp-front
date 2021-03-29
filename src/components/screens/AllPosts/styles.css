@@ -92,9 +92,15 @@
 }
 .posts__filter__button {
     margin-left: 300px;
+    flex-direction: column;
     display: flex;
     justify-content: center;
     margin-top: 20px;
+}
+.posts__filter__button button {
+    margin: 0 auto;
+    width: 200px;
+    margin-bottom: 5px;
 }
 .posts__filter__card {
     margin-top: 10px;
@@ -104,4 +110,7 @@
 }
 .posts__filter__card__checkboxes input {
     margin-right: 3px;
+}
+.region-select {
+    color: black !important;
 }

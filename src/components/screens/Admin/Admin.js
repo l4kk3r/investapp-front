@@ -1,11 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react'
 import './styles.css'
-import {UserContext} from '../../../App'
-import Select from 'react-select'
 import {useHistory, Link} from 'react-router-dom'
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-import InputMask from 'react-input-mask'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Fiz from './Fiz'
 import AdminPost from './AdminPost'
 import axios from 'axios';
@@ -23,6 +22,7 @@ const Admin = () => {
     const [newfile, setNewFile] = useState(false)
     const [postsinfo, setPostsInfo] = useState([])
     const [archiveurl, setArchiveUrl] = useState(false)
+    const [mainphoto, setMainPhoto] = useState('')
     const [saving, setSaving] = useState(false)
     const [fiz, setFiz] = useState(['ppp'])
     const [displaying, setDisplaying] = useState(['sdsd'])
@@ -34,9 +34,18 @@ const Admin = () => {
     ];
     const changepost = (i) => {
         setSaving(true)
-        newphotos.forEach(photo => {
-            uploadToServer(photo)
-        })
+        if (photos.includes(mainphoto)) {
+            photos.splice(photos.indexOf(mainphoto), 1)
+            photos.unshift(mainphoto)
+        } else {
+            console.log("Main Photo is", mainphoto)
+            newphotos.splice(newphotos.indexOf(mainphoto), 1)
+            console.log(newphotos)
+            uploadToServer(mainphoto, true)
+            newphotos.forEach(photo => {
+                uploadToServer(photo)
+            })
+        }
         if (newfile) {
             uploadToServerArchive(newfile)
         }
@@ -61,8 +70,13 @@ const Admin = () => {
                 postsinfo[opened].archive = archiveurl
             }
             postsinfo[opened].photos = postsinfo[opened].photos.concat(photosurls)
+            if (!photos.includes(mainphoto)) {
+                const index = postsinfo[opened].photos.indexOf(photosurls[0])
+                postsinfo[opened].photos.unshift(photosurls[0])
+                postsinfo[opened].photos.splice(index, 1)
+            }
             postsinfo[opened].todelete = deletedphotos
-            axios.post("https://investapp-back.herokuapp.com/admin/updatepost", postsinfo[opened]).then(response => {console.log(response.data); setSaving(false)})
+            axios.post("https://investapp-back.herokuapp.com/admin/updatepost", postsinfo[opened]).then(response => {console.log(response.data); setSaving(false); toast.info('Заявка успешно сохранена')})
         }
     }, [photosurls, archiveurl])
     useEffect(() => {
@@ -79,17 +93,21 @@ const Admin = () => {
         setNewPhotos([])
         setNewPhotosUrls([])
         setArchiveUrl(null)
+        setMainPhoto(posts[i].photos[0])
         setDeletedPhotos([])
         setDeletedCount(0)
         return;
     }
-    const uploadToServer = (photo) => {
-        console.log(photo)
+    const uploadToServer = (photo, isMainPhoto=false) => {
         const data = new FormData();
         data.append("file", photo)
         axios.post("https://investapp-back.herokuapp.com/aws/upload-image", data).then(answer => {
             if (!answer.data.error) {
-                setPhotosUrls(old=>[...old, answer.data.url])
+                if (isMainPhoto) {
+                    setPhotosUrls(old=>[answer.data.url, ...old])
+                } else {
+                    setPhotosUrls(old=>[...old, answer.data.url])
+                }
             }
         })
     }
@@ -126,8 +144,14 @@ const Admin = () => {
         console.log(postsinfo[opened].fiz.splice(index, 1))
         setFiz(old => [...old, "removed"])
     }
+    const makeMain = (photo) => {
+        setMainPhoto(photo)
+        setPhotos(photos)
+    }
     return (
         <div className='maincontainer'>
+            <ToastContainer>
+            </ToastContainer>
             <Helmet>
                 <title>SHAR | Админ.Заявки</title>
             </Helmet>
@@ -281,22 +305,36 @@ const Admin = () => {
                         <h3>Фотографии</h3>
                         <div className='openedpost__photos'>
                             {photos.map((photo, i) => {
-                                return (
-                                    <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger'>X</span></div>  </div>
-                                )
+                                if (mainphoto === photo) {
+                                    return (
+                                        <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(photo)} className='btn btn-primary main_span'>Обложка</span></div>  </div>
+                                    )
+                                }
+                                else {
+                                    return (
+                                        <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(photo)} className='btn btn-primary makemain_span'>Сделать обложкой</span></div>  </div>
+                                    )
+                                }
                             })}
                             {newphotosurls.map((photo, i) => {
-                                return (
-                                    <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteNewPhoto(newphotosurls[i])} className='btn btn-danger'>X</span></div>  </div>
-                                )
+                                if (mainphoto === newphotos[newphotosurls.indexOf(photo)]) {
+                                    return (
+                                        <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(newphotos[newphotosurls.indexOf(photo)])} className='btn btn-primary main_span '>Обложка</span></div>  </div>
+                                    )
+                                }
+                                else {
+                                    return (
+                                        <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(newphotos[newphotosurls.indexOf(photo)])} className='btn btn-primary makemain_span'>Сделать обложкой</span></div>  </div>
+                                    )
+                                }
                             })}
                             <label className='create__form__uploadbutton__field' htmlFor='upload-photo'>+</label>
                             <input id='upload-photo' multiple type='file' onInput={(e) => photosInput(e)} accept=".jpg, .jpeg, .png" />
                         </div>
                         <h3>Ответы</h3>
                         <div className='answersbox'>
-                            <table className='table table-bordered table-hover'><thead><tr><th >ID</th><th >Ставка</th><th >Сумма</th><th>Период</th><th >Статус</th><th >Инвестор</th></tr></thead>
-                            <tbody>{answers ? (answers.filter(answer => answer.post_id === postsinfo[opened].id).map((ans, i) => <tr key={i}><td >Вариант {i + 1}</td><td >{ans.rate}</td><td >{ans.amount}</td><td>{ans.period}</td><td>{ans.status}</td><td>{ans.investor_info}</td></tr>)) : null}</tbody></table>
+                            <table className='table table-bordered table-hover'><thead><tr><th >ID</th><th >Ставка</th><th >Сумма</th><th>Период</th><th >Статус</th><th>Комментарий</th><th >Инвестор</th></tr></thead>
+                            <tbody>{answers ? (answers.filter(answer => answer.post_id === postsinfo[opened].id).map((ans, i) => <tr key={i}><td >Вариант {i + 1}</td><td >{ans.rate}</td><td >{ans.amount}</td><td>{ans.period}</td><td>{ans.status}</td><td>{ans.comment}</td><td>{ans.investor_info}</td></tr>)) : null}</tbody></table>
                         </div>
                         <h3>Информация по физлицам</h3>
                         <div className='fizbox'>

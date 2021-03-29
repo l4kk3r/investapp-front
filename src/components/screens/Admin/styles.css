@@ -29,3 +29,14 @@ tr {
 .fizbox button {
     margin-bottom: 20px;
 }
+.main_span,
+.makemain_span {
+    position: absolute;
+    bottom: 0;
+    font-size: 13px;
+    width: 100%;
+    opacity: 0.7;
+}
+.main_span {
+    opacity: 1;
+}
