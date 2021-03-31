@@ -329,7 +329,7 @@ const NewPost = () => {
                     <div className='create__form__right'>
                         <div className="create__form__group card">
                             <div className="create__form__group-item">
-                                <label htmlFor="input-region" className="form-label label-required">Республика, Область, Край</label>
+                                <label htmlFor="input-region" className="form-label">Республика, Область, Край</label>
                                 <Select onChange={(e) => newpost.region = e.value} placeholder='Выберите...' options = {regions} />
                             </div>
                             <div className="create__form__group-item">
