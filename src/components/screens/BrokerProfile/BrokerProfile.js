@@ -18,12 +18,14 @@ const BrokerProfile = () => {
     const [posts, setPosts] = useState("")
     const [answers, setAnswers] = useState("")
     const [photos, setPhotos] = useState([])
+    const [external_document, setExtDocument] = useState(false)
     const [photosurls, setPhotosUrls] = useState([])
     const [newphotos, setNewPhotos] = useState([])
     const [newfile, setNewFile] = useState(false)
     const [saving, setSaving] = useState(false)
     const [mainphoto, setMainPhoto] = useState('')
     const [deletedphotos, setDeletedPhotos] = useState([])
+    const [externalurl, setExtUrl] = useState(false)
     const [deletedcount, setDeletedCount] = useState(0)
     const [archiveurl, setArchiveUrl] = useState(false)
     const [newphotosurls, setNewPhotosUrls] = useState([])
@@ -63,6 +65,9 @@ const BrokerProfile = () => {
             console.log(newphotos)
             uploadToServer(mainphoto, true)
         }
+        if (external_document) {
+            uploadToServerArchive(external_document, true)
+        }
         newphotos.forEach(photo => {
             uploadToServer(photo)
         })
@@ -74,10 +79,19 @@ const BrokerProfile = () => {
         }
     }
     useEffect(() => {
-        if (saving && openedpost && newphotosurls.length == photosurls.length && (!newfile || archiveurl)) {
+        if (saving && openedpost && newphotosurls.length == photosurls.length && (!newfile || archiveurl) && (!external_document || externalurl)) {
             console.log('SENDING!')
             if (archiveurl) {
                 openedpost.archive = archiveurl
+            }
+            if (externalurl) {
+                console.log(externalurl)
+                const neww = {
+                    message: openedpost.external_documents.message,
+                    external_archive: externalurl
+                }
+                console.log(neww)
+                openedpost.external_documents = neww
             }
             openedpost.photos = openedpost.photos.concat(photosurls)
             if (!photos.includes(mainphoto)) {
@@ -86,9 +100,9 @@ const BrokerProfile = () => {
                 openedpost.photos.splice(index, 1)
             }
             openedpost.todelete = deletedphotos
-            axios.post("https://investapp-back.herokuapp.com/admin/updatepost", openedpost).then(response => {console.log(response.data); setSaving(false); toast.info('Заявка успешно сохранена')})
+            axios.post("http://localhost:5500/user/updatepost", openedpost).then(response => {console.log(response.data); setSaving(false); toast.info('Заявка успешно сохранена')})
         }
-    }, [photosurls, archiveurl])
+    }, [photosurls, archiveurl, externalurl])
 
     const changeAnswerStatus = (answer, status) => {
         console.log('sending!')
@@ -98,6 +112,7 @@ const BrokerProfile = () => {
         setOpenedPost(post)
         setPhotos(post.photos)
         setNewPhotos([])
+        setExtDocument(false)
         setNewFile(null)
         setArchiveUrl(null)
         setNewPhotosUrls([])
@@ -127,13 +142,18 @@ const BrokerProfile = () => {
         setPosts(posts.filter(pst => pst.id !== id))
         axios.post("https://investapp-back.herokuapp.com/user/post-archive", {id, archived: true}).then(response=>console.log(response.data))
     }
-    const uploadToServerArchive = (archive) => {
+    const uploadToServerArchive = (archive, isExternal = false) => {
         console.log(archive)
         const data = new FormData();
         data.append("file", archive)
         axios.post("https://investapp-back.herokuapp.com/aws/upload-archive", data).then(answer => {
             if (!answer.data.error) {
-                setArchiveUrl(answer.data.url)
+                if (isExternal) {
+                    setExtUrl(answer.data.url)
+                }
+                else {
+                    setArchiveUrl(answer.data.url)
+                }
             }
         })
     }
@@ -308,6 +328,15 @@ const BrokerProfile = () => {
                             })}
                         <label className='create__form__uploadbutton__field' htmlFor='upload-photo'>+</label>
                         <input id='upload-photo' multiple type='file' onInput={(e) => photosInput(e)} accept=".jpg, .jpeg, .png" />
+                    </div>
+                    <h3 className='alert alert-warning'>Предложения инвесторов</h3>
+                    <div>
+                        {(openedpost.external_documents.message && !openedpost.external_documents.external_archive) ? <div>
+                            <h4>Необходимы доп.документы</h4>
+                            <h4 className='alert alert-danger'>Сообщение от администратора: {openedpost.external_documents.message}</h4>
+                            <label className='btn btn-secondary'  for='upload-external'>{external_document ? external_document.name : 'Загрузить доп.документы'}</label>
+                            <input onInput={(e) => setExtDocument(e.target.files[0])} id='upload-external' type='file'/>
+                        </div> : <h4>Никаких доп.документов не требуется</h4>}
                     </div>
                     <button onClick={() => saveOpenedPost()} className='btn btn-primary openedpost__edit__savebutton'>Сохранить</button>
                     <div className='openedpost__answers'>

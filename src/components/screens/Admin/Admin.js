@@ -79,7 +79,7 @@ const Admin = () => {
                 postsinfo[opened].photos.splice(index, 1)
             }
             postsinfo[opened].todelete = deletedphotos
-            axios.post("https://investapp-back.herokuapp.com/admin/updatepost", postsinfo[opened]).then(response => {console.log(response.data); setSaving(false); toast.info('Заявка успешно сохранена')})
+            axios.post("http://localhost:5500/admin/updatepost", postsinfo[opened]).then(response => {console.log(response.data); setSaving(false); toast.info('Заявка успешно сохранена')})
         }
     }, [photosurls, archiveurl])
     useEffect(() => {
@@ -201,6 +201,27 @@ const Admin = () => {
                 </table>
                 {(opened != 'notstated') && postsinfo ? !saving ? <div style={{display: opened != 'notstated' ? 'block' : 'none'}} key={opened} className='postinfo'>
                         <h2 className='alert alert-warning'>Заявка №{postsinfo[opened].id}</h2>
+                        <h3>Брокер</h3>
+                        <div>
+                            <table className='table table-bordered'>
+                                <thead>
+                                    <th>ID</th>
+                                    <th>ФИО</th>
+                                    <th>Компания</th>
+                                    <th>Телефон</th>
+                                    <th>Email</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{postsinfo[opened].creator.id}</td>
+                                        <td>{`${postsinfo[opened].creator.lastname} ${postsinfo[opened].creator.firstname} ${postsinfo[opened].creator.middlename}`}</td>
+                                        <td>{postsinfo[opened].creator.company}</td>
+                                        <td>{postsinfo[opened].creator.phone}</td>
+                                        <td>{postsinfo[opened].creator.email}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <h3>Параметры сделки</h3>
                         <div className='moderations__changecards'>
                             <div className='card changecards__card' style={{width: '18rem'}}>
@@ -333,6 +354,16 @@ const Admin = () => {
                             })}
                             <label className='create__form__uploadbutton__field' htmlFor='upload-photo'>+</label>
                             <input id='upload-photo' multiple type='file' onInput={(e) => photosInput(e)} accept=".jpg, .jpeg, .png" />
+                        </div>
+                        <h3>Допольнительные документы</h3>
+                        <div>
+                            <div>
+                                <input onChange={(e) => postsinfo[opened].needed_external = e.target.checked} id='ext_documents' type="checkbox" />
+                                <label for='ext_documents'>Запросить доп.документы</label>
+                            </div>
+                            <textarea onInput={(e) => postsinfo[opened].external_documents = {message: e.target.value, external_archive: ''}} defaultValue={postsinfo[opened].external_documents.message} placeholder='Введите...'>
+                            </textarea>
+                            {postsinfo[opened].external_documents.message ? postsinfo[opened].external_documents.external_archive ? <a href={postsinfo[opened].external_documents.external_archive} className='btn btn-warning'>Скачать</a> : <h4 className='text-warning'>Ожидание брокера...</h4> : null}
                         </div>
                         <h3>Ответы</h3>
                         <div className='answersbox'>

@@ -133,6 +133,15 @@ const NewPost = () => {
     }, [state])
     useEffect(() => {
         if ((sended) && (photosurls.length === photos.length) && (state) && (archive)) {
+            newpost.creator = {
+                id: state.id,
+                firstname: state.firstname,
+                lastname: state.lastname,
+                middlename: state.middlename,
+                company: state.company,
+                phone: state.phone,
+                email: state.email
+            }
             axios.post("https://investapp-back.herokuapp.com/user/createpost", newpost).then(result => setServerResponse(result.data.message))
         }
     }, [sended, photosurls, state, archive])
