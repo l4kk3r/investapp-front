@@ -4,9 +4,12 @@ import {UserContext} from '../../../App'
 import {useHistory, Link} from 'react-router-dom'
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import AwesomeSlider from 'react-awesome-slider';
 import 'react-awesome-slider/dist/styles.css';
 import { Helmet } from 'react-helmet';
+import axios from 'axios';
 
 const AdminUsers = () => {
     const history = useHistory()
@@ -24,15 +27,7 @@ const AdminUsers = () => {
         'Модерация', 'Активный', 'Заблокирован'
     ];
     const changepost = (i) => {
-        const token = localStorage.getItem("token")
-        fetch('https://investapp-back.herokuapp.com/admin/updateuser',{
-            method:'post',
-            headers:{
-                "Content-Type":"application/json" ,
-                "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(usersinfo[i])
-        }).then(ans=>ans.json()).then(realans=>console.log(realans))
+        axios.post("https://investapp-back.herokuapp.com/admin/updateuser", usersinfo[i]).then(ans => { console.log(ans); toast.info('Заявка успешно сохранена') })
     }
     useEffect(() => {
         const token = localStorage.getItem("token")
@@ -98,6 +93,8 @@ const AdminUsers = () => {
     },[users, opened, moderation_filter, published_filter, ptrigger, blocked_filter, searchfield])
     return (
         <div className='maincontainer'>
+            <ToastContainer>
+            </ToastContainer>
             <Helmet>
                 <title>SHAR | Админ.Пользователи</title>
             </Helmet>

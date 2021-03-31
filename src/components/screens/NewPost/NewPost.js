@@ -133,7 +133,7 @@ const NewPost = () => {
     }, [state])
     useEffect(() => {
         if ((sended) && (photosurls.length === photos.length) && (state) && (archive)) {
-            axios.post("https://investapp-back.herokuapp.com/user/createpost", newpost).then(result => setServerResponse(result.data.message))
+            axios.post("http://localhost:5500/user/createpost", newpost).then(result => setServerResponse(result.data.message))
         }
     }, [sended, photosurls, state, archive])
 
@@ -223,25 +223,25 @@ const NewPost = () => {
                         <div className="create__form__group card">
                             <h4>Объект и сумма</h4>
                             <div className="create__form__group-item">
-                                <label htmlFor='select-object'>Выберите тип недвижимости</label>
+                                <label htmlFor='select-object' className='label-required'>Выберите тип недвижимости</label>
                                 <Select placeholder='Выберите...' options={[{value: 'Квартира', label: 'Квартира'}, {value: 'Дом', label: 'Дом'}, {value: 'Земельный участок', label: 'Земельный участок'}, {value: 'Коммерция', label: 'Коммерция'}]} onChange={(e) => newpost.object = e.value}  id="select-object" />
                             </div>
                             <div className="create__form__group-item">
-                                <label htmlFor="input-amount" className="form-label">Сумма в рублях</label>
+                                <label htmlFor="input-amount" className="form-label label-required">Сумма в рублях</label>
                                 <input min="0" type='number' onInput={(e) => newpost.amount = e.target.value} placeholder='Укажите сумму' className="form-control" id="input-amount" />
                             </div>
                         </div>
                         <div className="create__form__group card">
                             <h4>Цель займа</h4>
                             <div className="create__form__group-item">
-                                <label htmlFor="input-reason" className="form-label">Укажите цель займа</label>
+                                <label htmlFor="input-reason" className="form-label label-required">Укажите цель займа</label>
                                 <input onInput={(e) => newpost.reason = e.target.value} placeholder='Пополнение оборотных средств' className="form-control" id="input-reason" />
                             </div>
                         </div>
                         <div className="create__form__group card">
                             <h4>Тип займа</h4>
                             <div className="create__form__group-item">
-                                <label htmlFor="select-loan_type" className="form-label">Выберите тип займа</label>
+                                <label htmlFor="select-loan_type" className="form-labe label-required">Выберите тип займа</label>
                                 <Select placeholder='Выберите...' options={[{value: 'Аннуитет', label: 'Аннуитет'}, {value: 'Только проценты', label: 'Только проценты'}]} onChange={(e) => newpost.loan_type = e.value}  id="select-loan_type" />
                             </div>
                         </div>
@@ -250,7 +250,7 @@ const NewPost = () => {
                         <div className="create__form__group card">
                             <h4>Ставка и срок</h4>
                             <div className="create__form__group-item">
-                                <label htmlFor="input-rate" className="form-label">Ставка (в месяц)</label>
+                                <label htmlFor="input-rate" className="form-label label-required">Ставка (в месяц)</label>
                                 <Select placeholder='Выберите...' onChange={ (e) => newpost.rate = e.value }  options={[
                                     { value: '1', label: '1' },
                                     { value: '2', label: '2' },
@@ -265,7 +265,7 @@ const NewPost = () => {
                                 ]} />
                             </div>
                             <div className="create__form__group-item">
-                                <label htmlFor="input-period" className="form-label">Срок (в месяц)</label>
+                                <label htmlFor="input-period" className="form-label label-required">Срок (в месяц)</label>
                                 <Select placeholder='Выберите...' onChange={ (e) => newpost.period = e.value }  options={[
                                     { value: 'от 12', label: 'от 12' },
                                     { value: ' от 24', label: ' от 24' },
@@ -278,13 +278,13 @@ const NewPost = () => {
                         <div className="create__form__group card">
                             <h4>Место работы</h4>
                             <div className="create__form__group-item">
-                                <label htmlFor="input-borrower_work" className="form-label">Место работы</label>
+                                <label htmlFor="input-borrower_work" className="form-label label-required">Место работы</label>
                                 <Select placeholder='Выберите...' onChange={ (e) => newpost.borrower_work = e.value }  options={[{value: 'Работа по найму', label: 'Работа по найму'}, {value: 'ИП или ООО', label: 'ИП или ООО'}]} />
                                 <input style={{ marginTop: '10px' }} className="form-control" onChange={ (e) => newpost.borrower_work_position = e.value }  placeholder = 'Должность' />
                                 <input style={{ marginTop: '10px' }} className="form-control" onChange={ (e) => newpost.borrower_work_salary = e.value }  placeholder = 'Зарплата' />
                             </div>
                             <div className="create__form__group-item">
-                                <label htmlFor='select-isIP'>Есть ИП или ООО?</label>
+                                <label htmlFor='select-isIP' className='label-required'>Есть ИП или ООО?</label>
                                 <Select placeholder='Есть ИП или ООО?' options={[
                                     { value: 'Да', label: 'Да' },
                                     { value: 'Нет', label: 'Нет' },
@@ -295,7 +295,7 @@ const NewPost = () => {
                         <div className="create__form__group card">
                             <h4>Тип сделки</h4>
                             <div className="create__form__group-item">
-                                <label htmlFor="select-deal_type" className="form-label">Выберите тип сделки</label>
+                                <label htmlFor="select-deal_type" className="form-label label-required">Выберите тип сделки</label>
                                 <Select placeholder='Выберите...' options={[
                                     { value: 'Займ под залог', label: 'Займ под залог' },
                                     { value: 'Обратный выкуп (ДКП)', label: 'Обратный выкуп (ДКП)' },
@@ -313,7 +313,7 @@ const NewPost = () => {
                     <div className='create__form__left'>
                         <div className="create__form__group card">
                             <div className="create__form__group-item">
-                                <label htmlFor="input-borrower_lname" className="form-label">Фамилия основного заемщика</label>
+                                <label htmlFor="input-borrower_lname" className="form-label label-required">Фамилия основного заемщика</label>
                                 <input onInput={(e) => newpost.borrower_lname = e.target.value} className="form-control" id="input-borrower_lname" />
                             </div>
                             <div className="create__form__group-item">
@@ -329,8 +329,8 @@ const NewPost = () => {
                     <div className='create__form__right'>
                         <div className="create__form__group card">
                             <div className="create__form__group-item">
-                                <label htmlFor="input-region" className="form-label">Республика, Область, Край</label>
-                                <Select onInput={(e) => newpost.region = e.value} placeholder='Выберите...' options = {regions} />
+                                <label htmlFor="input-region" className="form-label label-required">Республика, Область, Край</label>
+                                <Select onChange={(e) => newpost.region = e.value} placeholder='Выберите...' options = {regions} />
                             </div>
                             <div className="create__form__group-item">
                                 <label htmlFor="input-adress" className="form-label">Точный адрес</label>
@@ -341,7 +341,7 @@ const NewPost = () => {
                 </div>
                 <div className='create__form__inputfile'>
                     <div className='create__form__inputfile__photos'>
-                        <h3>Фотографии</h3>
+                        <h3 className='label-required'>Фотографии</h3>
                         <h5 id='photo'>Загрузите до 10 фотографий объекта</h5>
                         <div className='create__form__uploadedphotos'>
                             {photos.map((photo, i) => {return (<div key={i} className='create__form__uploadedphoto'> {photosurls[i] ? <div style={{backgroundImage: `url(${photosurls[i]})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} > <span onClick={() => deletePhoto(i + 1)} className='btn btn-danger delete_span'>X</span> </div> : <ReactLoading className='loading' type={"spinningBubbles"} color={"#4472C4"} height={'50%'} width={'50%'}/>} </div>) })}
@@ -352,7 +352,7 @@ const NewPost = () => {
                         </div>
                     </div>
                     <div className='create__form__inputfile__archive'>
-                        <h3>Документы</h3>
+                        <h3 className='label-required'>Документы</h3>
                         <h5>Прикрепите архив с требуемыми документами:</h5>
                         <ul style={{textAlign: 'left'}}>
                             <li>Страницы паспортов всех участников сделки</li>
