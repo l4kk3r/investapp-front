@@ -79,3 +79,13 @@
 input[type='file'] {
     display: none;
 }
+.openedpost__edit_wrapper {
+    border: 2px solid rgba(0, 0, 0, 0.616);
+    padding: 15px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+.openedpost__edit__savebutton__wrapper {
+    display: flex;
+    justify-content: center;
+}

@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 20px;
 }
 .create__form__inputgroup {
     display: flex;
@@ -77,4 +78,8 @@
 .label-required::after { 
     content: "*";
     color: red;
+}
+.create__form__inputgroup__button,
+.create__form__movebuttons {
+    margin-bottom: 20px;
 }

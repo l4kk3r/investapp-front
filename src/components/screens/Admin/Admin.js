@@ -20,6 +20,7 @@ const Admin = () => {
     const [deletedcount, setDeletedCount] = useState(0)
     const [newphotosurls, setNewPhotosUrls] = useState([])
     const [newfile, setNewFile] = useState(false)
+    const [neededChecked, setNeededChecked] = useState(false)
     const [postsinfo, setPostsInfo] = useState([])
     const [archiveurl, setArchiveUrl] = useState(false)
     const [mainphoto, setMainPhoto] = useState('')
@@ -358,12 +359,17 @@ const Admin = () => {
                         <h3>Допольнительные документы</h3>
                         <div>
                             <div>
-                                <input onChange={(e) => postsinfo[opened].needed_external = e.target.checked} id='ext_documents' type="checkbox" />
+                                <input onChange={(e) => { setNeededChecked(!neededChecked); postsinfo[opened].needed_external = e.target.checked; postsinfo[opened].external_documents.external_archive = ''}} id='ext_documents' type="checkbox" />
                                 <label for='ext_documents'>Запросить доп.документы</label>
                             </div>
-                            <textarea onInput={(e) => postsinfo[opened].external_documents = {message: e.target.value, external_archive: ''}} defaultValue={postsinfo[opened].external_documents.message} placeholder='Введите...'>
-                            </textarea>
-                            {postsinfo[opened].external_documents.message ? postsinfo[opened].external_documents.external_archive ? <a href={postsinfo[opened].external_documents.external_archive} className='btn btn-warning'>Скачать</a> : <h4 className='text-warning'>Ожидание брокера...</h4> : null}
+                            <div className='extdocuments__message'>
+                                <label>Сообщение брокеру:</label>
+                                {neededChecked ? 
+                                <textarea onInput={(e) => postsinfo[opened].external_documents = {message: e.target.value, external_archive: ''}} defaultValue={postsinfo[opened].external_documents.message} placeholder='Введите...'>
+                                </textarea> : <textarea disabled onInput={(e) => postsinfo[opened].external_documents = {message: e.target.value, external_archive: ''}} defaultValue={postsinfo[opened].external_documents.message} placeholder='Введите...'>
+                                </textarea>}
+                            </div>
+                            {postsinfo[opened].external_documents.message ? postsinfo[opened].external_documents.external_archive ? <a href={postsinfo[opened].external_documents.external_archive} className='btn btn-warning'>Скачать</a> : <h4 className='text-warning'>Доп.документы уже запрошены. Ожидание брокера...</h4> : null}
                         </div>
                         <h3>Ответы</h3>
                         <div className='answersbox'>

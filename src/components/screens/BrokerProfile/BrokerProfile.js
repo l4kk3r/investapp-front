@@ -224,123 +224,127 @@ const BrokerProfile = () => {
                     </tbody>
                 </table>
                 {openedpost ? !saving ? <div key={openedpost.id} className='openedpost'>
-                    <h3 className='alert alert-warning'>Редактирование заявки №{openedpost.id}</h3>
-                    <div className='openedpost__edit'>
-                        <table className='table table-striped table-first'>
-                            <thead>
-                                <tr>
-                                    <th scope="col">Номер</th>
-                                    <th scope="col">{openedpost.id}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Дата</td>
-                                    <td>{openedpost.createdAt}</td>
-                                </tr>
-                                <tr>
-                                    <td>Сумма</td>
-                                    <td><input className="form-control" onChange={(e) => {openedpost.amount = e.target.value}} defaultValue={openedpost.amount} /></td>
-                                </tr>
-                                <tr>
-                                    <td>Ставка</td>
-                                    <td><input className="form-control" onChange={(e) => {openedpost.rate = e.target.value}} defaultValue={openedpost.rate} /></td>
-                                </tr>
-                                <tr>
-                                    <td>Город</td>
-                                    <td><input className="form-control" onChange={(e) => {openedpost.city = e.target.value}} defaultValue={openedpost.city} /></td>
-                                </tr>
-                                <tr>
-                                    <td>Объект</td>
-                                    <td><input className="form-control" onChange={(e) => {openedpost.object = e.target.value}} defaultValue={openedpost.object} /></td>
-                                </tr>
-                                <tr>
-                                    <td>Республика</td>
-                                    <td><input className="form-control" onChange={(e) => {openedpost.region = e.target.value}} defaultValue={openedpost.region} /></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table className='table table-striped'>
-                            <thead>
-                                <tr>
-                                    <th scope="col">Тип сделки</th>
-                                    <th scope="col">-</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>ФИО заемщика-основного</td>
-                                    <td><input className="form-control" onChange={(e) => {openedpost.borrower_lname = e.target.value}} defaultValue={openedpost.borrower_lname} /></td>
-                                </tr>
-                                <tr>
-                                    <td>Телефон заемщика-основного</td>
-                                    <td><input className="form-control" onChange={(e) => {openedpost.borrower_phone = e.target.value}} defaultValue={openedpost.borrower_phone} /></td>
-                                </tr>
-                                <tr>
-                                    <td>Цель займа</td>
-                                    <td><input className="form-control" onChange={(e) => {openedpost.reason = e.target.value}} defaultValue={openedpost.reason} /></td>
-                                </tr>
-                                <tr>
-                                    <td>Телефон</td>
-                                    <td>-</td>
-                                </tr>
-                                <tr>
-                                    <td>Есть ИП или ООО</td>
-                                    <td><Dropdown options={isIP_options} onChange={(e) => {openedpost.isIP = e.value}} value={openedpost.isIP} /></td>
-                                </tr>
-                                <tr>
-                                    <td>Фото объекта</td>
-                                    <td>{openedpost.photos ? 'Загружено' : 'Не загружено'}</td>
-                                </tr>
-                                <tr>
-                                    <td>Документы</td>
-                                    <td><label htmlFor={`newfile_${openedpost.id}`} className='btn btn-secondary'>{newfile ? newfile.name : 'Загрузить новый'}</label>
-                                <input onInput={(e) => {setNewFile(e.target.files[0])} } id={`newfile_${openedpost.id}`} type='file' /></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <h3 className='alert alert-primary'>Редактирование заявки №{openedpost.id}</h3>
+                    <div className='openedpost__edit_wrapper'>
+                        <div className='openedpost__edit'>
+                            <table className='table table-striped table-first'>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Номер</th>
+                                        <th scope="col">{openedpost.id}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Дата</td>
+                                        <td>{openedpost.createdAt}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Сумма</td>
+                                        <td><input className="form-control" onChange={(e) => {openedpost.amount = e.target.value}} defaultValue={openedpost.amount} /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ставка</td>
+                                        <td><input className="form-control" onChange={(e) => {openedpost.rate = e.target.value}} defaultValue={openedpost.rate} /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Город</td>
+                                        <td><input className="form-control" onChange={(e) => {openedpost.city = e.target.value}} defaultValue={openedpost.city} /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Объект</td>
+                                        <td><input className="form-control" onChange={(e) => {openedpost.object = e.target.value}} defaultValue={openedpost.object} /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Республика</td>
+                                        <td><input className="form-control" onChange={(e) => {openedpost.region = e.target.value}} defaultValue={openedpost.region} /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table className='table table-striped'>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Тип сделки</th>
+                                        <th scope="col">-</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>ФИО заемщика-основного</td>
+                                        <td><input className="form-control" onChange={(e) => {openedpost.borrower_lname = e.target.value}} defaultValue={openedpost.borrower_lname} /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Телефон заемщика-основного</td>
+                                        <td><input className="form-control" onChange={(e) => {openedpost.borrower_phone = e.target.value}} defaultValue={openedpost.borrower_phone} /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Цель займа</td>
+                                        <td><input className="form-control" onChange={(e) => {openedpost.reason = e.target.value}} defaultValue={openedpost.reason} /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Телефон</td>
+                                        <td>-</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Есть ИП или ООО</td>
+                                        <td><Dropdown options={isIP_options} onChange={(e) => {openedpost.isIP = e.value}} value={openedpost.isIP} /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Фото объекта</td>
+                                        <td>{openedpost.photos ? 'Загружено' : 'Не загружено'}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Документы</td>
+                                        <td><label htmlFor={`newfile_${openedpost.id}`} className='btn btn-secondary'>{newfile ? newfile.name : 'Загрузить новый'}</label>
+                                    <input onInput={(e) => {setNewFile(e.target.files[0])} } id={`newfile_${openedpost.id}`} type='file' /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <h3 className='alert alert-warning'>Фотографии</h3>
+                        <div className='openedpost__photos'>
+                        {photos.map((photo, i) => {
+                                    if (mainphoto === photo) {
+                                        return (
+                                            <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(photo)} className='btn btn-primary main_span'>Обложка</span></div>  </div>
+                                        )
+                                    }
+                                    else {
+                                        return (
+                                            <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(photo)} className='btn btn-primary makemain_span'>Сделать обложкой</span></div>  </div>
+                                        )
+                                    }
+                                })}
+                                {newphotosurls.map((photo, i) => {
+                                    if (mainphoto === newphotos[newphotosurls.indexOf(photo)]) {
+                                        return (
+                                            <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(newphotos[newphotosurls.indexOf(photo)])} className='btn btn-primary main_span '>Обложка</span></div>  </div>
+                                        )
+                                    }
+                                    else {
+                                        return (
+                                            <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(newphotos[newphotosurls.indexOf(photo)])} className='btn btn-primary makemain_span'>Сделать обложкой</span></div>  </div>
+                                        )
+                                    }
+                                })}
+                            <label className='create__form__uploadbutton__field' htmlFor='upload-photo'>+</label>
+                            <input id='upload-photo' multiple type='file' onInput={(e) => photosInput(e)} accept=".jpg, .jpeg, .png" />
+                        </div>
+                        <h3 className='alert alert-warning'>Доп.документы</h3>
+                        <div>
+                            {(openedpost.external_documents.message && !openedpost.external_documents.external_archive) ? <div>
+                                <h4>Необходимы доп.документы</h4>
+                                <h4 className='alert alert-danger'>Сообщение от администратора: {openedpost.external_documents.message}</h4>
+                                <label className='btn btn-secondary'  for='upload-external'>{external_document ? external_document.name : 'Загрузить доп.документы'}</label>
+                                <input onInput={(e) => { setExtDocument(e.target.files[0]); openedpost.status = 'На модерации' }} id='upload-external' type='file'/>
+                            </div> : <h4>Никаких доп.документов не требуется</h4>}
+                        </div>
                     </div>
-                    <h3 className='alert alert-warning'>Фотографии</h3>
-                    <div className='openedpost__photos'>
-                    {photos.map((photo, i) => {
-                                if (mainphoto === photo) {
-                                    return (
-                                        <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(photo)} className='btn btn-primary main_span'>Обложка</span></div>  </div>
-                                    )
-                                }
-                                else {
-                                    return (
-                                        <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(photo)} className='btn btn-primary makemain_span'>Сделать обложкой</span></div>  </div>
-                                    )
-                                }
-                            })}
-                            {newphotosurls.map((photo, i) => {
-                                if (mainphoto === newphotos[newphotosurls.indexOf(photo)]) {
-                                    return (
-                                        <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(newphotos[newphotosurls.indexOf(photo)])} className='btn btn-primary main_span '>Обложка</span></div>  </div>
-                                    )
-                                }
-                                else {
-                                    return (
-                                        <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(newphotos[newphotosurls.indexOf(photo)])} className='btn btn-primary makemain_span'>Сделать обложкой</span></div>  </div>
-                                    )
-                                }
-                            })}
-                        <label className='create__form__uploadbutton__field' htmlFor='upload-photo'>+</label>
-                        <input id='upload-photo' multiple type='file' onInput={(e) => photosInput(e)} accept=".jpg, .jpeg, .png" />
+                    <div className='openedpost__edit__savebutton__wrapper'>
+                        <button onClick={() => saveOpenedPost()} className='btn btn-primary openedpost__edit__savebutton'>Сохранить</button>
                     </div>
-                    <h3 className='alert alert-warning'>Предложения инвесторов</h3>
-                    <div>
-                        {(openedpost.external_documents.message && !openedpost.external_documents.external_archive) ? <div>
-                            <h4>Необходимы доп.документы</h4>
-                            <h4 className='alert alert-danger'>Сообщение от администратора: {openedpost.external_documents.message}</h4>
-                            <label className='btn btn-secondary'  for='upload-external'>{external_document ? external_document.name : 'Загрузить доп.документы'}</label>
-                            <input onInput={(e) => setExtDocument(e.target.files[0])} id='upload-external' type='file'/>
-                        </div> : <h4>Никаких доп.документов не требуется</h4>}
-                    </div>
-                    <button onClick={() => saveOpenedPost()} className='btn btn-primary openedpost__edit__savebutton'>Сохранить</button>
                     <div className='openedpost__answers'>
-                        <h3 className='alert alert-warning'>Предложения инвесторов</h3>
+                        <h3 className='alert alert-primary'>Предложения инвесторов</h3>
                         <table className='table'>
                             <thead>
                                 <tr>
@@ -369,13 +373,6 @@ const BrokerProfile = () => {
                     </div>
                 </div> : <h1>Сохранение...</h1> : null }
                 </div>
-                {state ? state.acctype == 'investor' ? <div className='filters'>
-                    <p>Минимальная сумма займа</p>
-                    <input onChange={(e) => setMinAmount(e.target.value)} defaultValue={filters.fmin_amount}/>
-                    <p>Максимальная сумма займа</p>
-                    <input  onChange={(e) => setMaxAmount(e.target.value)} defaultValue={fmax_amount}/>
-                    <button onClick={() => updateFilters()}>Сохранить</button>
-                </div> : null : null}
             </div>
         </div>
 

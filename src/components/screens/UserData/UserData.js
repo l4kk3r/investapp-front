@@ -3,6 +3,8 @@ import './styles.css'
 import axios from 'axios';
 import {UserContext} from '../../../App'
 import {Link} from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from 'react-helmet';
 import Dropdown from 'react-dropdown';
  
@@ -14,7 +16,7 @@ const UserData = () => {
 
     const sendData = () => {
         console.log(userdata)
-        axios.post('https://investapp-back.herokuapp.com/user/userdata', userdata, { headers: { 'x-auth-token': token } }).then(result => console.log(result.data))
+        axios.post('https://investapp-back.herokuapp.com/user/userdata', userdata, { headers: { 'x-auth-token': token } }).then(result => toast.info('Данные успешно обновлены'))
     }
 
     useEffect(() => {
@@ -25,6 +27,8 @@ const UserData = () => {
 
     return (
         <div className='profile'>
+            <ToastContainer>
+            </ToastContainer>
             <Helmet>
                 <title>SHAR | Данные</title>
             </Helmet>
