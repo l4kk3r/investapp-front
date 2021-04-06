@@ -386,7 +386,7 @@ const Admin = () => {
                             {postsinfo[opened].fiz.length < 6 ? <button className='btn btn-secondary' onClick={() => { postsinfo[opened].fiz.push({status: "", fullname: "", birth: "", age: "", pnumber: "", pdate: "", inn: "", snils: "", dcoument: "", regyear: "", rosreestr: "", percents: ""}); console.log(postsinfo[opened].fiz); setFiz(old=>[...old, "new"]) } }>Добавить физ.лицо</button> : null }
                         </div>
                         <div  className='moderation__userinfo__savebutton__wrapper'>
-                            <button className='btn btn-primary moderation__userinfo__savebutton' style={{marginBottom: '20px'}} onClick={() => {postsinfo[opened].status = 'Ожидание ответов'; changepost(opened)}}>Отправить в работу</button>
+                        <button className='btn btn-primary moderation__userinfo__savebutton' style={{marginBottom: '20px'}} onClick={() => {postsinfo[opened].status = 'Ожидание ответов '; changepost(opened)}}>Отправить в работу</button>
                             <button className='btn btn-secondary moderation__userinfo__savebutton' style={{marginBottom: '20px'}} onClick={() => changepost(opened)}>Сохранить</button>
                             <button className='btn btn-danger moderation__userinfo__savebutton' style={{marginBottom: '20px'}} onClick={() => {postsinfo[opened].status = 'Отклонено'; changepost(opened)}}>Отклонить</button>
                         </div>
