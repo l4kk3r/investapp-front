@@ -80,7 +80,7 @@ const Admin = () => {
                 postsinfo[opened].photos.splice(index, 1)
             }
             postsinfo[opened].todelete = deletedphotos
-            axios.post("http://localhost:5500/admin/updatepost", postsinfo[opened]).then(response => {console.log(response.data); setSaving(false); toast.info('Заявка успешно сохранена')})
+            axios.post("https://investapp-back.herokuapp.com/admin/updatepost", postsinfo[opened]).then(response => {console.log(response.data); setSaving(false); toast.info('Заявка успешно сохранена')})
         }
     }, [photosurls, archiveurl])
     useEffect(() => {

@@ -97,7 +97,7 @@ const BrokerProfile = () => {
                 openedpost.photos.splice(index, 1)
             }
             openedpost.todelete = deletedphotos
-            axios.post("http://localhost:5500/user/updatepost", openedpost).then(response => {console.log(response.data); setSaving(false); toast.info('Заявка успешно сохранена')})
+            axios.post("https://investapp-back.herokuapp.com/user/updatepost", openedpost).then(response => {console.log(response.data); setSaving(false); toast.info('Заявка успешно сохранена')})
         }
     }, [photosurls, archiveurl, externalurl])
 
