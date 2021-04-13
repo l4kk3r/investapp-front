@@ -56,6 +56,8 @@ const BrokerProfile = () => {
     }
     const saveOpenedPost = () => {
         setSaving(true)
+        console.log(photos)
+        console.log(mainphoto)
         if (photos.includes(mainphoto)) {
             photos.splice(photos.indexOf(mainphoto), 1)
             photos.unshift(mainphoto)
@@ -93,11 +95,13 @@ const BrokerProfile = () => {
                 console.log(neww)
                 openedpost.external_documents = neww
             }
-            openedpost.photos = openedpost.photos.concat(photosurls)
             if (!photos.includes(mainphoto)) {
-                const index = openedpost.photos.indexOf(photosurls[0])
-                openedpost.photos.unshift(photosurls[0])
-                openedpost.photos.splice(index, 1)
+                let ph_copy = photosurls
+                const mainphoto = ph_copy.shift()
+                openedpost.photos = openedpost.photos.concat(ph_copy)
+                openedpost.photos.unshift(mainphoto)
+            } else {
+                openedpost.photos = openedpost.photos.concat(photosurls)
             }
             openedpost.todelete = deletedphotos
             axios.post("https://investapp-back.herokuapp.com/user/updatepost", openedpost).then(response => {console.log(response.data); setSaving(false); toast.info('Заявка успешно сохранена')})
@@ -105,7 +109,6 @@ const BrokerProfile = () => {
     }, [photosurls, archiveurl, externalurl])
 
     const changeAnswerStatus = (answer, status) => {
-        console.log('sending!')
         axios.post("https://investapp-back.herokuapp.com/user/answer-changestatus", {id: answer.id, status}).then(response => console.log(response))
     }
     const openPost = (post) => {
@@ -303,30 +306,30 @@ const BrokerProfile = () => {
                         </div>
                         <h3 className='alert alert-warning'>Фотографии</h3>
                         <div className='openedpost__photos'>
-                        {photos.map((photo, i) => {
-                                    if (mainphoto === photo) {
-                                        return (
-                                            <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(photo)} className='btn btn-primary main_span'>Обложка</span></div>  </div>
-                                        )
-                                    }
-                                    else {
-                                        return (
-                                            <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(photo)} className='btn btn-primary makemain_span'>Сделать обложкой</span></div>  </div>
-                                        )
-                                    }
-                                })}
-                                {newphotosurls.map((photo, i) => {
-                                    if (mainphoto === newphotos[newphotosurls.indexOf(photo)]) {
-                                        return (
-                                            <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(newphotos[newphotosurls.indexOf(photo)])} className='btn btn-primary main_span '>Обложка</span></div>  </div>
-                                        )
-                                    }
-                                    else {
-                                        return (
-                                            <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(newphotos[newphotosurls.indexOf(photo)])} className='btn btn-primary makemain_span'>Сделать обложкой</span></div>  </div>
-                                        )
-                                    }
-                                })}
+                            {photos.map((photo, i) => {
+                                        if (mainphoto === photo) {
+                                            return (
+                                                <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(photo)} className='btn btn-primary main_span'>Обложка</span></div>  </div>
+                                            )
+                                        }
+                                        else {
+                                            return (
+                                                <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(photo)} className='btn btn-primary makemain_span'>Сделать обложкой</span></div>  </div>
+                                            )
+                                        }
+                                    })}
+                            {newphotosurls.map((photo, i) => {
+                                if (mainphoto === newphotos[newphotosurls.indexOf(photo)]) {
+                                    return (
+                                        <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(newphotos[newphotosurls.indexOf(photo)])} className='btn btn-primary main_span '>Обложка</span></div>  </div>
+                                    )
+                                }
+                                else {
+                                    return (
+                                        <div key={i} className='create__form__uploadedphoto'> <div style={{backgroundImage: `url(${photo})`, width: '100%', height: '100%', borderRadius: '8px', backgroundPosition: 'center', backgroundSize: 'cover'}} ><span onClick={() => deleteOldPhoto(photo)} className='btn btn-danger delete_span'>X</span><span onClick={() => makeMain(newphotos[newphotosurls.indexOf(photo)])} className='btn btn-primary makemain_span'>Сделать обложкой</span></div>  </div>
+                                    )
+                                }
+                            })}
                             <label className='create__form__uploadbutton__field' htmlFor='upload-photo'>+</label>
                             <input id='upload-photo' multiple type='file' onInput={(e) => photosInput(e)} accept=".jpg, .jpeg, .png" />
                         </div>
@@ -349,9 +352,9 @@ const BrokerProfile = () => {
                             <thead>
                                 <tr>
                                     <th>Варианты</th>
-                                    <th>Ставка</th>
+                                    <th>Ставка (в мес.)</th>
                                     <th>Сумма</th>
-                                    <th>Период</th>
+                                    <th>Срок финансирования (в мес.)</th>
                                     <th>Комментарий</th>
                                     <th>Статус</th>
                                 </tr>

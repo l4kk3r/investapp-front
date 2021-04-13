@@ -3,7 +3,6 @@
     padding: 0px 40px;
     padding-top: 40px;
     display: flex;
-    justify-content: space-around;
     flex-wrap: wrap;
 }
 .allposts {
@@ -20,7 +19,7 @@
     margin-bottom: 30px;
     width: 275px;
     background-color: #FBFBFB;
-    margin-right: 20px;
+    margin-right: 50px;
     position: relative;
     -moz-box-shadow: 1.5px 1.5px 5px 0px #dddddd;
     -webkit-box-shadow: 1.5px 1.5px 5px 0px #dddddd;

@@ -275,7 +275,7 @@ const NewPost = () => {
                             </div>
                             <div className="create__form__group-item">
                                 <label htmlFor="input-period" className="form-label label-required">Срок (в месяц)</label>
-                                <Select placeholder='Выберите...' onChange={ (e) => newpost.period = e.value }  options={[
+                                <Select placeholder='Выберите...' onChange={ (e) => {newpost.period = e.value; console.log(e.value)} }  options={[
                                     { value: 'от 12', label: 'от 12' },
                                     { value: ' от 24', label: ' от 24' },
                                     { value: 'от 36', label: 'от 36' },

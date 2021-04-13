@@ -3,6 +3,7 @@ import './styles.css'
 import {useHistory, Link} from 'react-router-dom'
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
+import Select from 'react-select'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Fiz from './Fiz'
@@ -33,6 +34,109 @@ const Admin = () => {
     const options = [
         'Ожидание ответов', 'На модерации', 'Отклонено', 'Заблокировано', 'Получен ответ'
     ];
+    const regions = [
+        { value: 'Республика Адыгея', label: 'Республика Адыгея' },      
+    { value: 'Республика Алтай', label: 'Республика Алтай'},      
+    {
+      value: 'Республика Башкортостан',
+      label: 'Республика Башкортостан '
+    },
+    { value: 'Республика Бурятия', label: 'Республика Бурятия'},  
+    { value: 'Республика Дагестан', label: 'Республика Дагестан'},
+    { value: 'Республика Ингушетия', label: 'Республика Ингушетия'},
+    {
+      value: 'Кабардино-Балкарская Республика',
+      label: 'Кабардино-Балкарская Республика'
+    },
+    { value: 'Республика Калмыкия', label: 'Республика Калмыкия'},
+    {
+      value: 'Карачаево-Черкесская Республика',
+      label: 'Карачаево-Черкесская Республика'
+    },
+    { value: 'Республика Карелия', label: 'Республика Карелия'},
+    { value: 'Республика Коми', label: 'Республика Коми'},
+    { value: 'Республика Марий Эл', label: 'Республика Марий Эл'},
+    { value: 'Республика Мордовия', label: 'Республика Мордовия' },
+    {
+      value: 'Республика Саха (Якутия)',
+      label: 'Республика Саха (Якутия) '
+    },
+    {
+      value: 'Республика Северная Осетия - Алания',
+      label: 'Республика Северная Осетия - Алания '
+    },
+    { value: 'Республика Татарстан', label: 'Республика Татарстан' },
+    { value: 'Республика Тыва', label: 'Республика Тыва'},
+    { value: 'Удмуртская Республика', label: 'Удмуртская Республика'},
+    { value: 'Республика Хакасия', label: 'Республика Хакасия'},
+    { value: 'Чеченская Республика', label: 'Чеченская Республика' },
+    { value: 'Чувашская Республика', label: 'Чувашская Республика' },
+    { value: 'Алтайский край', label: 'Алтайский край' },
+    { value: 'Забайкальский край', label: 'Забайкальский край' },
+    { value: 'Камчатский край', label: 'Камчатский край' },
+    { value: 'Краснодарский край', label: 'Краснодарский край' },
+    { value: 'Красноярский край', label: 'Красноярский край' },
+    { value: 'Пермский край', label: 'Пермский край' },
+    { value: 'Приморский край', label: 'Приморский край' },
+    { value: 'Ставропольский край', label: 'Ставропольский край' },
+    { value: 'Хабаровский край', label: 'Хабаровский край' },
+    { value: 'Амурская область', label: 'Амурская область' },
+    { value: 'Архангельская область', label: 'Архангельская область' },
+    { value: 'Астраханская область', label: 'Астраханская область' },
+    { value: 'Белгородская область', label: 'Белгородская область' },
+    { value: 'Брянская область', label: 'Брянская область'},
+    { value: 'Владимирская область', label: 'Владимирская область'},
+    { value: 'Волгоградская область', label: 'Волгоградская область'},
+    { value: 'Вологодская область', label: 'Вологодская область'},
+    { value: 'Воронежская область', label: 'Воронежская область'},
+    { value: 'Ивановская область', label: 'Ивановская область'},
+    { value: 'Иркутская область', label: 'Иркутская область'},
+    {
+      value: 'Калининградская область',
+      label: 'Калининградская область'
+    },
+    { value: 'Калужская область', label: 'Калужская область'},
+    { value: 'Кемеровская область', label: 'Кемеровская область'},
+    { value: 'Кировская область', label: 'Кировская область'},
+    { value: 'Костромская область', label: 'Костромская область'},
+    { value: 'Курганская область', label: 'Курганская область'},
+    { value: 'Курская область', label: 'Курская область'},
+    { value: 'Ленинградская область', label: 'Ленинградская область'},
+    { value: 'Липецкая область', label: 'Липецкая область'},
+    { value: 'Магаданская область', label: 'Магаданская область' },
+    { value: 'Московская область', label: 'Московская область'},
+    { value: 'Мурманская область', label: 'Мурманская область'},
+    { value: 'Нижегородская область', label: 'Нижегородская область'},
+    { value: 'Новгородская область', label: 'Новгородская область'},
+    { value: 'Новосибирская область', label: 'Новосибирская область'},
+    { value: 'Омская область', label: 'Омская область' },
+    { value: 'Оренбургская область', label: 'Оренбургская область'},
+    { value: 'Орловская область', label: 'Орловская область'},
+    { value: 'Пензенская область', label: 'Пензенская область'},
+    { value: 'Псковская область', label: 'Псковская область'},
+    { value: 'Ростовская область', label: 'Ростовская область'},
+    { value: 'Рязанская область', label: 'Рязанская область'},
+    { value: 'Самарская область', label: 'Самарская область'},
+    { value: 'Саратовская область', label: 'Саратовская область'},
+    { value: 'Сахалинская область', label: 'Сахалинская область'},
+    { value: 'Свердловская область', label: 'Свердловская область'},
+    { value: 'Смоленская область', label: 'Смоленская область'},
+    { value: 'Тамбовская область', label: 'Тамбовская область'},
+    { value: 'Тверская область', label: 'Тверская область'},
+    { value: 'Томская область', label: 'Томская область'},
+    { value: 'Тульская область', label: 'Тульская область' },
+    { value: 'Тюменская область', label: 'Тюменская область'},
+    { value: 'Ульяновская область', label: 'Ульяновская область'},
+    { value: 'Челябинская область', label: 'Челябинская область'},
+    { value: 'Ярославская область', label: 'Ярославская область' },
+    { value: 'Москва', label: 'Москва' },
+    { value: 'Санкт-Петербург', label: 'Санкт-Петербург' },
+    { value: 'Еврейская АО', label: 'Еврейская АО' },
+    { value: 'Ненецкий АО', label: 'Ненецкий АО' },
+    { value: 'Ханты-Мансийский АО', label: 'Ханты-Мансийский АО' },
+    { value: 'Чукотский АО', label: 'Чукотский АО' },
+    { value: 'Ямало-Ненецкий АО', label: 'Ямало-Ненецкий АО' },
+  ]
     const changepost = (i) => {
         setSaving(true)
         if (mainphoto) {
@@ -73,11 +177,13 @@ const Admin = () => {
             if (archiveurl) {
                 postsinfo[opened].archive = archiveurl
             }
-            postsinfo[opened].photos = postsinfo[opened].photos.concat(photosurls)
             if (!photos.includes(mainphoto)) {
-                const index = postsinfo[opened].photos.indexOf(photosurls[0])
-                postsinfo[opened].photos.unshift(photosurls[0])
-                postsinfo[opened].photos.splice(index, 1)
+                let ph_copy = photosurls
+                const mainphoto = ph_copy.shift()
+                postsinfo[opened].photos = postsinfo[opened].photos.concat(ph_copy)
+                postsinfo[opened].photos.unshift(mainphoto)
+            } else {
+                postsinfo[opened].photos = postsinfo[opened].photos.concat(photosurls)
             }
             postsinfo[opened].todelete = deletedphotos
             axios.post("https://investapp-back.herokuapp.com/admin/updatepost", postsinfo[opened]).then(response => {console.log(response.data); setSaving(false); toast.info('Заявка успешно сохранена')})
@@ -239,7 +345,7 @@ const Admin = () => {
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Регион:</h4>
-                                <input type='text' onChange={(e) => {postsinfo[opened].region = e.target.value}} defaultValue={postsinfo[opened].region}/>
+                                <Select className='region-select' onChange={(e) => {postsinfo[opened].region = e.value}} placeholder={postsinfo[opened].region}  options = {regions} />
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Сумма займа:</h4>
@@ -386,7 +492,7 @@ const Admin = () => {
                             {postsinfo[opened].fiz.length < 6 ? <button className='btn btn-secondary' onClick={() => { postsinfo[opened].fiz.push({status: "", fullname: "", birth: "", age: "", pnumber: "", pdate: "", inn: "", snils: "", dcoument: "", regyear: "", rosreestr: "", percents: ""}); console.log(postsinfo[opened].fiz); setFiz(old=>[...old, "new"]) } }>Добавить физ.лицо</button> : null }
                         </div>
                         <div  className='moderation__userinfo__savebutton__wrapper'>
-                        <button className='btn btn-primary moderation__userinfo__savebutton' style={{marginBottom: '20px'}} onClick={() => {postsinfo[opened].status = 'Ожидание ответов '; changepost(opened)}}>Отправить в работу</button>
+                        <button className='btn btn-primary moderation__userinfo__savebutton' style={{marginBottom: '20px'}} onClick={() => {postsinfo[opened].status = 'Ожидание ответов'; changepost(opened)}}>Отправить в работу</button>
                             <button className='btn btn-secondary moderation__userinfo__savebutton' style={{marginBottom: '20px'}} onClick={() => changepost(opened)}>Сохранить</button>
                             <button className='btn btn-danger moderation__userinfo__savebutton' style={{marginBottom: '20px'}} onClick={() => {postsinfo[opened].status = 'Отклонено'; changepost(opened)}}>Отклонить</button>
                         </div>

@@ -29,7 +29,9 @@ const AllPosts = () => {
     //     }
     //     return true;
     // }
-    const regions = [{ value: 'Республика Адыгея', label: 'Республика Адыгея' },      
+    const regions = [
+        { value: 'По умолчанию', label: 'По умолчанию' },  
+        { value: 'Республика Адыгея', label: 'Республика Адыгея' },      
     { value: 'Республика Алтай', label: 'Республика Алтай'},      
     {
       value: 'Республика Башкортостан',
@@ -133,11 +135,11 @@ const AllPosts = () => {
   ]
     const saveFilters = () => {
         console.log(filter)
-        setPosts(allposts.filter(post => post.amount > filter.min_amount && post.amount < filter.max_amount && post.amount > filter.min_zalog && post.amount < filter.max_zalog && post.period > filter.min_period && post.period < filter.max_period && post.rate > filter.min_rate && post.rate < filter.max_rate && filter.objects.includes(post.object) && filter.loan_types.includes(post.loan_type) && post.region.toLowerCase() === filter.search.toLowerCase()))
+        setPosts(allposts.filter(post => post.amount >= filter.min_amount && post.amount <= filter.max_amount && post.zalog >= filter.min_zalog && post.zalog <= filter.max_zalog && post.period >= filter.min_period && post.period <= filter.max_period && post.rate >= filter.min_rate && post.rate <= filter.max_rate && filter.objects.includes(post.object) && filter.loan_types.includes(post.loan_type) && (post.region.toLowerCase() === filter.search.toLowerCase() || filter.search === 'По умолчанию' )))
     }
     const saveFiltersToDb = () => {
         console.log(filter)
-        axios.post('http://localhost:5500/user/update-filters', {id: state.id, filter}).then(ans => console.log(ans))
+        axios.post('https://investapp-back.herokuapp.com/user/update-filters', {id: state.id, filter}).then(ans => console.log(ans))
     }
     const showAll = () => {
         setPosts(allposts)
@@ -246,37 +248,37 @@ const AllPosts = () => {
                     </div>
                 </div> : null }
                 <div className='posts'>
-                    {posts.map((post, i) => (
-                        <div onClick={() => history.push(`/post/${post.id}`)} className='item-container'> 
-                            <div className='onitemphoto'><h4>Подробнее</h4></div><div className='itemphoto' style={{backgroundImage: `url(${post.photos[0]})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}></div>
-                            <div className='iteminfo'>
-                            <div className='item-row'>
-                                <h3 className='objectname'  type='text'>{post.object}</h3>
+                        {posts.map((post, i) => (
+                            <div onClick={() => history.push(`/post/${post.id}`)} className='item-container'> 
+                                <div className='onitemphoto'><h4>Подробнее</h4></div><div className='itemphoto' style={{backgroundImage: `url(${post.photos[0]})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}></div>
+                                <div className='iteminfo'>
+                                <div className='item-row'>
+                                    <h3 className='objectname'  type='text'>{post.object}</h3>
+                                </div>
+                                <div className='item-row'>
+                                    <h4>Ставка:</h4>
+                                    <p type='text'>{post.rate} </p>
+                                </div>
+                                <div className='item-row'>
+                                    <h4>Сумма займа:</h4>
+                                    <p   type='number'>{post.amount.toLocaleString().replace(',', ' ')} руб.</p>
+                                </div>
+                                <div className='item-row'>
+                                    <h4>Срок финансирования:</h4>
+                                    <p  type='text'>{post.period} </p>
+                                </div>
+                                <div className='item-row'>
+                                    <h4>Местонахождение:</h4>
+                                    <p  type='text'>{post.adress} </p>
+                                </div>
+                                <div className='revenue'>
+                                    <h4>≈ {Math.round(post.amount / 100 * post.rate).toLocaleString().replace(',', ' ')} руб.</h4>
+                                    <p>Ежемесячная прибыль</p>
+                                </div>
+                                </div>
+                                
                             </div>
-                            <div className='item-row'>
-                                <h4>Ставка:</h4>
-                                <p type='text'>{post.rate} </p>
-                            </div>
-                            <div className='item-row'>
-                                <h4>Сумма займа:</h4>
-                                <p   type='number'>{post.amount.toLocaleString().replace(',', ' ')} руб.</p>
-                            </div>
-                            <div className='item-row'>
-                                <h4>Срок финансирования:</h4>
-                                <p  type='text'>{post.period} </p>
-                            </div>
-                            <div className='item-row'>
-                                <h4>Местонахождение:</h4>
-                                <p  type='text'>{post.adress} </p>
-                            </div>
-                            <div className='revenue'>
-                                <h4>≈ {Math.round(post.amount / 100 * post.rate).toLocaleString().replace(',', ' ')} руб.</h4>
-                                <p>Ежемесячная прибыль</p>
-                            </div>
-                            </div>
-                            
-                        </div>
-                    ))}
+                        ))}                
                 </div>
             </div>
         </div>

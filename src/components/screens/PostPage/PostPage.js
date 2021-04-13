@@ -6,6 +6,7 @@ import AwesomeSlider from 'react-awesome-slider';
 import 'react-awesome-slider/dist/styles.css';
 import Popup from 'reactjs-popup';
 import { Helmet } from 'react-helmet'
+import {ExportCSV} from '../../../ExportCSV'
 import ReactLoading from 'react-loading';
 import 'reactjs-popup/dist/index.css';
 import { YMaps, Map, Placemark } from 'react-yandex-maps';
@@ -19,18 +20,43 @@ const PostPage = (props) => {
     const [investrate, setInvestRate] = useState("")
     const [investperiod, setInvestPeriod] = useState("")
     const [investcomment, setInvestComment] = useState("")
+    const [xlFile, setXlFile] = useState([])
     const [show, setShow] = useState(false)
     const [monthly, setMonthly] = useState("")
     const [sended, setSended] = useState(false)
     const [fake_loading, setFakeLoading] = useState(false)
     const {state, dispatch} = useContext(UserContext)
+
+    const fileName = 'TechnicalAdda'
+
+    const viewers = [
+  
+      {id:1, name:'антон'},
+  
+      {id:2, name:'kumar'}
+  
+    ]
+
+    const formXlFile = (file) => {
+        console.log(file)
+        setXlFile([
+            {title: 'Кадастровый номер 1', value: file.kadastr_tag},
+            {title: 'Кадастровый номер 2', value: file.kadastr_tag2},
+            {title: 'Адрес объекта', value: file.adress},
+            {title: 'Дата перехода прав', value: file.access_year},
+            {title: 'Стоимость (ссылка)', value: file.price_link},
+            {title: 'Стоимость залога', value: file.zalog},
+            {title: 'Документы', value: file.archive},
+            {title: 'Количество собственников', value: file.owners_number},
+        ])
+    }
     
     const sendRequest = (e) => {
         axios.post("https://investapp-back.herokuapp.com/user/newanswer", {creator_id: post.creator_id, investor_info: `${state.firstname} ${state.lastname}, ${state.phone}, ${state.email}`, investor_id: state.id, post_id: post.id, object: post.object, city: post.city, fio: post.borrower_lname, amount: investamount, period: investperiod, rate: investrate, comment: investcomment }).then(response => response.data.message == 'Ответ успешно отправлен' ? setSended(true) : null)
     }
 
     useEffect(()=>{    
-        axios.post("https://investapp-back.herokuapp.com/user/post", {id: props.match.params.id}).then(response => {console.log(response); const serverpost = response.data.post[0]; setInvestAmount(serverpost.amount); setInvestRate(serverpost.rate); setInvestPeriod(serverpost.period); setPost(response.data.post[0])})
+        axios.post("https://investapp-back.herokuapp.com/user/post", {id: props.match.params.id}).then(response => {console.log(response); const serverpost = response.data.post[0]; setInvestAmount(serverpost.amount); setInvestRate(serverpost.rate); setInvestPeriod(serverpost.period); formXlFile(response.data.post[0]); setPost(response.data.post[0])})
     },[])
     return (
         <>
@@ -175,6 +201,7 @@ const PostPage = (props) => {
             </Popup>
             <Popup style={{borderRadius:'5px'}}  modal closeOnDocumentClick trigger={<button className='answer-button2'>Проверить объект</button>} position="center center">
                 <div className='objectinfo'>
+                    <ExportCSV csvData={xlFile} fileName={`Заявка_${post.id}`} />
                     <div className='objectinfo__popupinfo'>
                             <div className='card changecards__card' style={{width: '18rem'}}>
                                 <h4>Кадастровый номер 1:</h4>
@@ -201,7 +228,7 @@ const PostPage = (props) => {
                                 <p>{post.zalog ? post.zalog.toLocaleString().replace(',', ' ') : post.zalog}</p>
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>
-                                <h4>Докменты:</h4>
+                                <h4>Документы:</h4>
                                 <a href={post.archive}>Скачать</a>
                             </div>
                             <div className='card changecards__card' style={{width: '18rem'}}>

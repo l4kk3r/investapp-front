@@ -225,3 +225,6 @@ textarea {
     display: flex;
     flex-wrap: wrap;
 }
+.exportPdfButton {
+    margin: 20px auto;
+}
