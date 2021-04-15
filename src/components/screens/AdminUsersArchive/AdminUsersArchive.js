@@ -31,11 +31,11 @@ const AdminUsers = () => {
     }
     useEffect(() => {
         const token = localStorage.getItem("token")
-        fetch('http://localhost:5500/api/user/not_archived',{method:"get", headers: {"Content-Type":"application/json"}}).then(ans=>ans.json()).then(realans=>{setUsersInfo(realans.users); console.log(realans); setUsers(realans.users); })
+        fetch('http://localhost:5500/api/user/archived',{method:"get", headers: {"Content-Type":"application/json"}}).then(ans=>ans.json()).then(realans=>{setUsersInfo(realans.users); console.log(realans); setUsers(realans.users); })
     }, [])
     const toArchive = (needed_id) => {
         setUsers(users.filter(pst => pst.id !== needed_id))
-        axios.post("http://localhost:5500/api/user/admin/archive", {id: needed_id, archived: true}).then(ans => console.log(ans))
+        axios.post("http://localhost:5500/api/user/admin/archive", {id: needed_id, archived: false}).then(ans => console.log(ans))
     }
     const openfunc = (i) => {
         setOpened(i)
@@ -108,8 +108,8 @@ const AdminUsers = () => {
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>
                     <Link className='sidemenu__routing__link' to='/admin'>Модерация постов</Link>
                     <Link className='sidemenu__routing__link' to='/admin/archived'>Архив постов</Link>
-                    <Link className='sidemenu__routing__link link-selected' to='/admin/users'>Модерация пользователей</Link>
-                    <Link className='sidemenu__routing__link' to='/admin/users/archived'>Архив пользователей</Link>
+                    <Link className='sidemenu__routing__link' to='/admin/users'>Модерация пользователей</Link>
+                    <Link className='sidemenu__routing__link link-selected' to='/admin/users/archived'>Архив пользователей</Link>
                     <Link className='sidemenu__routing__link' to='/allposts'>Общий список</Link>
                     <a href='/logout' className='btn btn-danger' >Выйти</a>
                 </div>
@@ -193,7 +193,7 @@ const AdminUsers = () => {
                         <td onClick={() => openfunc(i)} >{user.email}</td>
                         <td onClick={() => openfunc(i)} >{user.companyname ? user.companyname : '-'}</td>
                         <td onClick={() => openfunc(i)} style={{color: colorsd[user.status]}}>{user.status}</td>
-                        <td onClick={() => toArchive(user.id)} className='btn btn-warning'>В архив</td>
+                        <td onClick={() => toArchive(user.id)} className='btn btn-success'>Вернуть</td>
                         </tr>)})}
                     </tbody>
                 </table>

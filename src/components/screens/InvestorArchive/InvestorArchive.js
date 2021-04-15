@@ -81,7 +81,7 @@ const InvestorArchive = () => {
                             <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.object}</td>
                             <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.fio}</td>
                             <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.city}</td>
-                            <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.amount}</td>
+                            <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.amount.toLocaleString()}</td>
                             <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.rate}</td>
                             <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.period}</td>
                             <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.status}</td>

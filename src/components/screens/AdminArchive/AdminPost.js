@@ -11,7 +11,7 @@ const AdminPost = (props) => {
     <td onClick={() => props.openfunc(props.index)} >{props.post.object}</td>
     <td onClick={() => props.openfunc(props.index)} >{props.post.borrower_lname}</td>
     <td onClick={() => props.openfunc(props.index)} style={{color: colorsd[props.post.status]}}>{props.post.status}</td>
-    <td onClick={() => props.toArchive(props.index)}><button className='btn btn-warning'>В архив</button></td>
+    <td onClick={() => props.toArchive(props.index)}><button className='btn btn-success'>Вернуть</button></td>
     </tr>
     )
 }

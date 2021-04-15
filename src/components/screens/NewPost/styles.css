@@ -33,6 +33,7 @@
 }
 .create__form__uploadedphoto {
     width: 150px;
+    margin-top: 20px;
     height: 150px;
     display: flex;
     align-items: center;

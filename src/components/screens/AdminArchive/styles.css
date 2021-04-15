@@ -1,0 +1,50 @@
+.moderations {
+    margin-left: 300px;
+    padding: 20px;
+}
+.moderations__infobox,
+.moderations__changecards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.card {
+    padding: 10px !important;
+}
+tr {
+    cursor: pointer !important;
+}
+.changecards__card {
+    margin-bottom: 10px;
+}
+.fizbox {
+    display: flex;
+    flex-wrap: wrap;
+}
+.fizuserb {
+    width: 200px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+.fizbox button {
+    margin-bottom: 20px;
+}
+.main_span,
+.makemain_span {
+    position: absolute;
+    bottom: 0;
+    font-size: 13px;
+    width: 100%;
+    opacity: 0.7;
+}
+.main_span {
+    opacity: 1;
+}
+.extdocuments__message {
+    display: flex;
+    flex-direction: column;
+}
+.extdocuments__message textarea {
+    margin-top: 0;
+    margin-bottom: 15px;
+}

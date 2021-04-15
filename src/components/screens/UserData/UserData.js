@@ -16,12 +16,12 @@ const UserData = () => {
 
     const sendData = () => {
         console.log(userdata)
-        axios.post('https://investapp-back.herokuapp.com/user/userdata', userdata, { headers: { 'x-auth-token': token } }).then(result => toast.info('Данные успешно обновлены'))
+        axios.put(`http://localhost:5500/api/user/${state.id}`, userdata).then(result => toast.info('Данные успешно обновлены'))
     }
 
     useEffect(() => {
         if (state) {
-            axios.get(`https://investapp-back.herokuapp.com/user/userdata`, { headers: { 'x-auth-token': token } }).then(result => setUserData(result.data.userdata))
+            axios.get(`http://localhost:5500/api/user/${state.id}`).then(result => setUserData(result.data.userdata))
         }
     }, [state])
 

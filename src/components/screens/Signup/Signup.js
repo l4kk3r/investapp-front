@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react'
 import './signup-styles.css'
 import {useHistory} from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import axios from 'axios'
 
 const Home = () => {
     const history = useHistory()
@@ -33,12 +34,7 @@ const Home = () => {
             setError('Пароли не совпадают')
             return;
         }
-        fetch("https://investapp-back.herokuapp.com/user/signup",{
-            method:"post",
-            headers:{
-                "Content-Type":"application/json" 
-            },
-            body:JSON.stringify({
+        axios.post("https://investapp-back.herokuapp.com/api/user",{
                 acctype,
                 firstname,
                 lastname,
@@ -47,10 +43,9 @@ const Home = () => {
                 phone,
                 password,
                 confirmpassword
-            })
-        }).then(ans=>ans.json()).then(realans=>{
-            if (realans.err) {
-                setError(realans.err)
+        }).then(realans=>{
+            if (realans.data.err) {
+                setError(realans.data.err)
                 return
             }
             history.push('/signin')

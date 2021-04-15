@@ -17,6 +17,8 @@ import AllPosts from './components/screens/AllPosts/AllPosts'
 import LogoutPage from './components/screens/LogoutPage/LogoutPage'
 import InvestorArchive from './components/screens/InvestorArchive/InvestorArchive';
 import BrokerArchive from './components/screens/BrokerArchive/BrokerArchive';
+import AdminArchive from './components/screens/AdminArchive/AdminArchive'
+import AdminUsersArchive from './components/screens/AdminUsersArchive/AdminUsersArchive'
 
 export const UserContext = createContext()
 const Routing = () => {
@@ -31,14 +33,16 @@ const Routing = () => {
   const user = JSON.parse(localStorage.getItem("user"))
   return(
     <Switch>
-      <Route path='/'render = { () => user ? user.acctype === "admin" ? <Admin /> : user.acctype == "broker" ? <BrokerProfile /> : <InvestorProfile /> : <Redirect to="/signin"/>}  exact />
+      <Route path='/' render = { () => user ? user.acctype === "admin" ? <Admin /> : user.acctype == "broker" ? <BrokerProfile /> : <InvestorProfile /> : <Redirect to="/signin"/>}  exact />
       <Route path='/archive'render = { () => user ? user.acctype === "admin" ? <Admin /> : user.acctype == "broker" ? <BrokerArchive /> : <InvestorArchive /> : <Redirect to="/signin"/>}  exact />
       <Route path='/userdata' component = { UserData } exact />
       <Route path='/newpost' component = { () => user ? user.acctype == "broker" ? <NewPost /> : <Redirect to="/"/> : <Redirect to="/signin"/> } exact />
       <Route path='/signup' exact render={() => (user ? ( <Redirect to="/"/>) : (<Signup/>))} />
       <Route path='/signin' exact render={() => (user ? ( <Redirect to="/"/>) : (<Signin/>))} />
       <Route path='/post/:id' render = { props => <PostPage {...props} /> } exact />
-      <Route path='/allposts' render = { () => user ? user.acctype == "investor" ? <AllPosts /> : <Redirect to="/"/> : <Redirect to="/signin"/> } exact />
+      <Route path='/allposts' render = { () => user ? user.acctype == "broker" ? <Redirect to="/"/> : <AllPosts /> : <Redirect to="/signin"/> } exact />
+      <Route path='/admin/archived' exact render={() => (user ? user.acctype === "admin" ? (<AdminArchive/>) : ( <Redirect to="/"/>) : ( <Redirect to="/signin"/>))}/>
+      <Route path='/admin/users/archived' exact render={() => (user ? user.acctype === "admin" ? (<AdminUsersArchive/>) : ( <Redirect to="/"/>) : ( <Redirect to="/signin"/>))}/>
       <Route path='/admin/users' exact render={() => (user ? user.acctype === "admin" ? (<AdminUsers/>) : ( <Redirect to="/"/>) : ( <Redirect to="/signin"/>))}/>
       <Route path='/admin' exact render={() => (user ? user.acctype === "admin" ? (<Admin/>) : ( <Redirect to="/"/>) : ( <Redirect to="/signin"/>))} exact/>
       <Route path='/logout' exact render={() => (user ? <LogoutPage /> : ( <Redirect to="/signin"/>))} exact/>

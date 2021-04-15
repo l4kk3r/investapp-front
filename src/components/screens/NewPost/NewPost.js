@@ -13,7 +13,9 @@ const NewPost = () => {
     const {state, dispatch} = useContext(UserContext)
     const [newpost, setNewPost] = useState({photos: []})
     const [archiveloading, setArchiveLoading] = useState(false)
+    const [dop_archiveloading, setDopArchiveLoading] = useState(false)
     const [archive, setArchive] = useState("")
+    const [dop_archive, setDopArchive] = useState("")
     const [photos, setPhotos] = useState([])
     const [photosurls, setPhotoUrls] = useState([])
     const [sended, setSended] = useState(false)
@@ -142,14 +144,14 @@ const NewPost = () => {
                 phone: state.phone,
                 email: state.email
             }
-            axios.post("https://investapp-back.herokuapp.com/user/createpost", newpost).then(result => setServerResponse(result.data.message))
+            axios.post("http://localhost:5500/api/post", newpost).then(result => setServerResponse(result.data.message))
         }
     }, [sended, photosurls, state, archive])
 
     const uploadToServer = (photo) => {
         const data = new FormData();
         data.append("file", photo)
-        axios.post("https://investapp-back.herokuapp.com/aws/upload-image", data).then(answer => {
+        axios.post("http://localhost:5500/api/aws/upload-image", data).then(answer => {
             if (!answer.data.error) {
                 newpost.photos.push(answer.data.url)
                 setPhotoUrls(old=>[...old, answer.data.url])
@@ -160,14 +162,31 @@ const NewPost = () => {
         setArchiveLoading(true)
         const data = new FormData();
         data.append("file", archive)
-        axios.post("https://investapp-back.herokuapp.com/aws/upload-archive", data).then(answer => {
+        axios.post("http://localhost:5500/api/aws/upload-archive", data).then(answer => {
             if (!answer.data.error) {
                 if (newpost.archive) {
                     const file_key = newpost.archive.replace('https://comeinvest.s3.amazonaws.com/', '').replace('https://comeinvest.s3.us-east-2.amazonaws.com/', '')
-                    axios.post("https://investapp-back.herokuapp.com/aws/delete-file", {file_key}).then(answer => console.log(answer))
+                    axios.post("http://localhost:5500/api/aws/delete-file", {file_key}).then(answer => console.log(answer))
                 }
                 newpost.archive = answer.data.url
+                setArchiveLoading(false)
                 setArchive(answer.data.url)
+            }
+        })
+    }
+    const uploadDopArchive = (archive) => {
+        setDopArchiveLoading(true)
+        const data = new FormData();
+        data.append("file", archive)
+        axios.post("http://localhost:5500/api/aws/upload-archive", data).then(answer => {
+            if (!answer.data.error) {
+                if (newpost.dop_archive) {
+                    const file_key = newpost.dop_archive.replace('https://comeinvest.s3.amazonaws.com/', '').replace('https://comeinvest.s3.us-east-2.amazonaws.com/', '')
+                    axios.post("http://localhost:5500/api/aws/delete-file", {file_key}).then(answer => console.log(answer))
+                }
+                newpost.dop_archive = answer.data.url
+                setDopArchiveLoading(false)
+                setDopArchive(answer.data.url)
             }
         })
     }
@@ -192,7 +211,7 @@ const NewPost = () => {
     }
     const deletePhoto = (i) => {
         const file_key = photosurls[i - 1].replace('https://comeinvest.s3.amazonaws.com/', '').replace('https://comeinvest.s3.us-east-2.amazonaws.com/', '')
-        axios.post("https://investapp-back.herokuapp.com/aws/delete-file", {file_key}).then(answer => console.log(answer))
+        axios.post("http://localhost:5500/aws/delete-file", {file_key}).then(answer => console.log(answer))
         const new_photos = photos.slice(0, i - 1).concat(photos.slice(i, photos.length))
         const new_photosurls = photosurls.slice(0, i - 1).concat(photosurls.slice(i, photosurls.length))
         newpost.photos.pop(photosurls[i])
@@ -276,11 +295,11 @@ const NewPost = () => {
                             <div className="create__form__group-item">
                                 <label htmlFor="input-period" className="form-label label-required">Срок (в месяц)</label>
                                 <Select placeholder='Выберите...' onChange={ (e) => {newpost.period = e.value; console.log(e.value)} }  options={[
-                                    { value: 'от 12', label: 'от 12' },
-                                    { value: ' от 24', label: ' от 24' },
-                                    { value: 'от 36', label: 'от 36' },
-                                    { value: ' от 48', label: ' от 48' },
-                                    { value: 'от 60', label: 'от 60' }
+                                    { value: 'до 12', label: 'до 12' },
+                                    { value: ' до 24', label: ' до 24' },
+                                    { value: 'до 36', label: 'до 36' },
+                                    { value: ' до 48', label: ' до 48' },
+                                    { value: 'до 60', label: 'до 60' }
                                     ]} />
                             </div>
                         </div>
@@ -369,8 +388,16 @@ const NewPost = () => {
                             <li>СНИЛС</li>
                         </ul>
                         <div className="create__form__uploadbutton">
-                            <label htmlFor='upload-archive' className="btn btn-secondary">{archive ? archive.slice(60,) : archiveloading ? 'Идёт загрузка...' : 'Загрузить'}</label>
+                            <label htmlFor='upload-archive' className="btn btn-secondary">{archiveloading ? 'Идёт загрузка...' : archive ? archive.slice(60,) : 'Загрузить'}</label>
                             <input id='upload-archive' type='file'  onChange={(e) => uploadArchive(e.target.files[0])} accept=".zip, .rar, .7z, .zipx, .lha, .war"/>
+                        </div>
+                    </div>
+                    <div className='create__form__inputfile__archive'>
+                        <h3>Иные документы</h3>
+                        <h5>Прикрепите архив с иными документами необходимыми для сделки:</h5>
+                        <div className="create__form__uploadbutton">
+                            <label htmlFor='upload-doparchive' className="btn btn-secondary">{dop_archiveloading ? 'Идёт загрузка...' : dop_archive ? dop_archive.slice(60,) : 'Загрузить'}</label>
+                            <input id='upload-doparchive' type='file'  onChange={(e) => uploadDopArchive(e.target.files[0])} accept=".zip, .rar, .7z, .zipx, .lha, .war"/>
                         </div>
                     </div>
                 </div>

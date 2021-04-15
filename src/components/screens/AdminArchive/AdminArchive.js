@@ -190,12 +190,12 @@ const Admin = () => {
         }
     }, [photosurls, archiveurl])
     useEffect(() => {
-        axios.get("http://localhost:5500/api/post/not_archived").then(result => {setPosts(result.data.posts); console.log(result.data.posts); setPostsInfo(result.data.posts); console.log(result.data.answers); setAnswers(result.data.answers)})
+        axios.get("http://localhost:5500/api/post/archived").then(result => {setPosts(result.data.posts); console.log(result.data.posts); setPostsInfo(result.data.posts); console.log(result.data.answers); setAnswers(result.data.answers)})
         }, [])
     const toArchive = (i) => {
         let needed_id = posts[i].id
         setPosts(posts.filter(pst => pst.id !== needed_id))
-        axios.post("http://localhost:5500/api/post/admin/archive", {id: posts[i].id, archived: true}).then(ans => console.log(ans))
+        axios.post("http://localhost:5500/api/post/admin/archive", {id: posts[i].id, archived: false}).then(ans => console.log(ans))
     }
     const openfunc = (i) => {
         if (opened === i) {
@@ -273,8 +273,8 @@ const Admin = () => {
             <div className='sidemenu'>
                 <div className='sidemenu__routing'>
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>
-                    <Link className='sidemenu__routing__link link-selected' to='/admin'>Модерация постов</Link>
-                    <Link className='sidemenu__routing__link' to='/admin/archived'>Архив постов</Link>
+                    <Link className='sidemenu__routing__link' to='/admin'>Модерация постов</Link>
+                    <Link className='sidemenu__routing__link link-selected' to='/admin/archived'>Архив постов</Link>
                     <Link className='sidemenu__routing__link' to='/admin/users'>Модерация пользователей</Link>
                     <Link className='sidemenu__routing__link' to='/admin/users/archived'>Архив пользователей</Link>
                     <Link className='sidemenu__routing__link' to='/allposts'>Общий список</Link>

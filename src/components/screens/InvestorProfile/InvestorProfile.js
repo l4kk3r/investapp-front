@@ -18,19 +18,15 @@ const InvestorProfile = () => {
     const isIP_options = [
         'Да', 'Нет', 'Откроется'
     ];
-
-    const updateFilters = () => {
-        axios.post("https://investapp-back.herokuapp.com/updateuser", {id: state.id, fmin_amount, fmax_amount: fmax_amount * -1,}).then(response=>console.log(response.data))
-    }
     
     const toArchive = (id) => {
         setAnswers(answers.filter(ans => ans.id !== id))
-        axios.post("https://investapp-back.herokuapp.com/user/answer-archive", {id, archived: true}).then(response=>console.log(response.data))
+        axios.put("http://localhost:5500/api/answer/archive", {id, archived: true}).then(response=>console.log(response.data))
     }
 
     useEffect(() => {
         if (state) {
-            axios.post("https://investapp-back.herokuapp.com/user/answers", {investor_id: state.id, archived: false}).then(res=>{console.log(res); setAnswers(res.data.answers)}) }
+            axios.post("http://localhost:5500/api/answer/all", {investor_id: state.id, archived: false}).then(res=>{console.log(res); setAnswers(res.data.answers)}) }
     }, [state])
 
     return (
@@ -81,7 +77,7 @@ const InvestorProfile = () => {
                             <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.object}</td>
                             <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.fio}</td>
                             <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.city}</td>
-                            <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.amount}</td>
+                            <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.amount.toLocaleString()}</td>
                             <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.rate}</td>
                             <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.period}</td>
                             <td onClick={() => {history.push(`/post/${answer.post_id}`)}}>{answer.status}</td>

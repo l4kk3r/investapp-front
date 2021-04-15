@@ -3,6 +3,7 @@ import './signin-styles.css'
 import {UserContext} from '../../../App'
 import {useHistory} from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import axios from 'axios'
 
 const Home = () => {
     const history = useHistory()
@@ -11,16 +12,11 @@ const Home = () => {
     const [password, setPassword] = useState("")
     const [error, setError] = useState(null)
     const sendData = () => {
-        fetch("https://investapp-back.herokuapp.com/user/signin",{
-            method:"post",
-            headers:{
-                "Content-Type":"application/json" 
-            },
-            body:JSON.stringify({
+        axios.post("http://localhost:5500/api/user/signin",{
                 email,
                 password,
-            })
-        }).then(ans=>ans.json()).then(realans=>{
+        }).then(realans=>{
+            realans = realans.data
             if (realans.token) {
                 if (realans.user.status === 'Модерация') {
                     setError("Спасибо за регистрацию. Наш менеджер свяжется с вами в течение 5 минут и подтвердит вашу личность")

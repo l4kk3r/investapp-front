@@ -17,7 +17,7 @@ const AllPosts = () => {
     const [display_posts, setDisplayPosts] = useState([])
     useEffect(() => {
         if (state) {
-            axios.post('https://investapp-back.herokuapp.com/user/allpublished', {id: state.id}).then(realans => {setAllPosts(realans.data.posts); console.log(realans.data.filter); setFilter(realans.data.filter); setPosts(realans.data.posts)})
+            axios.post('http://localhost:5500/api/post/allpublished', {user_id: state.id}).then(realans => {setAllPosts(realans.data.posts); console.log(realans.data.filter); setFilter(realans.data.filter); setPosts(realans.data.posts)})
         }}, [state])
     // const checkSearch = (adress) => {
     //     const keywords = filter.search.split(' ')
@@ -139,7 +139,7 @@ const AllPosts = () => {
     }
     const saveFiltersToDb = () => {
         console.log(filter)
-        axios.post('https://investapp-back.herokuapp.com/user/update-filters', {id: state.id, filter}).then(ans => console.log(ans))
+        axios.post('http://localhost:5500/api/user/updatefilters', {id: state.id, filter}).then(ans => console.log(ans))
     }
     const showAll = () => {
         setPosts(allposts)
@@ -150,14 +150,27 @@ const AllPosts = () => {
                 <title>SHAR | Общий список</title>
             </Helmet>
             <div className='sidemenu'>
-                <div className='sidemenu__routing'>
-                    <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>
-                    <Link className='sidemenu__routing__link' to='/'>Мои ответы</Link>
-                    <Link className='sidemenu__routing__link' to='/'>Архив</Link>
-                    <Link className='sidemenu__routing__link link-selected' to='/allposts'>Общий список</Link>
-                    <Link className='sidemenu__routing__link' to='/userdata'>Мои данные</Link>
-                    <a href='/logout' className='btn btn-danger' >Выйти</a>
-                </div>
+                {state ? state.acctype === 'investor' ? (
+                    <div className='sidemenu__routing'>
+                        <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>
+                        <Link className='sidemenu__routing__link' to='/'>Мои ответы</Link>
+                        <Link className='sidemenu__routing__link' to='/'>Архив</Link>
+                        <Link className='sidemenu__routing__link link-selected' to='/allposts'>Общий список</Link>
+                        <Link className='sidemenu__routing__link' to='/userdata'>Мои данные</Link>
+                        <a href='/logout' className='btn btn-danger' >Выйти</a>
+                    </div>
+                ) : (
+                    <div className='sidemenu__routing'>
+                        <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>
+                        <Link className='sidemenu__routing__link' to='/admin'>Модерация постов</Link>
+                        <Link className='sidemenu__routing__link' to='/admin/archived'>Архив постов</Link>
+                        <Link className='sidemenu__routing__link' to='/admin/users'>Модерация пользователей</Link>
+                        <Link className='sidemenu__routing__link' to='/admin/users/archived'>Архив пользователей</Link>
+                        <Link className='sidemenu__routing__link link-selected' to='/allposts'>Общий список</Link>
+                        <a href='/logout' className='btn btn-danger' >Выйти</a>
+                    </div>
+                )
+                 : null}
                 <div className='sidemenu__social'>
                     <div className='sidemenu__social__header'>
                         <p>Поддержка:</p>
