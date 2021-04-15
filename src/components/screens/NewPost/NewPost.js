@@ -144,14 +144,14 @@ const NewPost = () => {
                 phone: state.phone,
                 email: state.email
             }
-            axios.post("http://localhost:5500/api/post", newpost).then(result => setServerResponse(result.data.message))
+            axios.post("https://investappp.herokuapp.com//api/post", newpost).then(result => setServerResponse(result.data.message))
         }
     }, [sended, photosurls, state, archive])
 
     const uploadToServer = (photo) => {
         const data = new FormData();
         data.append("file", photo)
-        axios.post("http://localhost:5500/api/aws/upload-image", data).then(answer => {
+        axios.post("https://investappp.herokuapp.com//api/aws/upload-image", data).then(answer => {
             if (!answer.data.error) {
                 newpost.photos.push(answer.data.url)
                 setPhotoUrls(old=>[...old, answer.data.url])
@@ -162,11 +162,11 @@ const NewPost = () => {
         setArchiveLoading(true)
         const data = new FormData();
         data.append("file", archive)
-        axios.post("http://localhost:5500/api/aws/upload-archive", data).then(answer => {
+        axios.post("https://investappp.herokuapp.com//api/aws/upload-archive", data).then(answer => {
             if (!answer.data.error) {
                 if (newpost.archive) {
                     const file_key = newpost.archive.replace('https://comeinvest.s3.amazonaws.com/', '').replace('https://comeinvest.s3.us-east-2.amazonaws.com/', '')
-                    axios.post("http://localhost:5500/api/aws/delete-file", {file_key}).then(answer => console.log(answer))
+                    axios.post("https://investappp.herokuapp.com//api/aws/delete-file", {file_key}).then(answer => console.log(answer))
                 }
                 newpost.archive = answer.data.url
                 setArchiveLoading(false)
@@ -178,11 +178,11 @@ const NewPost = () => {
         setDopArchiveLoading(true)
         const data = new FormData();
         data.append("file", archive)
-        axios.post("http://localhost:5500/api/aws/upload-archive", data).then(answer => {
+        axios.post("https://investappp.herokuapp.com//api/aws/upload-archive", data).then(answer => {
             if (!answer.data.error) {
                 if (newpost.dop_archive) {
                     const file_key = newpost.dop_archive.replace('https://comeinvest.s3.amazonaws.com/', '').replace('https://comeinvest.s3.us-east-2.amazonaws.com/', '')
-                    axios.post("http://localhost:5500/api/aws/delete-file", {file_key}).then(answer => console.log(answer))
+                    axios.post("https://investappp.herokuapp.com//api/aws/delete-file", {file_key}).then(answer => console.log(answer))
                 }
                 newpost.dop_archive = answer.data.url
                 setDopArchiveLoading(false)
@@ -211,7 +211,7 @@ const NewPost = () => {
     }
     const deletePhoto = (i) => {
         const file_key = photosurls[i - 1].replace('https://comeinvest.s3.amazonaws.com/', '').replace('https://comeinvest.s3.us-east-2.amazonaws.com/', '')
-        axios.post("http://localhost:5500/aws/delete-file", {file_key}).then(answer => console.log(answer))
+        axios.post("https://investappp.herokuapp.com//aws/delete-file", {file_key}).then(answer => console.log(answer))
         const new_photos = photos.slice(0, i - 1).concat(photos.slice(i, photos.length))
         const new_photosurls = photosurls.slice(0, i - 1).concat(photosurls.slice(i, photosurls.length))
         newpost.photos.pop(photosurls[i])

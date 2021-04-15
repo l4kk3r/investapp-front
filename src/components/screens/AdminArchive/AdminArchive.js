@@ -186,16 +186,16 @@ const Admin = () => {
                 postsinfo[opened].photos = postsinfo[opened].photos.concat(photosurls)
             }
             postsinfo[opened].todelete = deletedphotos
-            axios.put(`http://localhost:5500/api/post/admin/${postsinfo[opened].id}`, postsinfo[opened]).then(response => {console.log(response.data); setSaving(false); toast.info('Заявка успешно сохранена')})
+            axios.put(`https://investappp.herokuapp.com//api/post/admin/${postsinfo[opened].id}`, postsinfo[opened]).then(response => {console.log(response.data); setSaving(false); toast.info('Заявка успешно сохранена')})
         }
     }, [photosurls, archiveurl])
     useEffect(() => {
-        axios.get("http://localhost:5500/api/post/archived").then(result => {setPosts(result.data.posts); console.log(result.data.posts); setPostsInfo(result.data.posts); console.log(result.data.answers); setAnswers(result.data.answers)})
+        axios.get("https://investappp.herokuapp.com//api/post/archived").then(result => {setPosts(result.data.posts); console.log(result.data.posts); setPostsInfo(result.data.posts); console.log(result.data.answers); setAnswers(result.data.answers)})
         }, [])
     const toArchive = (i) => {
         let needed_id = posts[i].id
         setPosts(posts.filter(pst => pst.id !== needed_id))
-        axios.post("http://localhost:5500/api/post/admin/archive", {id: posts[i].id, archived: false}).then(ans => console.log(ans))
+        axios.post("https://investappp.herokuapp.com//api/post/admin/archive", {id: posts[i].id, archived: false}).then(ans => console.log(ans))
     }
     const openfunc = (i) => {
         if (opened === i) {
@@ -216,7 +216,7 @@ const Admin = () => {
     const uploadToServer = (photo, isMainPhoto=false) => {
         const data = new FormData();
         data.append("file", photo)
-        axios.post("http://localhost:5500/api/aws/upload-image", data).then(answer => {
+        axios.post("https://investappp.herokuapp.com//api/aws/upload-image", data).then(answer => {
             if (!answer.data.error) {
                 if (isMainPhoto) {
                     setPhotosUrls(old=>[answer.data.url, ...old])
@@ -230,7 +230,7 @@ const Admin = () => {
         console.log(archive)
         const data = new FormData();
         data.append("file", archive)
-        axios.post("http://localhost:5500/api/aws/upload-archive", data).then(answer => {
+        axios.post("https://investappp.herokuapp.com//api/aws/upload-archive", data).then(answer => {
             if (!answer.data.error) {
                 setArchiveUrl(answer.data.url)
             }

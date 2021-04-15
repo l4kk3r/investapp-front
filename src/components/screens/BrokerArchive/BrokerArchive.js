@@ -41,7 +41,7 @@ const BrokerProfile = () => {
     const uploadToServer = (photo, isMainPhoto = false) => {
         const data = new FormData();
         data.append("file", photo)
-        axios.post("http://localhost:5500/api/aws/upload-image", data).then(answer => {
+        axios.post("https://investappp.herokuapp.com//api/aws/upload-image", data).then(answer => {
             if (!answer.data.error) {
                 if (isMainPhoto) {
                     setPhotosUrls(old=>[answer.data.url, ...old])
@@ -101,12 +101,12 @@ const BrokerProfile = () => {
                 openedpost.photos = openedpost.photos.concat(photosurls)
             }
             openedpost.todelete = deletedphotos
-            axios.put(`http://localhost:5500/api/post/${openedpost.id}`, openedpost).then(response => {console.log(response.data); setSaving(false); toast.info('Заявка успешно сохранена')})
+            axios.put(`https://investappp.herokuapp.com//api/post/${openedpost.id}`, openedpost).then(response => {console.log(response.data); setSaving(false); toast.info('Заявка успешно сохранена')})
         }
     }, [photosurls, archiveurl, externalurl])
 
     const changeAnswerStatus = (answer, status) => {
-        axios.put("http://localhost:5500/api/answer/status", {id: answer.id, status}).then(response => console.log(response))
+        axios.put("https://investappp.herokuapp.com//api/answer/status", {id: answer.id, status}).then(response => console.log(response))
     }
     const openPost = (post) => {
         setOpenedPost(post)
@@ -140,13 +140,13 @@ const BrokerProfile = () => {
     }
     const toArchive = (id) => {
         setPosts(posts.filter(pst => pst.id !== id))
-        axios.post("http://localhost:5500/api/post/archive", {id, archived: false}).then(response=>console.log(response.data))
+        axios.post("https://investappp.herokuapp.com//api/post/archive", {id, archived: false}).then(response=>console.log(response.data))
     }
     const uploadToServerArchive = (archive, isExternal = false) => {
         console.log(archive)
         const data = new FormData();
         data.append("file", archive)
-        axios.post("http://localhost:5500/api/aws/upload-archive", data).then(answer => {
+        axios.post("https://investappp.herokuapp.com//api/aws/upload-archive", data).then(answer => {
             if (!answer.data.error) {
                 if (isExternal) {
                     setExtUrl(answer.data.url)
@@ -160,7 +160,7 @@ const BrokerProfile = () => {
 
     useEffect(() => {
         if (state) {
-            axios.post("http://localhost:5500/api/post/users", {creator_id: state.id, archived: true}).then(res=>{setPosts(res.data.posts); setAnswers(res.data.answers); console.log(res.data)}) }
+            axios.post("https://investappp.herokuapp.com//api/post/users", {creator_id: state.id, archived: true}).then(res=>{setPosts(res.data.posts); setAnswers(res.data.answers); console.log(res.data)}) }
     }, [state])
 
     const makeMain = (photo) => {

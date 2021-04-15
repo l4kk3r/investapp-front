@@ -16,12 +16,12 @@ const UserData = () => {
 
     const sendData = () => {
         console.log(userdata)
-        axios.put(`http://localhost:5500/api/user/${state.id}`, userdata).then(result => toast.info('Данные успешно обновлены'))
+        axios.put(`https://investappp.herokuapp.com//api/user/${state.id}`, userdata).then(result => toast.info('Данные успешно обновлены'))
     }
 
     useEffect(() => {
         if (state) {
-            axios.get(`http://localhost:5500/api/user/${state.id}`).then(result => setUserData(result.data.userdata))
+            axios.get(`https://investappp.herokuapp.com//api/user/${state.id}`).then(result => setUserData(result.data.userdata))
         }
     }, [state])
 
