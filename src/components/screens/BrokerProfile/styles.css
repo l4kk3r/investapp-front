@@ -89,3 +89,10 @@ input[type='file'] {
     display: flex;
     justify-content: center;
 }
+.search_bar {
+    display: flex;
+    justify-content: center;
+}
+.search_bar_input {
+    width: 400px;
+}

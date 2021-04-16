@@ -125,15 +125,13 @@ const AdminUsers = () => {
                 </div>
             </div>
             <div className='moderations'>
-                <div className='moderations__settings'>
-                    <div className='moderations__settings__filters'>
-                        <label><input type="checkbox" onChange={() => setPublishedFilter(!published_filter)} checked={published_filter}/>Активный</label>
-                        <label><input type="checkbox" onChange={() => setModerationFilter(!moderation_filter)} checked={moderation_filter}/>Модерация</label>
-                        <label><input type="checkbox" onChange={() => setBlockedFilter(!blocked_filter)} checked={blocked_filter}/>Заблокирован</label>
-                    </div>
-                    <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <input placeholder='Поиск...' className='searcher' type='text' onChange={(e) => setSearchFilter(e.target.value)} />
-                    </div>
+                <div className='search_bar'>
+                            <div class="input-group mb-3 search_bar_input">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa fa-search"></i></span>
+                                </div>
+                                <input type="text" onChange={(e) => setUsers(usersinfo.filter(p => ((p.amount ? p.amount.toString() : '') + (p.rate ? p.rate.toString() : '') + (p.period ? p.period.toString() : '') + (p.object ? p.object : '') + (p.city ? p.city : '') + p.status).includes(e.target.value) ))} class="form-control" aria-label="Поиск" aria-describedby="inputGroup-sizing-default" />
+                            </div>
                 </div>
                 { opened ? <div key={opened} style={{display: opened ? 'block' : 'none'}} className='moderation__userinfo'>
                         <h3>Параметры пользователя</h3>

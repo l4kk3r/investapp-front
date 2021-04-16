@@ -16,6 +16,7 @@ const BrokerProfile = () => {
     const [filters, setFilters] = useState("")
     const [openedpost, setOpenedPost] = useState("")
     const [posts, setPosts] = useState("")
+    const [postsinfo, setPostsInfo] = useState("")
     const [answers, setAnswers] = useState("")
     const [photos, setPhotos] = useState([])
     const [external_document, setExtDocument] = useState(false)
@@ -26,11 +27,8 @@ const BrokerProfile = () => {
     const [mainphoto, setMainPhoto] = useState('')
     const [deletedphotos, setDeletedPhotos] = useState([])
     const [externalurl, setExtUrl] = useState(false)
-    const [deletedcount, setDeletedCount] = useState(0)
     const [archiveurl, setArchiveUrl] = useState(false)
     const [newphotosurls, setNewPhotosUrls] = useState([])
-    const [fmin_amount, setMinAmount] = useState("")
-    const [fmax_amount, setMaxAmount] = useState("")
     const isIP_options = [
         'Да', 'Нет', 'Откроется'
     ];
@@ -118,7 +116,6 @@ const BrokerProfile = () => {
         setNewPhotosUrls([])
         setDeletedPhotos([])
         setMainPhoto(post.photos[0])
-        setDeletedCount(0)
     }
     const photosInput = (e) => {
         const inputed_photos = e.target.files
@@ -160,7 +157,7 @@ const BrokerProfile = () => {
 
     useEffect(() => {
         if (state) {
-            axios.post("https://investappp.herokuapp.com/api/post/users", {creator_id: state.id, archived: false}).then(res=>{setPosts(res.data.posts); setAnswers(res.data.answers); console.log(res.data)}) }
+            axios.post("https://investappp.herokuapp.com/api/post/users", {creator_id: state.id, archived: false}).then(res=>{setPosts(res.data.posts); setPostsInfo(res.data.posts); setAnswers(res.data.answers); console.log(res.data)}) }
     }, [state])
 
     const makeMain = (photo) => {
@@ -196,6 +193,14 @@ const BrokerProfile = () => {
             </div>
             <div className='content'>
                 <div className='userposts'>
+                    <div className='search_bar'>
+                        <div class="input-group mb-3 search_bar_input">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa fa-search"></i></span>
+                            </div>
+                            <input type="text" onChange={(e) => setPosts(postsinfo.filter(p => ((p.amount ? p.amount.toString() : '') + (p.rate ? p.rate.toString() : '') + (p.period ? p.period.toString() : '') + (p.object ? p.object : '') + (p.city ? p.city : '') + p.status).includes(e.target.value) ))} class="form-control" aria-label="Поиск" aria-describedby="inputGroup-sizing-default" />
+                        </div>
+                    </div>
                 <table className="table table-bordered table-hover">
                     <thead>
                         <tr>
