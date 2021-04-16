@@ -52,11 +52,11 @@ const PostPage = (props) => {
     }
     
     const sendRequest = (e) => {
-        axios.post("https://investappp.herokuapp.com//api/answer", {creator_id: post.creator_id, investor_info: `${state.firstname} ${state.lastname}, ${state.phone}, ${state.email}`, investor_id: state.id, post_id: post.id, object: post.object, city: post.city, fio: post.borrower_lname, amount: investamount, period: investperiod, rate: investrate, comment: investcomment }).then(response => response.data.message == 'Ответ успешно отправлен' ? setSended(true) : null)
+        axios.post("https://investappp.herokuapp.com/api/answer", {creator_id: post.creator_id, investor_info: `${state.firstname} ${state.lastname}, ${state.phone}, ${state.email}`, investor_id: state.id, post_id: post.id, object: post.object, city: post.city, fio: post.borrower_lname, amount: investamount, period: investperiod, rate: investrate, comment: investcomment }).then(response => response.data.message == 'Ответ успешно отправлен' ? setSended(true) : null)
     }
 
     useEffect(()=>{    
-        axios.get(`https://investappp.herokuapp.com//api/post/${props.match.params.id}`, {id: props.match.params.id}).then(response => {console.log(response); const serverpost = response.data.post[0]; setInvestAmount(serverpost.amount); setInvestRate(serverpost.rate); setInvestPeriod(serverpost.period); formXlFile(response.data.post[0]); setPost(response.data.post[0])})
+        axios.get(`https://investappp.herokuapp.com/api/post/${props.match.params.id}`, {id: props.match.params.id}).then(response => {console.log(response); const serverpost = response.data.post[0]; setInvestAmount(serverpost.amount); setInvestRate(serverpost.rate); setInvestPeriod(serverpost.period); formXlFile(response.data.post[0]); setPost(response.data.post[0])})
     },[])
     return (
         <>

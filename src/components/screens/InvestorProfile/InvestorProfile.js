@@ -21,12 +21,12 @@ const InvestorProfile = () => {
     
     const toArchive = (id) => {
         setAnswers(answers.filter(ans => ans.id !== id))
-        axios.put("https://investappp.herokuapp.com//api/answer/archive", {id, archived: true}).then(response=>console.log(response.data))
+        axios.put("https://investappp.herokuapp.com/api/answer/archive", {id, archived: true}).then(response=>console.log(response.data))
     }
 
     useEffect(() => {
         if (state) {
-            axios.post("https://investappp.herokuapp.com//api/answer/all", {investor_id: state.id, archived: false}).then(res=>{console.log(res); setAnswers(res.data.answers)}) }
+            axios.post("https://investappp.herokuapp.com/api/answer/all", {investor_id: state.id, archived: false}).then(res=>{console.log(res); setAnswers(res.data.answers)}) }
     }, [state])
 
     return (

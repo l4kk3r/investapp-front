@@ -12,7 +12,7 @@ const Home = () => {
     const [password, setPassword] = useState("")
     const [error, setError] = useState(null)
     const sendData = () => {
-        axios.post("https://investappp.herokuapp.com//api/user/signin",{
+        axios.post("https://investappp.herokuapp.com/api/user/signin",{
                 email,
                 password,
         }).then(realans=>{

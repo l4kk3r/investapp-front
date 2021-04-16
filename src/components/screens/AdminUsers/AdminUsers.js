@@ -27,15 +27,15 @@ const AdminUsers = () => {
         'Модерация', 'Активный', 'Заблокирован'
     ];
     const changepost = (i) => {
-        axios.put(`https://investappp.herokuapp.com//api/user/${usersinfo[i].id}`, usersinfo[i]).then(ans => { console.log(ans); toast.info('Заявка успешно сохранена') })
+        axios.put(`https://investappp.herokuapp.com/api/user/${usersinfo[i].id}`, usersinfo[i]).then(ans => { console.log(ans); toast.info('Заявка успешно сохранена') })
     }
     useEffect(() => {
         const token = localStorage.getItem("token")
-        fetch('https://investappp.herokuapp.com//api/user/not_archived',{method:"get", headers: {"Content-Type":"application/json"}}).then(ans=>ans.json()).then(realans=>{setUsersInfo(realans.users); console.log(realans); setUsers(realans.users); })
+        fetch('https://investappp.herokuapp.com/api/user/not_archived',{method:"get", headers: {"Content-Type":"application/json"}}).then(ans=>ans.json()).then(realans=>{setUsersInfo(realans.users); console.log(realans); setUsers(realans.users); })
     }, [])
     const toArchive = (needed_id) => {
         setUsers(users.filter(pst => pst.id !== needed_id))
-        axios.post("https://investappp.herokuapp.com//api/user/admin/archive", {id: needed_id, archived: true}).then(ans => console.log(ans))
+        axios.post("https://investappp.herokuapp.com/api/user/admin/archive", {id: needed_id, archived: true}).then(ans => console.log(ans))
     }
     const openfunc = (i) => {
         setOpened(i)
