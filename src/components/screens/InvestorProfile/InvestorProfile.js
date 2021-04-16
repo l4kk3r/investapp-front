@@ -27,6 +27,17 @@ const InvestorProfile = () => {
             axios.post("https://investappp.herokuapp.com/api/answer/all", {investor_id: state.id, archived: false}).then(res=>{console.log(res); setAnswers(res.data.answers); setAnswersInfo(res.data.answers)}) }
     }, [state])
 
+    const searchItems = (s) => {
+        setAnswers(answersinfo.filter(p => {
+            const post_data = ((p.amount ? p.amount.toString() : '') + (p.fio ? p.fio.toString() : '') + (p.rate ? p.rate.toString() : '') + (p.period ? p.period.toString() : '') + (p.object ? p.object : '') + (p.city ? p.city : '') + p.status).toLowerCase()
+            console.log(post_data)
+            const result = s.split(' ').every(word => {
+                console.log(word)
+                return post_data.includes(word.toLowerCase()) 
+            })
+            return result
+        }))
+    }
     return (
         <div className='profile'>
             <Helmet>
@@ -59,7 +70,7 @@ const InvestorProfile = () => {
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa fa-search"></i></span>
                                 </div>
-                                <input type="text" onChange={(e) => setAnswers(answersinfo.filter(p => ((p.amount ? p.amount.toString() : '') + (p.rate ? p.rate.toString() : '') + (p.period ? p.period.toString() : '') + (p.object ? p.object : '') + (p.city ? p.city : '') + p.status).includes(e.target.value.replaceAll(' ', '')) ))} class="form-control" aria-label="Поиск" aria-describedby="inputGroup-sizing-default" />
+                                <input type="text" onChange={(e) => searchItems(e.target.value)} class="form-control" aria-label="Поиск" aria-describedby="inputGroup-sizing-default" />
                             </div>
                     </div>
                 <table className="table table-bordered table-hover">

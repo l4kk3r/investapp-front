@@ -96,6 +96,16 @@ const AdminUsers = () => {
             )))
         }
     },[users, opened, moderation_filter, published_filter, ptrigger, blocked_filter, searchfield])
+    const searchItems = (s) => {
+        setUsers(usersinfo.filter(p => {
+            const post_data = ((p.firstname ? p.firstname.toString() : '') + (p.lastname ? p.lastname.toString() : '') + (p.middlename ? p.middlename.toString() : '') + (p.companyname ? p.companyname : '') + (p.email ? p.email : '') + (p.phone ? p.phone : '') + p.status).toLowerCase()
+            const result = s.split(' ').every(word => {
+                console.log(word)
+                return post_data.includes(word.toLowerCase()) 
+            })
+            return result
+        }))
+    }
     return (
         <div className='maincontainer'>
             <ToastContainer>
@@ -130,7 +140,7 @@ const AdminUsers = () => {
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa fa-search"></i></span>
                                 </div>
-                                <input type="text" onChange={(e) => setUsers(usersinfo.filter(p => ((p.firstname ? p.firstname.toString() : '') + (p.lastname ? p.lastname.toString() : '') + (p.middlename ? p.middlename.toString() : '') + (p.companyname ? p.companyname : '') + (p.email ? p.email : '') + (p.phone ? p.phone : '') + p.status).includes(e.target.value.replaceAll(' ', '')) ))} class="form-control" aria-label="Поиск" aria-describedby="inputGroup-sizing-default" />
+                                <input type="text" onChange={(e) => searchItems(e.target.value) } class="form-control" aria-label="Поиск" aria-describedby="inputGroup-sizing-default" />
                             </div>
                 </div>
                 { opened ? <div key={opened} style={{display: opened ? 'block' : 'none'}} className='moderation__userinfo'>
