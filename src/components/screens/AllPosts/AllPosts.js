@@ -17,7 +17,7 @@ const AllPosts = () => {
     const [display_posts, setDisplayPosts] = useState([])
     useEffect(() => {
         if (state) {
-            axios.post('https://investappp.herokuapp.com//api/post/allpublished', {user_id: state.id}).then(realans => {setAllPosts(realans.data.posts); console.log(realans.data.filter); setFilter(realans.data.filter); setPosts(realans.data.posts)})
+            axios.post('https://investappp.herokuapp.com/api/post/allpublished', {user_id: state.id}).then(realans => {setAllPosts(realans.data.posts); console.log(realans.data.filter); setFilter(realans.data.filter); setPosts(realans.data.posts)})
         }}, [state])
     // const checkSearch = (adress) => {
     //     const keywords = filter.search.split(' ')
@@ -139,7 +139,7 @@ const AllPosts = () => {
     }
     const saveFiltersToDb = () => {
         console.log(filter)
-        axios.post('https://investappp.herokuapp.com//api/user/updatefilters', {id: state.id, filter}).then(ans => console.log(ans))
+        axios.post('https://investappp.herokuapp.com/api/user/updatefilters', {id: state.id, filter}).then(ans => console.log(ans))
     }
     const showAll = () => {
         setPosts(allposts)
