@@ -135,7 +135,7 @@ const AllPosts = () => {
   ]
     const saveFilters = () => {
         console.log(filter)
-        setPosts(allposts.filter(post => post.amount >= filter.min_amount && post.amount <= filter.max_amount && post.zalog >= filter.min_zalog && post.zalog <= filter.max_zalog && post.period >= filter.min_period && post.period <= filter.max_period && post.rate >= filter.min_rate && post.rate <= filter.max_rate && filter.objects.includes(post.object) && filter.loan_types.includes(post.loan_type) && (post.region.toLowerCase() === filter.search.toLowerCase() || filter.search === 'По умолчанию' )))
+        setPosts(allposts.filter(post => post.amount >= filter.min_amount && post.amount <= filter.max_amount && post.zalog >= filter.min_zalog && post.zalog <= filter.max_zalog && post.period >= filter.min_period && post.period <= filter.max_period && post.rate >= filter.min_rate && post.rate <= filter.max_rate && filter.objects.includes(post.object) && filter.loan_types.includes(post.loan_type) && (post.region.toLowerCase() === filter.search.toLowerCase() || filter.search === 'По умолчанию' || filter.search === '' )))
     }
     const saveFiltersToDb = () => {
         console.log(filter)
