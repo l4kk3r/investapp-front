@@ -130,7 +130,7 @@ const AdminUsers = () => {
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa fa-search"></i></span>
                                 </div>
-                                <input type="text" onChange={(e) => setUsers(usersinfo.filter(p => ((p.amount ? p.amount.toString() : '') + (p.rate ? p.rate.toString() : '') + (p.period ? p.period.toString() : '') + (p.object ? p.object : '') + (p.city ? p.city : '') + p.status).includes(e.target.value) ))} class="form-control" aria-label="Поиск" aria-describedby="inputGroup-sizing-default" />
+                                <input type="text" onChange={(e) => setUsers(usersinfo.filter(p => ((p.firstname ? p.firstname.toString() : '') + (p.lastname ? p.lastname.toString() : '') + (p.middlename ? p.middlename.toString() : '') + (p.companyname ? p.companyname : '') + (p.email ? p.email : '') + (p.phone ? p.phone : '') + p.status).includes(e.target.value.replaceAll(' ', '')) ))} class="form-control" aria-label="Поиск" aria-describedby="inputGroup-sizing-default" />
                             </div>
                 </div>
                 { opened ? <div key={opened} style={{display: opened ? 'block' : 'none'}} className='moderation__userinfo'>

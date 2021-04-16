@@ -202,7 +202,7 @@ const BrokerProfile = () => {
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa fa-search"></i></span>
                                 </div>
-                                <input type="text" onChange={(e) => setPosts(postsinfo.filter(p => ((p.amount ? p.amount.toString() : '') + (p.rate ? p.rate.toString() : '') + (p.period ? p.period.toString() : '') + (p.object ? p.object : '') + (p.city ? p.city : '') + p.status).includes(e.target.value) ))} class="form-control" aria-label="Поиск" aria-describedby="inputGroup-sizing-default" />
+                                <input type="text" onChange={(e) => setPosts(postsinfo.filter(p => ((p.amount ? p.amount.toString() : '') + (p.rate ? p.rate.toString() : '') + (p.period ? p.period.toString() : '') + (p.object ? p.object : '') + (p.city ? p.city : '') + p.status).includes(e.target.value.replaceAll(' ', '')) ))} class="form-control" aria-label="Поиск" aria-describedby="inputGroup-sizing-default" />
                             </div>
                     </div>
                 <table className="table table-bordered table-hover">
