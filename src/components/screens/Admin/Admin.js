@@ -265,7 +265,7 @@ const Admin = () => {
     }
     const searchItems = (s) => {
         setPosts(postsinfo.filter(p => {
-            const post_data = ((p.amount ? p.amount.toString() : '') + (p.fio ? p.fio.toString() : '') + (p.rate ? p.rate.toString() : '') + (p.period ? p.period.toString() : '') + (p.object ? p.object : '') + (p.city ? p.city : '') + p.status).toLowerCase()
+            const post_data = ((p.amount ? p.amount.toString() : '') + (p.borrower_lname ? p.borrower_lname.toString() : '') + (p.rate ? p.rate.toString() : '') + (p.period ? p.period.toString() : '') + (p.object ? p.object : '') + (p.city ? p.city : '') + p.status).toLowerCase()
             console.log(post_data)
             const result = s.split(' ').every(word => {
                 console.log(word)

@@ -13,9 +13,7 @@ const NewPost = () => {
     const {state, dispatch} = useContext(UserContext)
     const [newpost, setNewPost] = useState({photos: []})
     const [archiveloading, setArchiveLoading] = useState(false)
-    const [dop_archiveloading, setDopArchiveLoading] = useState(false)
     const [archive, setArchive] = useState("")
-    const [dop_archive, setDopArchive] = useState("")
     const [photos, setPhotos] = useState([])
     const [photosurls, setPhotoUrls] = useState([])
     const [sended, setSended] = useState(false)
@@ -171,22 +169,6 @@ const NewPost = () => {
                 newpost.archive = answer.data.url
                 setArchiveLoading(false)
                 setArchive(answer.data.url)
-            }
-        })
-    }
-    const uploadDopArchive = (archive) => {
-        setDopArchiveLoading(true)
-        const data = new FormData();
-        data.append("file", archive)
-        axios.post("https://investappp.herokuapp.com/api/aws/upload-archive", data).then(answer => {
-            if (!answer.data.error) {
-                if (newpost.dop_archive) {
-                    const file_key = newpost.dop_archive.replace('https://comeinvest.s3.amazonaws.com/', '').replace('https://comeinvest.s3.us-east-2.amazonaws.com/', '')
-                    axios.post("https://investappp.herokuapp.com/api/aws/delete-file", {file_key}).then(answer => console.log(answer))
-                }
-                newpost.dop_archive = answer.data.url
-                setDopArchiveLoading(false)
-                setDopArchive(answer.data.url)
             }
         })
     }
@@ -386,18 +368,11 @@ const NewPost = () => {
                             <li>Страницы паспортов всех участников сделки</li>
                             <li>Документ основание</li>
                             <li>СНИЛС</li>
+                            <li>Иные документы необходимые для сделки</li>
                         </ul>
                         <div className="create__form__uploadbutton">
                             <label htmlFor='upload-archive' className="btn btn-secondary">{archiveloading ? 'Идёт загрузка...' : archive ? archive.slice(60,) : 'Загрузить'}</label>
                             <input id='upload-archive' type='file'  onChange={(e) => uploadArchive(e.target.files[0])} accept=".zip, .rar, .7z, .zipx, .lha, .war"/>
-                        </div>
-                    </div>
-                    <div className='create__form__inputfile__archive'>
-                        <h3>Иные документы</h3>
-                        <h5>Прикрепите архив с иными документами необходимыми для сделки:</h5>
-                        <div className="create__form__uploadbutton">
-                            <label htmlFor='upload-doparchive' className="btn btn-secondary">{dop_archiveloading ? 'Идёт загрузка...' : dop_archive ? dop_archive.slice(60,) : 'Загрузить'}</label>
-                            <input id='upload-doparchive' type='file'  onChange={(e) => uploadDopArchive(e.target.files[0])} accept=".zip, .rar, .7z, .zipx, .lha, .war"/>
                         </div>
                     </div>
                 </div>
