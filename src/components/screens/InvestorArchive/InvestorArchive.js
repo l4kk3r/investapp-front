@@ -19,19 +19,15 @@ const InvestorArchive = () => {
     const isIP_options = [
         'Да', 'Нет', 'Откроется'
     ];
-
-    const updateFilters = () => {
-        axios.post("https://investapp-back.herokuapp.com/updateuser", {id: state.id, fmin_amount, fmax_amount: fmax_amount * -1,}).then(response=>console.log(response.data))
-    }
     
     const toArchive = (id) => {
         setAnswers(answers.filter(ans => ans.id !== id))
-        axios.post("https://investapp-back.herokuapp.com/user/answer-archive", {id, archived: false}).then(response=>console.log(response.data))
+        axios.put("https://investappp.herokuapp.com/api/answer/archive", {id, archived: false}).then(response=>console.log(response.data))
     }
 
     useEffect(() => {
         if (state) {
-            axios.post("https://investapp-back.herokuapp.com/user/answers", {investor_id: state.id, archived: true}).then(res=>{console.log(res); setAnswers(res.data.answers); setAnswersInfo(res.data.answers)}) }
+            axios.post("https://investappp.herokuapp.com/api/answer/all", {investor_id: state.id, archived: true}).then(res=>{console.log(res); setAnswers(res.data.answers); setAnswersInfo(res.data.answers)}) }
     }, [state])
 
     const searchItems = (s) => {
@@ -90,8 +86,8 @@ const InvestorArchive = () => {
                             <th scope="col">Фамилия осн.заемщика</th>
                             <th scope="col">Город</th>
                             <th scope="col">Сумма</th>
-                            <th scope="col">Ставка</th>
-                            <th scope="col">Срок</th>
+                            <th scope="col">Ставка (в мес.)</th>
+                            <th scope="col">Срок финансирования (в мес.)</th>
                             <th scope="col">Статус</th>
                         </tr>
                     </thead>

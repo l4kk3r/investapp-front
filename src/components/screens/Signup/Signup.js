@@ -34,7 +34,7 @@ const Home = () => {
             setError('Пароли не совпадают')
             return;
         }
-        axios.post("https://investapp-back.herokuapp.com/api/user",{
+        axios.post("https://investappp.herokuapp.com/api/user",{
                 acctype,
                 firstname,
                 lastname,
@@ -109,11 +109,11 @@ const Home = () => {
                         </div>
                         <div className="form__inputs">
                             <label htmlFor="" className="form__form-label">Пароль</label>
-                            <input value={password} onChange={(e) => setPassword(e.target.value)} type="text" className="form__form-input form__form-email" />
+                            <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} className="form__form-input form__form-email" />
                         </div>
                         <div className="form__inputs">
                             <label htmlFor="" className="form__form-label">Подтверждение пароля</label>
-                            <input value={confirmpassword} onChange={(e) => setConfirmPassword(e.target.value)} type="text" className="form__form-input form__form-email" />
+                            <input type='password' value={confirmpassword} onChange={(e) => setConfirmPassword(e.target.value)} className="form__form-input form__form-email" />
                         </div>
                         <button type="submit" onClick={() => sendData()} className="form__form-button">Зарегистрироваться</button>
                         <div className="form__form-question">

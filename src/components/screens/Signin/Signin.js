@@ -32,7 +32,7 @@ const Home = () => {
             } else {
                 setError(realans.err)
             }
-        })
+        }).catch(err => console.log(err.err))
     }
     return (
         <div className='signin'>
@@ -73,7 +73,7 @@ const Home = () => {
                         </div>
                         <div className="form__inputs">
                             <label htmlFor="" className="form__form-label">Введите ваш Пароль</label>
-                            <input value={password} onChange={(e) => setPassword(e.target.value)} type="text" className="form__form-input form__form-email" />
+                            <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} className="form__form-input form__form-email" />
                         </div>
                         <button onClick={() => sendData()} type="submit" className="form__form-button">Войти</button>
                         <div className="form__form-question">

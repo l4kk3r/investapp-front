@@ -268,25 +268,33 @@ const AllPosts = () => {
                                 <div className='item-row'>
                                     <h3 className='objectname'  type='text'>{post.object}</h3>
                                 </div>
-                                <div className='item-row'>
-                                    <h4>Ставка:</h4>
-                                    <p type='text'>{post.rate} </p>
+                                <div className='revenue'>
+                                    <h4>≈ {Math.round(post.amount / 100 * post.rate).toLocaleString().replace(',', ' ')} руб.</h4>
+                                    <p>Ежемесячная прибыль</p>
                                 </div>
                                 <div className='item-row'>
                                     <h4>Сумма займа:</h4>
                                     <p   type='number'>{post.amount.toLocaleString().replace(',', ' ')} руб.</p>
                                 </div>
                                 <div className='item-row'>
-                                    <h4>Срок финансирования:</h4>
-                                    <p  type='text'>{post.period} </p>
+                                    <h4>Стоимость объекта:</h4>
+                                    <p type='number'>{post.zalog ? post.zalog.toLocaleString().replace(',', ' ') : '-'} руб.</p>
                                 </div>
                                 <div className='item-row'>
-                                    <h4>Местонахождение:</h4>
-                                    <p  type='text'>{post.adress} </p>
+                                    <h4>Ставка:</h4>
+                                    <p type='text'>{post.rate} (в мес.)</p>
                                 </div>
-                                <div className='revenue'>
-                                    <h4>≈ {Math.round(post.amount / 100 * post.rate).toLocaleString().replace(',', ' ')} руб.</h4>
-                                    <p>Ежемесячная прибыль</p>
+                                <div className='item-row'>
+                                    <h4>Срок финансирования:</h4>
+                                    <p  type='text'>{post.period} (в мес.)</p>
+                                </div>
+                                <div className='item-row'>
+                                    <h4>Тип займа:</h4>
+                                    <p  type='text'>{post.loan_type} </p>
+                                </div>
+                                <div className='item-row'>
+                                    <h4>Адрес:</h4>
+                                    <p  type='text'>{post.adress} </p>
                                 </div>
                                 </div>
                                 

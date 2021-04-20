@@ -11,11 +11,6 @@ const InvestorProfile = () => {
     const {state, dispatch} = useContext(UserContext)
     const [answersinfo, setAnswersInfo] = useState("")
     const [answers, setAnswers] = useState("")
-    const [fmin_amount, setMinAmount] = useState("")
-    const [fmax_amount, setMaxAmount] = useState("")
-    const isIP_options = [
-        'Да', 'Нет', 'Откроется'
-    ];
     
     const toArchive = (id) => {
         setAnswers(answers.filter(ans => ans.id !== id))
@@ -82,8 +77,8 @@ const InvestorProfile = () => {
                             <th scope="col">Фамилия осн.заемщика</th>
                             <th scope="col">Город</th>
                             <th scope="col">Сумма</th>
-                            <th scope="col">Ставка</th>
-                            <th scope="col">Срок</th>
+                            <th scope="col">Ставка (в мес.)</th>
+                            <th scope="col">Срок финансирования (в мес.)</th>
                             <th scope="col">Статус</th>
                         </tr>
                     </thead>
