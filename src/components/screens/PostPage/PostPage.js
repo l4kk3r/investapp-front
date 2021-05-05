@@ -180,15 +180,15 @@ const PostPage = (props) => {
                 {!sended ? (<div className='ans-popup'>
                     <div className='popupinfo'>
                     <div>
-                        <h2><span style={{color:'#028858'}}>Сумма</span> инвестирования</h2>
+                        <h2><span style={{color:'#028858'}}>Сумма</span> инвестирования (в руб.)</h2>
                         <input value={investamount} onChange={(e) => setInvestAmount(e.target.value)} type='number' />
                     </div>
                     <div>
-                        <h2><span style={{color:'#028858'}}>Срок</span> финансирования</h2>
+                        <h2><span style={{color:'#028858'}}>Срок</span> финансирования (в мес.)</h2>
                         <input value={investperiod} onChange={(e) => setInvestPeriod(e.target.value)} type='number' />
                     </div>
                     <div>
-                        <h2>Процентная <span style={{color:'#028858'}}>ставка</span></h2>
+                        <h2>Процентная <span style={{color:'#028858'}}>ставка (в мес.)</span></h2>
                         <input value={investrate} onChange={(e) => setInvestRate(e.target.value)} type='number' />
                     </div>
                     <div>

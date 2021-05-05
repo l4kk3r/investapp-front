@@ -17,7 +17,7 @@ const AllPosts = () => {
     const [display_posts, setDisplayPosts] = useState([])
     useEffect(() => {
         if (state) {
-            axios.post('https://investappp.herokuapp.com/api/post/allpublished', {user_id: state.id}).then(realans => {setAllPosts(realans.data.posts); console.log(realans.data.filter); setFilter(realans.data.filter); setPosts(realans.data.posts)})
+            axios.post('https://investappp.herokuapp.com/api/post/allpublished', {user_id: state.id}).then(realans => {setAllPosts(realans.data.posts); console.log(realans.data.filter); const loaded_filter = realans.data.filter; setFilter(loaded_filter); setPosts(realans.data.posts.filter(post => post.amount >= loaded_filter.min_amount && post.amount <= loaded_filter.max_amount && post.zalog >= loaded_filter.min_zalog && post.zalog <= loaded_filter.max_zalog && post.rate >= loaded_filter.min_rate && post.rate <= loaded_filter.max_rate && loaded_filter.objects.includes(post.object) && loaded_filter.loan_types.includes(post.loan_type) && (post.region.toLowerCase() === loaded_filter.search.toLowerCase() || loaded_filter.search === 'По умолчанию' || loaded_filter.search === '' )))})
         }}, [state])
     // const checkSearch = (adress) => {
     //     const keywords = filter.search.split(' ')
@@ -135,7 +135,7 @@ const AllPosts = () => {
   ]
     const saveFilters = () => {
         console.log(filter)
-        setPosts(allposts.filter(post => post.amount >= filter.min_amount && post.amount <= filter.max_amount && post.zalog >= filter.min_zalog && post.zalog <= filter.max_zalog && post.period >= filter.min_period && post.period <= filter.max_period && post.rate >= filter.min_rate && post.rate <= filter.max_rate && filter.objects.includes(post.object) && filter.loan_types.includes(post.loan_type) && (post.region.toLowerCase() === filter.search.toLowerCase() || filter.search === 'По умолчанию' || filter.search === '' )))
+        setPosts(allposts.filter(post => post.amount >= filter.min_amount && post.amount <= filter.max_amount && post.zalog >= filter.min_zalog && post.zalog <= filter.max_zalog && post.rate >= filter.min_rate && post.rate <= filter.max_rate && filter.objects.includes(post.object) && filter.loan_types.includes(post.loan_type) && (post.region.toLowerCase() === filter.search.toLowerCase() || filter.search === 'По умолчанию' || filter.search === '' )))
     }
     const saveFiltersToDb = () => {
         console.log(filter)
@@ -207,16 +207,6 @@ const AllPosts = () => {
                         </div>
                         <div className='posts__filter__card card text-white bg-secondary'>
                             <div className='posts__filter__row'>
-                                <p>Минимальный срок:</p>
-                                <input type='number' onInput={(e) => filter.min_period = Number(e.target.value)} defaultValue={filter.min_period} />
-                            </div>
-                            <div className='posts__filter__row'>
-                                <p>Максимальный срок:</p>
-                                <input type='number' onInput={(e) => filter.max_period = Number(e.target.value)} defaultValue={filter.max_period} />
-                            </div>
-                        </div>
-                        <div className='posts__filter__card card text-white bg-secondary'>
-                            <div className='posts__filter__row'>
                                 <p>Минимальная ставка:</p>
                                 <input type='number' onInput={(e) => filter.min_rate = Number(e.target.value)} defaultValue={filter.min_rate} />
                             </div>
@@ -282,11 +272,11 @@ const AllPosts = () => {
                                 </div>
                                 <div className='item-row'>
                                     <h4>Ставка:</h4>
-                                    <p type='text'>{post.rate} (в мес.)</p>
+                                    <p type='text'>{post.rate}% (в мес.)</p>
                                 </div>
                                 <div className='item-row'>
                                     <h4>Срок финансирования:</h4>
-                                    <p  type='text'>{post.period} (в мес.)</p>
+                                    <p  type='text'>{post.period} (мес.)</p>
                                 </div>
                                 <div className='item-row'>
                                     <h4>Тип займа:</h4>

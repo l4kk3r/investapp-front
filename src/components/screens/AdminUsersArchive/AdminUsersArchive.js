@@ -118,8 +118,8 @@ const AdminUsers = () => {
                     <img className='sidemenu__routing__logo' src='/img/logo.png' alt='logo'/>
                     <Link className='sidemenu__routing__link' to='/admin'>Модерация постов</Link>
                     <Link className='sidemenu__routing__link' to='/admin/archived'>Архив постов</Link>
-                    <Link className='sidemenu__routing__link link-selected' to='/admin/users'>Модерация пользователей</Link>
-                    <Link className='sidemenu__routing__link' to='/admin/users/archived'>Архив пользователей</Link>
+                    <Link className='sidemenu__routing__link' to='/admin/users'>Модерация пользователей</Link>
+                    <Link className='sidemenu__routing__link link-selected' to='/admin/users/archived'>Архив пользователей</Link>
                     <Link className='sidemenu__routing__link' to='/allposts'>Общий список</Link>
                     <a href='/logout' className='btn btn-danger' >Выйти</a>
                 </div>
